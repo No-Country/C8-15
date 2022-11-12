@@ -4,6 +4,6 @@ Members - Collaborators
 
 - Ayelén E. Martínez
 - Verónica Caro
-- Eequiel Colicoy
+- Ezequiel Colicoy
 - Gastón García
 - Hernán Federico Costarelli
