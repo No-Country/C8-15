@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.noCountry.C815MJavaReact.PhotoWebApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.602 s - in com.noCountry.C815MJavaReact.PhotoWebApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.325 s - in com.noCountry.C815MJavaReact.PhotoWebApplicationTests
