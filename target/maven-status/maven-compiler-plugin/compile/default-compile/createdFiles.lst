@@ -11,11 +11,13 @@ com\nocountry\java_react\PhotoWebApplication.class
 com\nocountry\java_react\dto\response\BuyerResponse.class
 com\nocountry\java_react\commons\enums\EUserRole.class
 com\nocountry\java_react\mapper\BuyerMapper.class
+com\nocountry\java_react\mapper\PhotographerMapper.class
 com\nocountry\java_react\dto\request\PhotoRequest.class
 com\nocountry\java_react\validation\StartingWithBlankSpacesValidator.class
 com\nocountry\java_react\model\Photo.class
 com\nocountry\java_react\controller\impl\PhotographerController.class
 com\nocountry\java_react\dto\request\BuyerRequest.class
+com\nocountry\java_react\dto\response\PhotoResponse.class
 com\nocountry\java_react\service\IBuyerService.class
 com\nocountry\java_react\model\Buyer.class
 com\nocountry\java_react\validation\TelephoneNumber.class

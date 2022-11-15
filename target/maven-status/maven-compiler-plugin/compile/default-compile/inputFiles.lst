@@ -12,6 +12,7 @@ C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\dto\response\PhotographerResponse.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\validation\Document.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\model\Buyer.java
+C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\dto\response\PhotoResponse.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\service\impl\PhotographerServiceImpl.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\validation\StartingWithBlankSpaces.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\commons\constants\Constants.java
@@ -30,6 +31,7 @@ C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\service\IPhotographerService.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\service\IBuyerService.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\validation\PasswordValidator.java
+C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\mapper\PhotographerMapper.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\commons\enums\EUserRole.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\repository\IBuyerRepository.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\ServletInitializer.java
