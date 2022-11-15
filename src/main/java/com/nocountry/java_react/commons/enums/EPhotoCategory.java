@@ -9,7 +9,6 @@ public enum EPhotoCategory {
     MACRO("Macro"),
     PORTRAIT("Portrait"),
     ABSTRACT("Abstract"),
-    ASTROPHOTOGRAPHY("Astrophotography"),
     ADVERTISING("Advertising"),
     PRODUCTS("Products");
 
@@ -17,7 +16,6 @@ public enum EPhotoCategory {
 
     EPhotoCategory(String categoryString) {
         this.categoryString = categoryString;
-
     }
 
     @Override
