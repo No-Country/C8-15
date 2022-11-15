@@ -135,3 +135,7 @@ w
 G.idea/sonarlint/issuestore/9/5/959ce0fcb0334a2b7eddd206931c79f11dd7f2de,1\d\1db15e2745a23e8f478449d85631f41ef0b1cc98
 w
 G.idea/sonarlint/issuestore/0/9/0971bc381a10374defcdb5cc8c2050b03560da41,6\3\631a6467df12cebdea281533fbe73a1ce2842587
+>
+java_react.iml,8\a\8a3ae4566c91c5910e7a7f8c0956be175af9fdef
+o
+?src/main/java/com/nocountry/java_react/PhotoWebApplication.java,d\0\d05d95136caa513bd4fdff38b3c582d29ba4dbfa
