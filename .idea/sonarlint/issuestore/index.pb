@@ -7,8 +7,6 @@ n
 >src/main/java/com/nocountry/java_react/mapper/BuyerMapper.java,8\c\8c96c9f2df3d1c9500b8b8b83f193947c306b79f
 t
 Dsrc/main/java/com/nocountry/java_react/dto/request/BuyerRequest.java,5\5\553c174169fc39a87ff15e32f169690450fdbe20
-v
-Fsrc/main/java/com/nocountry/java_react/dto/response/BuyerResponse.java,9\5\959ce0fcb0334a2b7eddd206931c79f11dd7f2de
 y
 Isrc/main/java/com/nocountry/java_react/service/impl/BuyerServiceImpl.java,c\b\cbf0620232cd788ad9d2f91ff3dd9473208933f0
 w
@@ -123,3 +121,7 @@ G.idea/sonarlint/issuestore/0/9/0971bc381a10374defcdb5cc8c2050b03560da41,6\3\63
 java_react.iml,8\a\8a3ae4566c91c5910e7a7f8c0956be175af9fdef
 o
 ?src/main/java/com/nocountry/java_react/PhotoWebApplication.java,d\0\d05d95136caa513bd4fdff38b3c582d29ba4dbfa
+v
+Fsrc/main/java/com/nocountry/java_react/dto/response/PhotoResponse.java,f\6\f6f5a07c8e07ba1f86b432fb0c2c6cd1a148c1b0
+v
+Fsrc/main/java/com/nocountry/java_react/dto/response/BuyerResponse.java,9\5\959ce0fcb0334a2b7eddd206931c79f11dd7f2de
