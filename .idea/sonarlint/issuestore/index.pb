@@ -71,8 +71,6 @@ v
 Fsrc/main/java/com/nocountry/java_react/validation/TelephoneNumber.java,9\5\95092e61618501e48c8a84f942b5618843230a93
 
 Osrc/main/java/com/nocountry/java_react/validation/TelephoneNumberValidator.java,4\f\4fbba994ecfd227fd6c360fb2e28bcd97d729136
-o
-?src/main/java/com/nocountry/java_react/PhotoWebApplication.java,d\0\d05d95136caa513bd4fdff38b3c582d29ba4dbfa
 w
 G.idea/sonarlint/issuestore/f/1/f177b7000fdb84ba4a807824e49ae5a3058f5519,1\0\100156778e52886bd7b263e658ad12baeef162bf
 w

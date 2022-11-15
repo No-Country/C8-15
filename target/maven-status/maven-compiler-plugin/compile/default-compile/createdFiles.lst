@@ -33,6 +33,7 @@ com\nocountry\java_react\repository\IBuyerRepository.class
 com\nocountry\java_react\validation\DocumentValidator.class
 com\nocountry\java_react\validation\Password.class
 com\nocountry\java_react\service\impl\PhotographerServiceImpl.class
+com\nocountry\java_react\commons\enums\EPhotoCategory.class
 com\nocountry\java_react\validation\Document.class
 com\nocountry\java_react\model\User.class
 com\nocountry\java_react\validation\StartingWithBlankSpaces.class
