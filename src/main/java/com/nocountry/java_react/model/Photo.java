@@ -1,5 +1,6 @@
 package com.nocountry.java_react.model;
 
+import com.nocountry.java_react.commons.enums.EPhotoCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -52,6 +55,10 @@ public class Photo implements Serializable {
 
     @Column(name = "path")
     private String path;
+
+    @Column(name = "category")
+    @Enumerated(EnumType.STRING)
+    private EPhotoCategory category;
 
     // RELATION PHOTO --> PHOTOGRAPHER
     @ManyToOne(fetch = FetchType.LAZY)
