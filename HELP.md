@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.noCountry.C8-15-M-JavaReact' is invalid and this project uses 'com.noCountry.C815MJavaReact' instead.
+* The original package name 'com.noCountry.C8-15-M-JavaReact' is invalid and this project uses 'com.noCountry.c8_15_m_java_react' instead.
 
 # Getting Started
 

@@ -11,8 +11,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.noCountry</groupId>
-	<artifactId>C8-15-M-JavaReact</artifactId>
+	<groupId>com.nocountry</groupId>
+	<artifactId>java_react</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>PhotoWeb</name>
