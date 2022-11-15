@@ -60,6 +60,12 @@ public class Photo implements Serializable {
     @Enumerated(EnumType.STRING)
     private EPhotoCategory category;
 
+    @Column(name = "author")
+    private String author;
+
+    @Column(name = "location")
+    private String location;
+
     // RELATION PHOTO --> PHOTOGRAPHER
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_photographer")
