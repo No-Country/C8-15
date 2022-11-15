@@ -64,7 +64,7 @@ public class User implements Serializable {
     protected Date registrationDate = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = " last_modification", nullable = false)
+    @Column(name = " last_modification")
     protected Date modificationDate;
 
     @Column(name = "soft_delete")

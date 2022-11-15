@@ -1,14 +1,6 @@
 
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-{
-Ksrc/main/java/com/nocountry/java_react/controller/impl/BuyerController.java,2\7\27b45fa09a491f8c9ade03aa1b41ab1681a09f82
-n
->src/main/java/com/nocountry/java_react/mapper/BuyerMapper.java,8\c\8c96c9f2df3d1c9500b8b8b83f193947c306b79f
-t
-Dsrc/main/java/com/nocountry/java_react/dto/request/BuyerRequest.java,5\5\553c174169fc39a87ff15e32f169690450fdbe20
-y
-Isrc/main/java/com/nocountry/java_react/service/impl/BuyerServiceImpl.java,c\b\cbf0620232cd788ad9d2f91ff3dd9473208933f0
 w
 Gsrc/main/java/com/nocountry/java_react/commons/constants/Constants.java,a\2\a2ef7bc3e848987d17ff93d78934d8c3f152cba4
 o
@@ -17,12 +9,6 @@ x
 Hsrc/main/java/com/nocountry/java_react/validation/DocumentValidator.java,f\1\f177b7000fdb84ba4a807824e49ae5a3058f5519
 7
 HELP.md,1\a\1a273f73b7a477b0745593641bd708a6182c7ad5
-w
-Gsrc/main/java/com/nocountry/java_react/controller/IBuyerController.java,d\7\d7276afa26562d68a972dd8fede8fad03ba27512
-w
-Gsrc/main/java/com/nocountry/java_react/repository/IBuyerRepository.java,9\d\9d8d59e31f4d4206d0a4c81989ab3da268e26004
-q
-Asrc/main/java/com/nocountry/java_react/service/IBuyerService.java,1\6\16a01e1a4cd31c40418984ef6eb120753d236db9
 w
 Gsrc/main/java/com/nocountry/java_react/controller/IPhotoController.java,f\d\fdeed39af7ce955601a2c853b7841892860a41f0
 ~
@@ -123,5 +109,3 @@ o
 ?src/main/java/com/nocountry/java_react/PhotoWebApplication.java,d\0\d05d95136caa513bd4fdff38b3c582d29ba4dbfa
 v
 Fsrc/main/java/com/nocountry/java_react/dto/response/PhotoResponse.java,f\6\f6f5a07c8e07ba1f86b432fb0c2c6cd1a148c1b0
-v
-Fsrc/main/java/com/nocountry/java_react/dto/response/BuyerResponse.java,9\5\959ce0fcb0334a2b7eddd206931c79f11dd7f2de

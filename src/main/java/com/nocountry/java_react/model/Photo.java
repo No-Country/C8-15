@@ -83,8 +83,8 @@ public class Photo implements Serializable {
     private Date registrationDate = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = " last_modification", nullable = false)
-    private Date lastModification = new Date();
+    @Column(name = " last_modification")
+    private Date lastModification;
 
     @Column(name = "soft_delete")
     protected boolean softDelete = Boolean.FALSE;
