@@ -84,10 +84,10 @@ public class Photo implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = " last_modification")
-    private Date lastModification;
+    private Date modificationDate;
 
     @Column(name = "soft_delete")
-    protected boolean softDelete = Boolean.FALSE;
+    private Boolean softDelete = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {
@@ -100,5 +100,9 @@ public class Photo implements Serializable {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public boolean isSoftDelete() {
+        return false;
     }
 }

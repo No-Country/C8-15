@@ -19,4 +19,5 @@ public class PhotographerResponse {
     private String instagramUrl;
     private String registrationDate;
     private String modificationDate;
+    private String softDelete;
 }

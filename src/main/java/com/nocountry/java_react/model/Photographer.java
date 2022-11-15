@@ -51,6 +51,9 @@ public class Photographer extends User implements Serializable {
     @ToString.Exclude
     private List<Photo> photos = new ArrayList<>();
 
+    @Column(name = "soft_delete")
+    private boolean softDelete = Boolean.FALSE;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

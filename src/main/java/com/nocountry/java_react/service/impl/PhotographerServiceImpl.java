@@ -5,6 +5,7 @@ import com.nocountry.java_react.dto.response.PhotographerResponse;
 import com.nocountry.java_react.mapper.PhotographerMapper;
 import com.nocountry.java_react.model.Photographer;
 import com.nocountry.java_react.repository.IPhotoRepository;
+import com.nocountry.java_react.repository.IPhotographerRepository;
 import com.nocountry.java_react.service.IPhotographerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PhotographerServiceImpl implements IPhotographerService {
 
-    private final IPhotoRepository repository;
+    private final IPhotographerRepository repository;
 
     private final PhotographerMapper mapper;
 

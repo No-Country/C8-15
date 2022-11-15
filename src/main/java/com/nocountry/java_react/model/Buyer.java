@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -33,6 +34,9 @@ public class Buyer extends User implements Serializable {
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Photo> photos = new ArrayList<>();
+
+    @Column(name = "soft_delete")
+    private boolean softDelete = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {

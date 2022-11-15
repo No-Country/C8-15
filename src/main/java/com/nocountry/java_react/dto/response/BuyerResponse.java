@@ -14,4 +14,5 @@ public class BuyerResponse {
     private String role;
     private String registrationDate;
     private String modificationDate;
+    private String softDelete;
 }

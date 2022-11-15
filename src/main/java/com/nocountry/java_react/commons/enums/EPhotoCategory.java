@@ -22,4 +22,13 @@ public enum EPhotoCategory {
     public String toString() {
         return categoryString;
     }
+
+    public static EPhotoCategory typeOrValue(String value) {
+        for(EPhotoCategory type : EPhotoCategory.class.getEnumConstants()) {
+            if(type.toString().equals(value)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("EPhotoCategory NOT FOUND");
+    }
 }

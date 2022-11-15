@@ -38,6 +38,7 @@ public class BuyerMapper {
         String stringLastModification = sdf.format(entity.getModificationDate());
         response.setRegistrationDate(stringRegistrationDate);
         response.setModificationDate(stringLastModification);
+        response.setSoftDelete(entity.getSoftDelete().toString());
         return response;
     }
 

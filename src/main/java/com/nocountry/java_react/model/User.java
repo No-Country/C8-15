@@ -68,7 +68,7 @@ public class User implements Serializable {
     protected Date modificationDate;
 
     @Column(name = "soft_delete")
-    protected boolean softDelete = Boolean.FALSE;
+    protected Boolean softDelete = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {
