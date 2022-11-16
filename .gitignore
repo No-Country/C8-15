@@ -1,23 +1,117 @@
+# Created by https://www.toptal.com/developers/gitignore/api/intellij
+# Edit at https://www.toptal.com/developers/gitignore?templates=intellij
 
-.idea/sonarlint/issuestore/0/9/09b99aa005125bbe632d7c82da866a78c2d7999e
-.idea/sonarlint/issuestore/0/c/0c992ceb1bb269d00031daa1b41614337af813e3
-.idea/sonarlint/issuestore/1/0/10cdc424dc2831198498968347b3793e819902a2
-.idea/sonarlint/issuestore/1/6/16a01e1a4cd31c40418984ef6eb120753d236db9
-.idea/sonarlint/issuestore/1/e/1e364bc2960e078b271d71858ba044a4df946bcf
-.idea/sonarlint/issuestore/2/7/27b45fa09a491f8c9ade03aa1b41ab1681a09f82
-.idea/sonarlint/issuestore/3/8/38ac626805b1e9de01a35ebfb7a92cc994a032c1
-.idea/sonarlint/issuestore/3/d/3da791f197f13514eb64e5b0331ed67a59ae7661
-.idea/sonarlint/issuestore/5/5/553c174169fc39a87ff15e32f169690450fdbe20
-.idea/sonarlint/issuestore/8/0/80946a89b34961a6cb45ce0c027bac0b53302d5b
-.idea/sonarlint/issuestore/8/8/886457c02255b855a0aba2a6ce77fb974b1d4e36
-.idea/sonarlint/issuestore/8/c/8c96c9f2df3d1c9500b8b8b83f193947c306b79f
-.idea/sonarlint/issuestore/9/5/959ce0fcb0334a2b7eddd206931c79f11dd7f2de
-.idea/sonarlint/issuestore/9/d/9d8d59e31f4d4206d0a4c81989ab3da268e26004
-.idea/sonarlint/issuestore/a/6/a6f165e833fbe61eefbdd34730f4b453d7fa69bc
-.idea/sonarlint/issuestore/c/b/cbf0620232cd788ad9d2f91ff3dd9473208933f0
-.idea/sonarlint/issuestore/d/7/d7276afa26562d68a972dd8fede8fad03ba27512
-.idea/sonarlint/issuestore/e/8/e83f429e068776c650de7b6676737fa2b2a66dae
-.idea/sonarlint/issuestore/e/c/eca66aa4f4bf5139ab71196888e224811c4c3e21
-.idea/sonarlint/issuestore/f/5/f56350b17c8118649a9141e3c04ec837fb3a5f1c
-.idea/sonarlint/issuestore/f/b/fbf9311dea77a9cbd114d7e355ea7b3c3d99146f
-.idea/sonarlint/issuestore/f/d/fdeed39af7ce955601a2c853b7841892860a41f0
+### Intellij ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# AWS User-specific
+.idea/**/aws.xml
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+# .idea/artifacts
+# .idea/compiler.xml
+# .idea/jarRepositories.xml
+# .idea/modules.xml
+# .idea/*.iml
+# .idea/modules
+# *.iml
+# *.ipr
+
+# CMake
+cmake-build-*/
+
+# Mongo Explorer plugin
+.idea/**/mongoSettings.xml
+
+# File-based project format
+*.iws
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+.idea/replstate.xml
+
+# SonarLint plugin
+.idea/sonarlint/
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Editor-based Rest Client
+.idea/httpRequests
+
+# Android studio 3.1+ serialized cache file
+.idea/caches/build_file_checksums.ser
+
+### Intellij Patch ###
+# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+
+# *.iml
+# modules.xml
+# .idea/misc.xml
+# *.ipr
+
+# Sonarlint plugin
+# https://plugins.jetbrains.com/plugin/7973-sonarlint
+.idea/**/sonarlint/
+
+# SonarQube Plugin
+# https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin
+.idea/**/sonarIssues.xml
+
+# Markdown Navigator plugin
+# https://plugins.jetbrains.com/plugin/7896-markdown-navigator-enhanced
+.idea/**/markdown-navigator.xml
+.idea/**/markdown-navigator-enh.xml
+.idea/**/markdown-navigator/
+
+# Cache file creation bug
+# See https://youtrack.jetbrains.com/issue/JBR-2257
+.idea/$CACHE_FILE$
+
+# CodeStream plugin
+# https://plugins.jetbrains.com/plugin/12206-codestream
+.idea/codestream.xml
+
+# Azure Toolkit for IntelliJ plugin
+# https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
+.idea/**/azureSettings.xml
+
+# End of https://www.toptal.com/developers/gitignore/api/intellij
