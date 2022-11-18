@@ -2,7 +2,6 @@ package com.nocountry.java_react.model;
 
 import com.nocountry.java_react.commons.enums.EPhotoCategory;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +22,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
@@ -107,7 +105,7 @@ public class Photo implements Serializable {
         return getClass().hashCode();
     }
 
-    public boolean isSoftDelete() {
-        return false;
-    }
+//    public boolean isSoftDelete() {
+//        return false;
+//    }
 }

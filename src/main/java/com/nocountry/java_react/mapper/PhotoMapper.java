@@ -42,16 +42,6 @@ public class PhotoMapper {
             entity.setAuthor(photoRequest.getAuthor());
             entity.setLocation(photoRequest.getLocation());
             entity.setDescription(photoRequest.getDescription());
-
-//        String path = pathFileUpload + newFileName;
-//        entity.setOriginalName(file.getOriginalFilename());
-//        entity.setFileName(newFileName);
-//        entity.setPath(path);
-//        EPhotoCategory category = EPhotoCategory.valueOf(photoRequest.getCategory().toUpperCase());
-//        entity.setCategory(category);
-//        entity.setAuthor(photoRequest.getAuthor());
-//        entity.setLocation(photoRequest.getLocation());
-//        entity.setDescription(photoRequest.getDescription());
     }
 
     public PhotoResponse convertToResponse(Photo entity) {
