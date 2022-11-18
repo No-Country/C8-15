@@ -35,8 +35,8 @@ public class Buyer extends User implements Serializable {
     @ToString.Exclude
     private List<Photo> photos = new ArrayList<>();
 
-    @Column(name = "soft_delete")
-    private boolean softDelete = Boolean.FALSE;
+    @Column(name = "deleted")
+    private boolean deleted = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {

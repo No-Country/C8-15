@@ -43,11 +43,11 @@ public class PhotographerMapper {
         response.setInstagramUrl(entity.getInstagramUrl());
         // DATE TO STRING
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String stringRegistrationDate = sdf.format(entity.getRegistrationDate());
-        String stringLastModification = sdf.format(entity.getModificationDate());
-        response.setRegistrationDate(stringRegistrationDate);
-        response.setModificationDate(stringLastModification);
-        response.setSoftDelete(entity.getSoftDelete().toString());
+        String stringCreated = sdf.format(entity.getCreated());
+        String stringUpdated = sdf.format(entity.getUpdated());
+        response.setCreated(stringCreated);
+        response.setUpdated(stringUpdated);
+        response.setDeleted(entity.getDeleted().toString());
         return response;
     }
 

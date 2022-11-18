@@ -12,7 +12,8 @@ public class PhotoResponse {
     private String category;
     private String author;
     private String location;
-    private String registrationDate;
-    private String modificationDate;
-    private String softDelete;
+    private String description;
+    private String created;
+    private String updated;
+    private String deleted;
 }

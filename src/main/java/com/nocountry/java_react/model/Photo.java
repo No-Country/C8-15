@@ -66,6 +66,9 @@ public class Photo implements Serializable {
     @Column(name = "location")
     private String location;
 
+    @Column(name = "description")
+    private String description;
+
     // RELATION PHOTO --> PHOTOGRAPHER
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_photographer")
@@ -79,15 +82,15 @@ public class Photo implements Serializable {
     private Buyer buyer;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "registration_date", nullable = false)
-    private Date registrationDate = new Date();
+    @Column(name = "created", nullable = false)
+    private Date created = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = " last_modification")
-    private Date modificationDate;
+    @Column(name = " updated")
+    private Date updated;
 
-    @Column(name = "soft_delete")
-    private Boolean softDelete = Boolean.FALSE;
+    @Column(name = "deleted")
+    private Boolean deleted = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {

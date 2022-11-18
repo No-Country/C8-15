@@ -12,7 +12,7 @@ public class BuyerResponse {
     private String email;
     private String userName;
     private String role;
-    private String registrationDate;
-    private String modificationDate;
-    private String softDelete;
+    private String created;
+    private String updated;
+    private String deleted;
 }

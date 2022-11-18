@@ -4,7 +4,6 @@ import com.nocountry.java_react.dto.request.PhotographerRequest;
 import com.nocountry.java_react.dto.response.PhotographerResponse;
 import com.nocountry.java_react.mapper.PhotographerMapper;
 import com.nocountry.java_react.model.Photographer;
-import com.nocountry.java_react.repository.IPhotoRepository;
 import com.nocountry.java_react.repository.IPhotographerRepository;
 import com.nocountry.java_react.service.IPhotographerService;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +46,8 @@ public class PhotographerServiceImpl implements IPhotographerService {
         Optional<Photographer> answer = repository.findById(idPhotographer);
         if (answer.isPresent()) {
             Photographer entity = answer.get();
-            entity.setSoftDelete(!entity.isSoftDelete());
-            entity.setModificationDate(new Date());
+            entity.setDeleted(!entity.isDeleted());
+            entity.setUpdated(new Date());
             repository.save(entity);
         }
     }

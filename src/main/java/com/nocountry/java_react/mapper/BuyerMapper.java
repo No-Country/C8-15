@@ -34,11 +34,11 @@ public class BuyerMapper {
         response.setRole(entity.getRole());
         // DATE TO STRING
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String stringRegistrationDate = sdf.format(entity.getRegistrationDate());
-        String stringLastModification = sdf.format(entity.getModificationDate());
-        response.setRegistrationDate(stringRegistrationDate);
-        response.setModificationDate(stringLastModification);
-        response.setSoftDelete(entity.getSoftDelete().toString());
+        String stringRegistrationDate = sdf.format(entity.getCreated());
+        String stringLastModification = sdf.format(entity.getUpdated());
+        response.setCreated(stringRegistrationDate);
+        response.setUpdated(stringLastModification);
+        response.setDeleted(entity.getDeleted().toString());
         return response;
     }
 

@@ -25,6 +25,8 @@ com\nocountry\java_react\validation\TelephoneNumberValidator.class
 com\nocountry\java_react\controller\IPhotographerController.class
 com\nocountry\java_react\dto\request\PhotographerRequest.class
 com\nocountry\java_react\commons\constants\Constants.class
+com\nocountry\java_react\exception\PhotoException.class
+com\nocountry\java_react\commons\enums\EPathUpload.class
 com\nocountry\java_react\service\impl\BuyerServiceImpl.class
 com\nocountry\java_react\controller\IPhotoController.class
 com\nocountry\java_react\repository\IPhotoRepository.class
@@ -39,3 +41,4 @@ com\nocountry\java_react\commons\enums\EPhotoCategory.class
 com\nocountry\java_react\validation\Document.class
 com\nocountry\java_react\model\User.class
 com\nocountry\java_react\validation\StartingWithBlankSpaces.class
+com\nocountry\java_react\commons\enums\EExceptionMessage.class

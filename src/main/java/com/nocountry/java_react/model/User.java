@@ -60,15 +60,15 @@ public class User implements Serializable {
     protected String role;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "registration_date", nullable = false)
-    protected Date registrationDate = new Date();
+    @Column(name = "created", nullable = false)
+    protected Date created = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = " last_modification")
-    protected Date modificationDate;
+    @Column(name = " updated")
+    protected Date updated;
 
-    @Column(name = "soft_delete")
-    protected Boolean softDelete = Boolean.FALSE;
+    @Column(name = "deleted")
+    protected Boolean deleted = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {

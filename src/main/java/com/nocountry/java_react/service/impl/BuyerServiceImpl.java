@@ -45,8 +45,8 @@ public class BuyerServiceImpl implements IBuyerService {
         Optional<Buyer> answer = repository.findById(idBuyer);
         if (answer.isPresent()) {
             Buyer entity = answer.get();
-            entity.setSoftDelete(!entity.isSoftDelete());
-            entity.setModificationDate(new Date());
+            entity.setDeleted(!entity.isDeleted());
+            entity.setUpdated(new Date());
             repository.save(entity);
         }
     }

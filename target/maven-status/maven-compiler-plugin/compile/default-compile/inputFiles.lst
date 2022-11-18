@@ -18,11 +18,14 @@ C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\commons\constants\Constants.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\model\Photo.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\repository\IPhotoRepository.java
+C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\commons\enums\EPathUpload.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\mapper\PhotoMapper.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\controller\impl\PhotoController.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\dto\request\PhotographerRequest.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\validation\DocumentValidator.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\dto\request\BuyerRequest.java
+C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\exception\PhotoException.java
+C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\commons\enums\EExceptionMessage.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\service\impl\BuyerServiceImpl.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\dto\request\PhotoRequest.java
 C:\Users\HFC\Desktop\Cursos y Programacion\No Country\Proyecto\PhotoWeb\Backend\src\main\java\com\nocountry\java_react\commons\enums\EPhotoCategory.java

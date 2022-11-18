@@ -17,7 +17,7 @@ public class PhotographerResponse {
     private String country;
     private String facebookUrl;
     private String instagramUrl;
-    private String registrationDate;
-    private String modificationDate;
-    private String softDelete;
+    private String created;
+    private String updated;
+    private String deleted;
 }
