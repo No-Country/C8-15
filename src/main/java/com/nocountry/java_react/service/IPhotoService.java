@@ -1,7 +1,9 @@
 package com.nocountry.java_react.service;
 
+import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.response.PhotoResponse;
 import com.nocountry.java_react.model.Photo;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +21,7 @@ public interface IPhotoService {
     String uploadFiles(MultipartFile multipartFile, Path pathFolderUpload);
 
     @Transactional
-    Photo savePhoto(MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload);
+    Photo savePhoto(PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload);
 
     PhotoResponse getPhotoResponse(Photo file);
 
@@ -30,7 +32,7 @@ public interface IPhotoService {
     List<PhotoResponse> getPhotosResponses(List<Photo> photoList);
 
     @Transactional
-    Photo modifyPhoto(String id, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload);
+    Photo modifyPhoto(String id, PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload);
 
     @Transactional
     void deletePhotoById(String id, Path pathFolderUpload);
@@ -43,4 +45,6 @@ public interface IPhotoService {
 
     @Transactional(readOnly = true)
     Photo getPhotoById(String id);
+
+    Resource downloadPhoto(String idPhoto) throws Exception;
 }

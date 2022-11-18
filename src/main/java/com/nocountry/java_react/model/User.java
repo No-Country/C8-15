@@ -65,7 +65,7 @@ public class User implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = " updated")
-    protected Date updated;
+    protected Date updated = new Date();
 
     @Column(name = "deleted")
     protected Boolean deleted = Boolean.FALSE;

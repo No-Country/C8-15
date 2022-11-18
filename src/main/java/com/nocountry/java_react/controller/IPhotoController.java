@@ -1,6 +1,7 @@
 package com.nocountry.java_react.controller;
 
 import com.nocountry.java_react.dto.response.PhotoResponse;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,23 +16,27 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface IPhotoController {
+    @PostMapping(path = "/upload-photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<PhotoResponse> uploadPhoto(String photoRequest,
+                                              @RequestParam("photo") MultipartFile photo);
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PhotoResponse> uploadPhoto(@RequestParam("file") MultipartFile photo);
+    @PostMapping(path = "/upload-photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<PhotoResponse>> uploadPhotos(@RequestParam("photos") List<MultipartFile> photos);
 
-    @PostMapping(path = "/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<PhotoResponse>> uploadPhotos(@RequestParam("files") List<MultipartFile> photos);
-
-    @PutMapping(path = "/modify/{id-photo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(path = "/modify-photo/{id-photo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<PhotoResponse> modifyPhoto(@NotNull @PathVariable("id-photo") String idPhoto,
-                                              @RequestParam("file") MultipartFile photo);
+                                              String photoRequest,
+                                              @RequestParam(value = "photo", required = false) MultipartFile photo);
 
-    @DeleteMapping(path = "/delete/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/delete-photo/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotoResponse> deletePhoto(@NotNull @PathVariable("id-photo") String idPhoto);
 
-    @DeleteMapping(path = "/delete-by-original-name/{filename:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/delete-photo-by-original-name/{filename:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotoResponse> deletePhotoByOriginalName(@PathVariable String originalName);
 
-    @GetMapping(path = "/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/get-photo-by-id/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotoResponse> getPhotoById(@NotNull @PathVariable("id-photo") String idPhoto);
+
+    @GetMapping("/download-photo/{id-photo}")
+    ResponseEntity<Resource> downloadPhoto(@PathVariable("id-photo") String idPhoto) throws Exception;
 }

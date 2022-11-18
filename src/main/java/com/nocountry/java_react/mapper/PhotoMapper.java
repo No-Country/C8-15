@@ -1,5 +1,7 @@
 package com.nocountry.java_react.mapper;
 
+import com.nocountry.java_react.commons.enums.EPhotoCategory;
+import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.response.PhotoResponse;
 import com.nocountry.java_react.model.Photo;
 import org.springframework.stereotype.Component;
@@ -12,16 +14,44 @@ import java.util.List;
 @Component
 public class PhotoMapper {
 
-    public Photo convertToEntity(Photo entity, MultipartFile file, String newFileName, String pathFileUpload) {
-        extractedForConvertToEntity(entity, file, newFileName, pathFileUpload);
+    public Photo convertToEntity(PhotoRequest photoRequest, Photo entity, MultipartFile file, String newFileName, String pathFileUpload) {
+        extractedForConvertToEntity(photoRequest, entity, file, newFileName, pathFileUpload);
         return entity;
     }
 
-    private static void extractedForConvertToEntity(Photo entity, MultipartFile file, String newFileName, String pathFileUpload) {
+    private static void extractedForConvertToEntity(PhotoRequest photoRequest, Photo entity, MultipartFile file, String newFileName, String pathFileUpload) {
         String path = pathFileUpload + newFileName;
         entity.setOriginalName(file.getOriginalFilename());
         entity.setFileName(newFileName);
         entity.setPath(path);
+        EPhotoCategory category = EPhotoCategory.valueOf(photoRequest.getCategory().toUpperCase());
+        entity.setCategory(category);
+        entity.setAuthor(photoRequest.getAuthor());
+        entity.setLocation(photoRequest.getLocation());
+        entity.setDescription(photoRequest.getDescription());
+    }
+
+    public Photo convertToEntityModify(PhotoRequest photoRequest, Photo entity) {
+        extractedForConvertToEntityModify(photoRequest, entity);
+        return entity;
+    }
+
+    private static void extractedForConvertToEntityModify(PhotoRequest photoRequest, Photo entity) {
+            EPhotoCategory category = EPhotoCategory.valueOf(photoRequest.getCategory().toUpperCase());
+            entity.setCategory(category);
+            entity.setAuthor(photoRequest.getAuthor());
+            entity.setLocation(photoRequest.getLocation());
+            entity.setDescription(photoRequest.getDescription());
+
+//        String path = pathFileUpload + newFileName;
+//        entity.setOriginalName(file.getOriginalFilename());
+//        entity.setFileName(newFileName);
+//        entity.setPath(path);
+//        EPhotoCategory category = EPhotoCategory.valueOf(photoRequest.getCategory().toUpperCase());
+//        entity.setCategory(category);
+//        entity.setAuthor(photoRequest.getAuthor());
+//        entity.setLocation(photoRequest.getLocation());
+//        entity.setDescription(photoRequest.getDescription());
     }
 
     public PhotoResponse convertToResponse(Photo entity) {
