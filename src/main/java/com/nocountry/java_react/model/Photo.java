@@ -72,6 +72,9 @@ public class Photo implements Serializable {
     @Column(name = "price")
     private Double price;
 
+    @Column(name = "sales")
+    private int sales;
+
     // RELATION PHOTO --> PHOTOGRAPHER
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_photographer")
@@ -107,8 +110,4 @@ public class Photo implements Serializable {
     public int hashCode() {
         return getClass().hashCode();
     }
-
-//    public boolean isSoftDelete() {
-//        return false;
-//    }
 }
