@@ -15,10 +15,10 @@ import java.util.List;
 public interface IPhotoService {
 
     @Transactional
-    void init(Path pathFolderUpload);
+    void initFolderUpload(Path pathFolderUpload);
 
     @Transactional
-    String uploadFiles(MultipartFile multipartFile, Path pathFolderUpload);
+    String uploadPhotos(MultipartFile multipartFile, Path pathFolderUpload);
 
     @Transactional
     Photo savePhoto(PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload);
@@ -46,5 +46,5 @@ public interface IPhotoService {
     @Transactional(readOnly = true)
     Photo getPhotoById(String id);
 
-    Resource downloadPhoto(String idPhoto) throws Exception;
+    Resource downloadPhoto(String idPhoto, Path pathFolderUpload) throws Exception;
 }

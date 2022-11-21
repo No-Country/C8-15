@@ -70,7 +70,7 @@ public class Photo implements Serializable {
     private String description;
 
     @Column(name = "price")
-    private String price;
+    private Double price;
 
     // RELATION PHOTO --> PHOTOGRAPHER
     @ManyToOne(fetch = FetchType.LAZY)

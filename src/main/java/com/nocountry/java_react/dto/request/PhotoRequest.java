@@ -9,5 +9,5 @@ public class PhotoRequest {
     private String author;
     private String location;
     private String description;
-    private String price;
+    private Double price;
 }

@@ -1,10 +1,9 @@
 package com.nocountry.java_react.service.impl;
 
 import com.nocountry.java_react.commons.enums.EExceptionMessage;
-import com.nocountry.java_react.commons.enums.EPathUpload;
+import com.nocountry.java_react.config.exception.PhotoException;
 import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.response.PhotoResponse;
-import com.nocountry.java_react.config.exception.PhotoException;
 import com.nocountry.java_react.mapper.PhotoMapper;
 import com.nocountry.java_react.model.Photo;
 import com.nocountry.java_react.repository.IPhotoRepository;
@@ -20,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,13 +31,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PhotoServiceImpl implements IPhotoService {
 
-    private final Path pathFolderUpload = Paths.get(EPathUpload.CREATE_PHOTO_FOLDER.toString());
     private final IPhotoRepository repository;
     private final PhotoMapper mapper;
 
     @Override
     @Transactional
-    public void init(Path pathFolderUpload) {
+    public void initFolderUpload(Path pathFolderUpload) {
         try {
             if (!Files.exists(pathFolderUpload)) Files.createDirectory(pathFolderUpload);
         } catch (IOException e) {
@@ -49,7 +46,7 @@ public class PhotoServiceImpl implements IPhotoService {
 
     @Override
     @Transactional
-    public String uploadFiles(MultipartFile multipartFile, Path pathFolderUpload) {
+    public String uploadPhotos(MultipartFile multipartFile, Path pathFolderUpload) {
         String originalFileName = multipartFile.getOriginalFilename();
         String newPhotoName;
         getPhotoExtension(Objects.requireNonNull(originalFileName));
@@ -72,10 +69,10 @@ public class PhotoServiceImpl implements IPhotoService {
     @Override
     @Transactional
     public Photo savePhoto(PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) {
-        init(pathFolderUpload);
+        initFolderUpload(pathFolderUpload);
         try {
             Photo photo = new Photo();
-            String newPhotoName = uploadFiles(multipartFile, pathFolderUpload);
+            String newPhotoName = uploadPhotos(multipartFile, pathFolderUpload);
             Photo entityForConvert = mapper.convertToEntity(photoRequest, photo, multipartFile, newPhotoName, pathFileUpload);
             return repository.save(entityForConvert);
         } catch (PhotoException exception) {
@@ -91,12 +88,12 @@ public class PhotoServiceImpl implements IPhotoService {
     @Override
     @Transactional
     public List<Photo> savePhotos(PhotoRequest photoRequest, List<MultipartFile> multipartFiles, Path pathFolderUpload, String pathFileUpload) {
-        init(pathFolderUpload);
+        initFolderUpload(pathFolderUpload);
         try {
             List<Photo> photoList = new ArrayList<>();
             for (MultipartFile multipartFile : multipartFiles) {
                 Photo photo = new Photo();
-                String newPhotoName = uploadFiles(multipartFile, pathFolderUpload);
+                String newPhotoName = uploadPhotos(multipartFile, pathFolderUpload);
                 Photo entityForConvert = mapper.convertToEntity(photoRequest, photo, multipartFile, newPhotoName, pathFileUpload);
                 Photo entityForSave = repository.save(entityForConvert);
                 photoList.add((entityForSave));
@@ -115,16 +112,16 @@ public class PhotoServiceImpl implements IPhotoService {
 
     @Override
     @Transactional
-    public Photo modifyPhoto(String id, PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) {
+    public Photo modifyPhoto(String idPhoto, PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) {
         try {
-            Photo entity = repository.searchById(id);
+            Photo photo = repository.getReferenceById(idPhoto);
             if (multipartFile.isEmpty()) {
-                Photo entityForConvert = mapper.convertToEntityModify(photoRequest, entity);
+                Photo entityForConvert = mapper.convertToEntityModify(photoRequest, photo);
                 return repository.save(entityForConvert);
             } else {
-                deletePhotoByOriginalName(entity.getFileName(), pathFolderUpload);
-                String newFileName = uploadFiles(multipartFile, pathFolderUpload);
-                Photo entityForConvert = mapper.convertToEntity(photoRequest, entity, multipartFile, newFileName, pathFileUpload);
+                deletePhotoByOriginalName(photo.getFileName(), pathFolderUpload);
+                String newFileName = uploadPhotos(multipartFile, pathFolderUpload);
+                Photo entityForConvert = mapper.convertToEntity(photoRequest, photo, multipartFile, newFileName, pathFileUpload);
                 return repository.save(entityForConvert);
             }
         } catch (PhotoException exception) {
@@ -136,10 +133,10 @@ public class PhotoServiceImpl implements IPhotoService {
 
     @Override
     @Transactional
-    public void deletePhotoById(String id, Path pathFolderUpload) {
-        Optional<Photo> answer = repository.findById(id);
-        if (answer.isPresent()) {
-            Photo entity = answer.get();
+    public void deletePhotoById(String idPhoto, Path pathFolderUpload) {
+        Optional<Photo> optionalPhoto = repository.findById(idPhoto);
+        if (optionalPhoto.isPresent()) {
+            Photo entity = optionalPhoto.get();
             repository.delete(entity);
             deletePhotoByOriginalName(entity.getFileName(), pathFolderUpload);
         } else {
@@ -168,19 +165,19 @@ public class PhotoServiceImpl implements IPhotoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Photo getPhotoById(String id) {
-        if (repository.existsById(id)) {
-            return repository.searchById(id);
+    public Photo getPhotoById(String idPhoto) {
+        if (repository.existsById(idPhoto)) {
+            return repository.getReferenceById(idPhoto);
         } else {
             throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
         }
     }
 
     @Override
-    public Resource downloadPhoto(String idPhoto) throws Exception {
-        Optional<Photo> optional = repository.findById(idPhoto);
-        if (optional.isPresent()) {
-            Photo photo = optional.get();
+    public Resource downloadPhoto(String idPhoto, Path pathFolderUpload) throws Exception {
+        Optional<Photo> optionalPhoto = repository.findById(idPhoto);
+        if (optionalPhoto.isPresent()) {
+            Photo photo = optionalPhoto.get();
             String name = photo.getFileName();
             Path file = pathFolderUpload.resolve(name);
             return new UrlResource(file.toUri());

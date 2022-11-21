@@ -37,7 +37,7 @@ public interface IPhotographerController {
     @PostMapping(path = "/add-photo/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                                       String photoRequest,
+                                                                       String stringRequest,
                                                                        @RequestParam(value = "photo") MultipartFile photo);
 
     @DeleteMapping(path = "/remove-photo/{id-photographer}/photo/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)

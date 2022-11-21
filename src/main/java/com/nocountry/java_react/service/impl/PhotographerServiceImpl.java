@@ -40,7 +40,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional
-    public PhotographerResponse save(PhotographerRequest request) {
+    public PhotographerResponse savePhotographer(PhotographerRequest request) {
         Photographer entity = new Photographer();
         Photographer entityForConvert = mapper.convertToEntity(entity, request);
         Photographer entityForSave = repository.save(entityForConvert);
@@ -49,8 +49,8 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional
-    public PhotographerResponse modify(String idPhotographer, PhotographerRequest request) {
-        Photographer entity = repository.searchById(idPhotographer);
+    public PhotographerResponse modifyPhotographer(String idPhotographer, PhotographerRequest request) {
+        Photographer entity = repository.getReferenceById(idPhotographer);
         Photographer entityForConvert = mapper.convertToEntity(entity, request);
         Photographer entityForSave = repository.save(entityForConvert);
         return mapper.convertToResponse(entityForSave);
@@ -58,7 +58,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional
-    public void delete(String idPhotographer) {
+    public void deletePhotographer(String idPhotographer) {
         Optional<Photographer> answer = repository.findById(idPhotographer);
         if (answer.isPresent()) {
             Photographer entity = answer.get();
@@ -70,9 +70,9 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional(readOnly = true)
-    public PhotographerResponse getById(String idPhotographer) {
+    public PhotographerResponse getPhotographerById(String idPhotographer) {
         if (repository.existsById(idPhotographer)) {
-            Photographer entity = repository.searchById(idPhotographer);
+            Photographer entity = repository.getReferenceById(idPhotographer);
             return mapper.convertToResponse(entity);
         } else {
             return null;
@@ -81,33 +81,33 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PhotographerResponse> getAll() {
+    public List<PhotographerResponse> getAllPhotographer() {
         List<Photographer> photographerList = repository.findAll();
         return mapper.convertToResponseList(photographerList);
     }
 
     @Override
     @Transactional
-    public void addPhotoToPhotographer(String idPhotographer, String photoRequest, MultipartFile photo) {
+    public void addPhotoToPhotographer(String idPhotographer, String stringRequest, MultipartFile photo) {
         Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
         if (optionalPhotographer.isPresent()) {
-            Photographer photographer = repository.searchById(idPhotographer);
+            Photographer photographer = repository.getReferenceById(idPhotographer);
             // ADD PHOTOS TO PHOTOGRAPHER
-            addPhotoToPhotographer(photographer, photoRequest, photo);
+            addPhotoToPhotographer(photographer, stringRequest, photo);
             repository.save(photographer);
         } else {
             throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
         }
     }
 
-    private void addPhotoToPhotographer(Photographer photographer, String photoRequest, MultipartFile photo) {
-        PhotoRequest request = new PhotoRequest();
+    private void addPhotoToPhotographer(Photographer photographer, String stringRequest, MultipartFile photo) {
+        PhotoRequest photoRequest = new PhotoRequest();
         try {
-            request = new ObjectMapper().readValue(photoRequest, PhotoRequest.class);
+            photoRequest = new ObjectMapper().readValue(stringRequest, PhotoRequest.class);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        Photo savePhoto = photoService.savePhoto(request, photo, pathFolderUpload, pathFileUpload);
+        Photo savePhoto = photoService.savePhoto(photoRequest, photo, pathFolderUpload, pathFileUpload);
 
         savePhoto.setPhotographer(photographer);
         photographer.getPhotos().add(savePhoto);
@@ -118,10 +118,10 @@ public class PhotographerServiceImpl implements IPhotographerService {
     public void removePhotoToPhotographer(String idPhotographer, String idPhoto) {
         Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
         if (optionalPhotographer.isPresent()) {
-            Photographer photographer = repository.searchById(idPhotographer);
+            Photographer photographer = repository.getReferenceById(idPhotographer);
             Optional<Photo> optionalPhoto = photoRepository.findById(idPhoto);
             if (optionalPhoto.isPresent()) {
-                Photo photo = photoRepository.searchById(idPhoto);
+                Photo photo = photoRepository.getReferenceById(idPhoto);
                 List<Photo> photoList = photographer.getPhotos();
                 photoList.remove(photo);
                 photographer.setPhotos(photoList);
@@ -140,7 +140,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
     public void removeAllPhotosToPhotographer(String idPhotographer) {
         Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
         if (optionalPhotographer.isPresent()) {
-            Photographer photographer = repository.searchById(idPhotographer);
+            Photographer photographer = repository.getReferenceById(idPhotographer);
             List<Photo> photoList = photographer.getPhotos();
             for (Photo photo : photoList) {
                 photoService.deletePhotoById(photo.getId(), pathFolderUpload);

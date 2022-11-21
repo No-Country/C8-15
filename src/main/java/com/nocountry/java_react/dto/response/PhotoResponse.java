@@ -13,7 +13,7 @@ public class PhotoResponse {
     private String author;
     private String location;
     private String description;
-    private String price;
+    private Double price;
     private String created;
     private String updated;
     private String deleted;

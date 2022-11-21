@@ -34,7 +34,7 @@ public class BuyerController implements IBuyerController {
     @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BuyerResponse> create(@Valid @RequestBody BuyerRequest request) {
-        BuyerResponse response = service.save(request);
+        BuyerResponse response = service.saveBuyer(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -42,28 +42,28 @@ public class BuyerController implements IBuyerController {
     @PutMapping(path = "/modify/{id-buyer}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BuyerResponse> modify(@NotNull @PathVariable("id-buyer") String idBuyer,
                                                 @Valid @RequestBody BuyerRequest request) {
-        BuyerResponse response = service.modify(idBuyer, request);
+        BuyerResponse response = service.modifyBuyer(idBuyer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
     @DeleteMapping(path = "/{id-buyer}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BuyerResponse> delete(@NotNull @PathVariable("id-buyer") String idBuyer) {
-        service.delete(idBuyer);
+        service.deleteBuyer(idBuyer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
     @GetMapping(path = "/{id-buyer}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BuyerResponse> getById(@NotNull @PathVariable("id-buyer") String idBuyer) {
-        BuyerResponse response = service.getById(idBuyer);
+        BuyerResponse response = service.getBuyerById(idBuyer);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<BuyerResponse>> getAll() {
-        List<BuyerResponse> responseList = service.getAll();
+        List<BuyerResponse> responseList = service.getAllBuyer();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 }

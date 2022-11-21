@@ -12,22 +12,22 @@ import java.util.List;
 public interface IPhotographerService {
 
     @Transactional
-    PhotographerResponse save(PhotographerRequest request);
+    PhotographerResponse savePhotographer(PhotographerRequest request);
 
     @Transactional
-    PhotographerResponse modify(String idPhotographer, PhotographerRequest request);
+    PhotographerResponse modifyPhotographer(String idPhotographer, PhotographerRequest request);
 
     @Transactional
-    void delete(String idPhotographer);
+    void deletePhotographer(String idPhotographer);
 
     @Transactional(readOnly = true)
-    PhotographerResponse getById(String idPhotographer);
+    PhotographerResponse getPhotographerById(String idPhotographer);
 
     @Transactional(readOnly = true)
-    List<PhotographerResponse> getAll();
+    List<PhotographerResponse> getAllPhotographer();
 
     @Transactional
-    void addPhotoToPhotographer(String idPhotographer, String photoRequest, MultipartFile photo);
+    void addPhotoToPhotographer(String idPhotographer, String stringRequest, MultipartFile photo);
 
     @Transactional
     void removePhotoToPhotographer(String idPhotographer, String idPhoto);

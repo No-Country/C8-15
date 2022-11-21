@@ -7,7 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IBuyerRepository extends JpaRepository<Buyer, String> {
-
-    @Query("select b from Buyer b where b.id = id")
-    Buyer searchById(String id);
 }

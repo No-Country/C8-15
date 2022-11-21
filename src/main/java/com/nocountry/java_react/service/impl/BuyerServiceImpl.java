@@ -21,9 +21,10 @@ public class BuyerServiceImpl implements IBuyerService {
     private final IBuyerRepository repository;
 
     private final BuyerMapper mapper;
+
     @Override
     @Transactional
-    public BuyerResponse save(BuyerRequest request) {
+    public BuyerResponse saveBuyer(BuyerRequest request) {
         Buyer entity = new Buyer();
         Buyer entityForConvert = mapper.convertToEntity(entity, request);
         Buyer entityForSave = repository.save(entityForConvert);
@@ -32,8 +33,8 @@ public class BuyerServiceImpl implements IBuyerService {
 
     @Override
     @Transactional
-    public BuyerResponse modify(String idBuyer, BuyerRequest request) {
-        Buyer entity = repository.searchById(idBuyer);
+    public BuyerResponse modifyBuyer(String idBuyer, BuyerRequest request) {
+        Buyer entity = repository.getReferenceById(idBuyer);
         Buyer entityForConvert = mapper.convertToEntity(entity, request);
         Buyer entityForSave = repository.save(entityForConvert);
         return mapper.convertToResponse(entityForSave);
@@ -41,7 +42,7 @@ public class BuyerServiceImpl implements IBuyerService {
 
     @Override
     @Transactional
-    public void delete(String idBuyer) {
+    public void deleteBuyer(String idBuyer) {
         Optional<Buyer> answer = repository.findById(idBuyer);
         if (answer.isPresent()) {
             Buyer entity = answer.get();
@@ -53,9 +54,9 @@ public class BuyerServiceImpl implements IBuyerService {
 
     @Override
     @Transactional(readOnly = true)
-    public BuyerResponse getById(String idBuyer) {
+    public BuyerResponse getBuyerById(String idBuyer) {
         if (repository.existsById(idBuyer)) {
-            Buyer entity = repository.searchById(idBuyer);
+            Buyer entity = repository.getReferenceById(idBuyer);
             return mapper.convertToResponse(entity);
         } else {
             return null;
@@ -64,7 +65,7 @@ public class BuyerServiceImpl implements IBuyerService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BuyerResponse> getAll() {
+    public List<BuyerResponse> getAllBuyer() {
         List<Buyer> buyerList = repository.findAll();
         return mapper.convertToResponseList(buyerList);
     }

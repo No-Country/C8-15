@@ -32,7 +32,7 @@ public class PhotographerController implements IPhotographerController {
     @Override
     //@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> create(@Valid @RequestBody PhotographerRequest request) {
-        PhotographerResponse response = service.save(request);
+        PhotographerResponse response = service.savePhotographer(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -40,28 +40,28 @@ public class PhotographerController implements IPhotographerController {
     //@PutMapping(path = "/modify/{id-photographer}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> modify(@NotNull @PathVariable("id-photographer") String idPhotographer,
                                                        @Valid @RequestBody PhotographerRequest request) {
-        PhotographerResponse response = service.modify(idPhotographer, request);
+        PhotographerResponse response = service.modifyPhotographer(idPhotographer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
     //@DeleteMapping(path = "/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> delete(@NotNull @PathVariable("id-photographer") String idPhotographer) {
-        service.delete(idPhotographer);
+        service.deletePhotographer(idPhotographer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
     //@GetMapping(path = "/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> getById(@NotNull @PathVariable("id-photographer") String idPhotographer) {
-        PhotographerResponse response = service.getById(idPhotographer);
+        PhotographerResponse response = service.getPhotographerById(idPhotographer);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
     //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PhotographerResponse>> getAll() {
-        List<PhotographerResponse> responseList = service.getAll();
+        List<PhotographerResponse> responseList = service.getAllPhotographer();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
@@ -69,9 +69,9 @@ public class PhotographerController implements IPhotographerController {
 //    @PostMapping(path = "/add-photo/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
 //    produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                                       String photoRequest,
+                                                                       String stringRequest,
                                                                        @RequestParam(value = "photo") MultipartFile photo) {
-        service.addPhotoToPhotographer(idPhotographer, photoRequest, photo);
+        service.addPhotoToPhotographer(idPhotographer, stringRequest, photo);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

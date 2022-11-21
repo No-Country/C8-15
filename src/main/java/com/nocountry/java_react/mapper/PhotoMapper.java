@@ -7,6 +7,8 @@ import com.nocountry.java_react.model.Photo;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,8 @@ public class PhotoMapper {
         entity.setAuthor(photoRequest.getAuthor());
         entity.setLocation(photoRequest.getLocation());
         entity.setDescription(photoRequest.getDescription());
-        entity.setPrice(photoRequest.getPrice());
+        BigDecimal price = BigDecimal.valueOf(photoRequest.getPrice()).setScale(2, RoundingMode.HALF_UP);
+        entity.setPrice(price.doubleValue());
     }
 
     public Photo convertToEntityModify(PhotoRequest photoRequest, Photo entity) {
@@ -43,7 +46,8 @@ public class PhotoMapper {
         entity.setAuthor(photoRequest.getAuthor());
         entity.setLocation(photoRequest.getLocation());
         entity.setDescription(photoRequest.getDescription());
-        entity.setPrice(photoRequest.getPrice());
+        BigDecimal price = BigDecimal.valueOf(photoRequest.getPrice()).setScale(2, RoundingMode.HALF_UP);
+        entity.setPrice(price.doubleValue());
     }
 
     public PhotoResponse convertToResponse(Photo entity) {
@@ -61,7 +65,8 @@ public class PhotoMapper {
         response.setAuthor(entity.getAuthor());
         response.setLocation(entity.getLocation());
         response.setDescription(entity.getDescription());
-        response.setPrice(entity.getPrice());
+        BigDecimal price = BigDecimal.valueOf(entity.getPrice()).setScale(2, RoundingMode.HALF_UP);
+        response.setPrice(price.doubleValue());
         // DATE TO STRING
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String stringCreated = sdf.format(entity.getCreated());

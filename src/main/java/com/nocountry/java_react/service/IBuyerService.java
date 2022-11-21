@@ -11,17 +11,17 @@ import java.util.List;
 public interface IBuyerService {
 
     @Transactional
-    BuyerResponse save(BuyerRequest request);
+    BuyerResponse saveBuyer(BuyerRequest request);
 
     @Transactional
-    BuyerResponse modify(String idBuyer, BuyerRequest request);
+    BuyerResponse modifyBuyer(String idBuyer, BuyerRequest request);
 
     @Transactional
-    void delete(String idBuyer);
+    void deleteBuyer(String idBuyer);
 
     @Transactional(readOnly = true)
-    BuyerResponse getById(String idBuyer);
+    BuyerResponse getBuyerById(String idBuyer);
 
     @Transactional(readOnly = true)
-    List<BuyerResponse> getAll();
+    List<BuyerResponse> getAllBuyer();
 }
