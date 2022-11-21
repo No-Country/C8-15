@@ -127,7 +127,15 @@
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies>
+		<!--SDK MERCADO PAGO-->
+
+        <dependency>
+            <groupId>com.mercadopago</groupId>
+            <artifactId>sdk-java</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>
