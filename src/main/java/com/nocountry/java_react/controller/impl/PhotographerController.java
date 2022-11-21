@@ -30,14 +30,12 @@ public class PhotographerController implements IPhotographerController {
     private final IPhotographerService service;
 
     @Override
-    //@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> create(@Valid @RequestBody PhotographerRequest request) {
         PhotographerResponse response = service.savePhotographer(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Override
-    //@PutMapping(path = "/modify/{id-photographer}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> modify(@NotNull @PathVariable("id-photographer") String idPhotographer,
                                                        @Valid @RequestBody PhotographerRequest request) {
         PhotographerResponse response = service.modifyPhotographer(idPhotographer, request);
@@ -45,29 +43,24 @@ public class PhotographerController implements IPhotographerController {
     }
 
     @Override
-    //@DeleteMapping(path = "/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> delete(@NotNull @PathVariable("id-photographer") String idPhotographer) {
         service.deletePhotographer(idPhotographer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
-    //@GetMapping(path = "/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> getById(@NotNull @PathVariable("id-photographer") String idPhotographer) {
         PhotographerResponse response = service.getPhotographerById(idPhotographer);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PhotographerResponse>> getAll() {
         List<PhotographerResponse> responseList = service.getAllPhotographer();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
     @Override
-//    @PostMapping(path = "/add-photo/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
-//    produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
                                                                        String stringRequest,
                                                                        @RequestParam(value = "photo") MultipartFile photo) {
@@ -76,7 +69,6 @@ public class PhotographerController implements IPhotographerController {
     }
 
     @Override
-    //@DeleteMapping(path = "/remove-photo/{id-photographer}/photo/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> removeFileToStudent(@NotNull @PathVariable("id-photographer") String idPhotographer,
                                                                     @NotNull @PathVariable("id-photo") String idPhoto) {
         service.removePhotoToPhotographer(idPhotographer, idPhoto);
@@ -84,7 +76,6 @@ public class PhotographerController implements IPhotographerController {
     }
 
     @Override
-    //@DeleteMapping(path = "/remove-all-photos/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PhotographerResponse> removeAllPhotosToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer) {
         service.removeAllPhotosToPhotographer(idPhotographer);
         return ResponseEntity.status(HttpStatus.OK).build();
