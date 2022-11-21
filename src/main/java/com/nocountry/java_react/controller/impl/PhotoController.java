@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotNull;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 import static com.nocountry.java_react.commons.constants.Constants.PHOTO_URI;
 
@@ -46,19 +45,6 @@ public class PhotoController implements IPhotoController {
         }
         PhotoResponse response = service.getPhotoResponse(service.savePhoto(photoRequest, photo, pathFolderUpload, pathFileUpload));
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<PhotoResponse>> uploadPhotos(String stringRequest,
-                                                            @RequestParam("photos") List<MultipartFile> photos) {
-        PhotoRequest photoRequest = new PhotoRequest();
-        try {
-            photoRequest = new ObjectMapper().readValue(stringRequest, PhotoRequest.class);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        List<PhotoResponse> responseList = service.getPhotosResponses(service.savePhotos(photoRequest, photos, pathFolderUpload, pathFileUpload));
-        return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
     @Override

@@ -13,14 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 public interface IPhotoController {
     @PostMapping(path = "/upload-photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotoResponse> uploadPhoto(String stringRequest, @RequestParam("photo") MultipartFile photo);
-
-    @PostMapping(path = "/upload-photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<PhotoResponse>> uploadPhotos(String stringRequest, @RequestParam("photos") List<MultipartFile> photos);
 
     @PutMapping(path = "/modify-photo/{id-photo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<PhotoResponse> modifyPhoto(@NotNull @PathVariable("id-photo") String idPhoto,
