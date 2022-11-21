@@ -45,14 +45,10 @@ public class Photographer extends User implements Serializable {
     @Column(name = "instagram_url")
     private String instagramUrl;
 
-
     // RELATION PHOTOGRAPHER --> PHOTO
     @OneToMany(mappedBy = "photographer", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Photo> photos = new ArrayList<>();
-
-    @Column(name = "deleted")
-    private boolean deleted = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {

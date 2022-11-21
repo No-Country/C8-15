@@ -21,7 +21,8 @@ public interface IPhotoController {
                                               @RequestParam("photo") MultipartFile photo);
 
     @PostMapping(path = "/upload-photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<PhotoResponse>> uploadPhotos(@RequestParam("photos") List<MultipartFile> photos);
+    ResponseEntity<List<PhotoResponse>> uploadPhotos(String photoRequest,
+                                                     @RequestParam("photos") List<MultipartFile> photos);
 
     @PutMapping(path = "/modify-photo/{id-photo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<PhotoResponse> modifyPhoto(@NotNull @PathVariable("id-photo") String idPhoto,

@@ -1,5 +1,6 @@
 package com.nocountry.java_react.model;
 
+import com.nocountry.java_react.commons.enums.EUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -57,7 +60,8 @@ public class User implements Serializable {
     protected String password;
 
     @Column(name = "role")
-    protected String role;
+    @Enumerated(EnumType.STRING)
+    protected EUserRole role;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false)
@@ -68,7 +72,7 @@ public class User implements Serializable {
     protected Date updated = new Date();
 
     @Column(name = "deleted")
-    protected Boolean deleted = Boolean.FALSE;
+    protected boolean deleted = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {

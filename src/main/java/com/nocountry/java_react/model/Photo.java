@@ -69,6 +69,9 @@ public class Photo implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "price")
+    private String price;
+
     // RELATION PHOTO --> PHOTOGRAPHER
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_photographer")

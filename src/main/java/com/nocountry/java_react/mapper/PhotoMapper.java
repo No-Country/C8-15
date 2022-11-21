@@ -29,6 +29,7 @@ public class PhotoMapper {
         entity.setAuthor(photoRequest.getAuthor());
         entity.setLocation(photoRequest.getLocation());
         entity.setDescription(photoRequest.getDescription());
+        entity.setPrice(photoRequest.getPrice());
     }
 
     public Photo convertToEntityModify(PhotoRequest photoRequest, Photo entity) {
@@ -37,11 +38,12 @@ public class PhotoMapper {
     }
 
     private static void extractedForConvertToEntityModify(PhotoRequest photoRequest, Photo entity) {
-            EPhotoCategory category = EPhotoCategory.valueOf(photoRequest.getCategory().toUpperCase());
-            entity.setCategory(category);
-            entity.setAuthor(photoRequest.getAuthor());
-            entity.setLocation(photoRequest.getLocation());
-            entity.setDescription(photoRequest.getDescription());
+        EPhotoCategory category = EPhotoCategory.valueOf(photoRequest.getCategory().toUpperCase());
+        entity.setCategory(category);
+        entity.setAuthor(photoRequest.getAuthor());
+        entity.setLocation(photoRequest.getLocation());
+        entity.setDescription(photoRequest.getDescription());
+        entity.setPrice(photoRequest.getPrice());
     }
 
     public PhotoResponse convertToResponse(Photo entity) {
@@ -59,6 +61,7 @@ public class PhotoMapper {
         response.setAuthor(entity.getAuthor());
         response.setLocation(entity.getLocation());
         response.setDescription(entity.getDescription());
+        response.setPrice(entity.getPrice());
         // DATE TO STRING
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String stringCreated = sdf.format(entity.getCreated());

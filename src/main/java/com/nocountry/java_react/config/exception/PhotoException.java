@@ -1,4 +1,4 @@
-package com.nocountry.java_react.exception;
+package com.nocountry.java_react.config.exception;
 
 import java.io.Serial;
 

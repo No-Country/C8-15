@@ -2,6 +2,8 @@ package com.nocountry.java_react.dto.response;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class PhotographerResponse {
 
@@ -17,6 +19,7 @@ public class PhotographerResponse {
     private String country;
     private String facebookUrl;
     private String instagramUrl;
+    private List<PhotoResponse> photos;
     private String created;
     private String updated;
     private String deleted;

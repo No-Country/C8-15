@@ -56,8 +56,15 @@ public class PhotoController implements IPhotoController {
 
     @Override
     @PostMapping(path = "/upload-photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PhotoResponse>> uploadPhotos(@RequestParam("photos") List<MultipartFile> photos) {
-        List<PhotoResponse> responseList = service.getPhotosResponses(service.savePhotos(photos, pathFolderUpload, pathFileUpload));
+    public ResponseEntity<List<PhotoResponse>> uploadPhotos(String photoRequest,
+                                                            @RequestParam("photos") List<MultipartFile> photos) {
+        PhotoRequest request = new PhotoRequest();
+        try {
+            request = new ObjectMapper().readValue(photoRequest, PhotoRequest.class);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        List<PhotoResponse> responseList = service.getPhotosResponses(service.savePhotos(request, photos, pathFolderUpload, pathFileUpload));
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 

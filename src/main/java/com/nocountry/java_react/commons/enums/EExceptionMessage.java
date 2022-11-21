@@ -11,8 +11,8 @@ public enum EExceptionMessage {
     ID_NOT_FOUND("ID NOT FOUND"),
     ID_ALREADY_EXISTS("ID ALREADY EXISTS"),
     PARAM_NOT_FOUND("PARAM_NOT_FOUND"),
-    REQUEST_WRONG_DATA("INVALID REQUEST"),
-    RESPONSE_WRONG_DATA("INVALID RESPONSE"),
+    REQUEST_WRONG_DATA("REQUEST WRONG DATA"),
+    RESPONSE_WRONG_DATA("RESPONSE WRONG DATA"),
     DOCUMENT_ALREADY_EXISTS("DOCUMENT {0} ALREADY EXISTS"),
     EMAIL_ALREADY_EXISTS("EMAIL {0} ALREADY EXISTS"),
 
@@ -26,10 +26,9 @@ public enum EExceptionMessage {
     ERROR_DELETING_PHOTO("ERROR DELETING PHOTO"),
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-    // OTHER
+    // PHOTOGRAPHER EXCEPTION MESSAGE
     ////////////////////////////////////////////////////////////////////////////////////////////
-
-    IMAGE_NOT_FOUND("IMAGE NOT FOUND");
+    PHOTOGRAPHER_NOT_FOUND("PHOTOGRAPHER NOT FOUND");
 
     private final String messageString;
 

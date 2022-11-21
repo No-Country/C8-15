@@ -1,5 +1,6 @@
 package com.nocountry.java_react.mapper;
 
+import com.nocountry.java_react.commons.enums.EUserRole;
 import com.nocountry.java_react.dto.request.BuyerRequest;
 import com.nocountry.java_react.dto.response.BuyerResponse;
 import com.nocountry.java_react.model.Buyer;
@@ -19,7 +20,8 @@ public class BuyerMapper {
         if (request.getEmail() != null) entity.setEmail(request.getEmail());
         if (request.getUserName() != null) entity.setUserName(request.getUserName());
         if (request.getPassword() != null) entity.setPassword(request.getPassword());
-        if (request.getRole() != null) entity.setRole(request.getRole());
+        EUserRole role = EUserRole.valueOf(request.getRole().toUpperCase());
+        if (request.getRole() != null) entity.setRole(role);
         return entity;
     }
 
@@ -31,14 +33,14 @@ public class BuyerMapper {
         response.setDocument(entity.getDocument());
         response.setEmail(entity.getEmail());
         response.setUserName(entity.getUserName());
-        response.setRole(entity.getRole());
+        response.setRole(entity.getRole().toString());
         // DATE TO STRING
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String stringRegistrationDate = sdf.format(entity.getCreated());
         String stringLastModification = sdf.format(entity.getUpdated());
         response.setCreated(stringRegistrationDate);
         response.setUpdated(stringLastModification);
-        response.setDeleted(entity.getDeleted().toString());
+        response.setDeleted(String.valueOf(entity.isDeleted()));
         return response;
     }
 

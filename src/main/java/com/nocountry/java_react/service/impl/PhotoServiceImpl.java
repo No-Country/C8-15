@@ -4,7 +4,7 @@ import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.commons.enums.EPathUpload;
 import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.response.PhotoResponse;
-import com.nocountry.java_react.exception.PhotoException;
+import com.nocountry.java_react.config.exception.PhotoException;
 import com.nocountry.java_react.mapper.PhotoMapper;
 import com.nocountry.java_react.model.Photo;
 import com.nocountry.java_react.repository.IPhotoRepository;
@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -83,28 +84,27 @@ public class PhotoServiceImpl implements IPhotoService {
     }
 
     @Override
-    public PhotoResponse getPhotoResponse(Photo file) {
-        return mapper.convertToResponse(file);
+    public PhotoResponse getPhotoResponse(Photo photo) {
+        return mapper.convertToResponse(photo);
     }
 
     @Override
     @Transactional
-    public List<Photo> savePhotos(List<MultipartFile> multipartFiles, Path pathFolderUpload, String pathFileUpload) {
-//        init(pathFolderUpload);
-//        try {
-//            List<Photo> photoList = new ArrayList<>();
-//            for (MultipartFile multipartFile : multipartFiles) {
-//                Photo photo = new Photo();
-//                String newPhotoName = uploadFiles(multipartFile, pathFolderUpload);
-//                Photo entityForConvert = mapper.convertToEntity(photo, multipartFile, newPhotoName, pathFileUpload);
-//                Photo entityForSave = repository.save(entityForConvert);
-//                photoList.add((entityForSave));
-//            }
-//            return photoList;
-//        } catch (PhotoException exception) {
-//            throw new PhotoException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
-//        }
-        return null;
+    public List<Photo> savePhotos(PhotoRequest photoRequest, List<MultipartFile> multipartFiles, Path pathFolderUpload, String pathFileUpload) {
+        init(pathFolderUpload);
+        try {
+            List<Photo> photoList = new ArrayList<>();
+            for (MultipartFile multipartFile : multipartFiles) {
+                Photo photo = new Photo();
+                String newPhotoName = uploadFiles(multipartFile, pathFolderUpload);
+                Photo entityForConvert = mapper.convertToEntity(photoRequest, photo, multipartFile, newPhotoName, pathFileUpload);
+                Photo entityForSave = repository.save(entityForConvert);
+                photoList.add((entityForSave));
+            }
+            return photoList;
+        } catch (PhotoException exception) {
+            throw new PhotoException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
+        }
     }
 
     @Override
@@ -118,7 +118,7 @@ public class PhotoServiceImpl implements IPhotoService {
     public Photo modifyPhoto(String id, PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) {
         try {
             Photo entity = repository.searchById(id);
-            if (multipartFile.isEmpty()){
+            if (multipartFile.isEmpty()) {
                 Photo entityForConvert = mapper.convertToEntityModify(photoRequest, entity);
                 return repository.save(entityForConvert);
             } else {
@@ -184,7 +184,8 @@ public class PhotoServiceImpl implements IPhotoService {
             String name = photo.getFileName();
             Path file = pathFolderUpload.resolve(name);
             return new UrlResource(file.toUri());
-    } else {
-        throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());}
+        } else {
+            throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
+        }
     }
 }

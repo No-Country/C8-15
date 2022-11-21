@@ -26,7 +26,7 @@ public interface IPhotoService {
     PhotoResponse getPhotoResponse(Photo file);
 
     @Transactional
-    List<Photo> savePhotos(List<MultipartFile> multipartFiles, Path pathFolderUpload, String pathFileUpload);
+    List<Photo> savePhotos(PhotoRequest photoRequest, List<MultipartFile> multipartFiles, Path pathFolderUpload, String pathFileUpload);
 
     @Transactional
     List<PhotoResponse> getPhotosResponses(List<Photo> photoList);
