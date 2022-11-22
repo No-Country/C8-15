@@ -16,17 +16,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PhotographerMapper {
 
+    private static final EUserRole role = EUserRole.PHOTOGRAPHER;
+
     private final PhotoMapper photoMapper;
 
     public Photographer convertToEntity(Photographer entity, PhotographerRequest request) {
         if (request.getName() != null) entity.setName(request.getName());
         if (request.getSurname() != null) entity.setSurname(request.getSurname());
-        if (request.getDocument() != null) entity.setDocument(request.getDocument());
         if (request.getEmail() != null) entity.setEmail(request.getEmail());
         if (request.getUserName() != null) entity.setUserName(request.getUserName());
         if (request.getPassword() != null) entity.setPassword(request.getPassword());
-        EUserRole role = EUserRole.valueOf(request.getRole().toUpperCase());
-        if (request.getRole() != null) entity.setRole(role);
+        entity.setRole(role);
         if (request.getTelephone() != null) entity.setTelephone(request.getTelephone());
         if (request.getClass() != null) entity.setCity(request.getCity());
         if (request.getCountry() != null) entity.setCountry(request.getCountry());
@@ -40,7 +40,6 @@ public class PhotographerMapper {
         response.setIdPhotographer(entity.getId());
         response.setName(entity.getName());
         response.setSurname(entity.getSurname());
-        response.setDocument(entity.getDocument());
         response.setEmail(entity.getEmail());
         response.setUserName(entity.getUserName());
         response.setRole(entity.getRole().toString());

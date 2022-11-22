@@ -1,6 +1,5 @@
 package com.nocountry.java_react.mapper;
 
-import com.nocountry.java_react.commons.enums.EPhotoCategory;
 import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.response.PhotoResponse;
 import com.nocountry.java_react.model.Photo;
@@ -26,8 +25,7 @@ public class PhotoMapper {
         entity.setOriginalName(file.getOriginalFilename());
         entity.setFileName(newFileName);
         entity.setPath(path);
-        EPhotoCategory category = EPhotoCategory.valueOf(photoRequest.getCategory().toUpperCase());
-        entity.setCategory(category);
+        entity.setCategory(photoRequest.getCategory());
         entity.setAuthor(photoRequest.getAuthor());
         entity.setLocation(photoRequest.getLocation());
         entity.setDescription(photoRequest.getDescription());
@@ -41,8 +39,7 @@ public class PhotoMapper {
     }
 
     private static void extractedForConvertToEntityModify(PhotoRequest photoRequest, Photo entity) {
-        EPhotoCategory category = EPhotoCategory.valueOf(photoRequest.getCategory().toUpperCase());
-        entity.setCategory(category);
+        entity.setCategory(photoRequest.getCategory());
         entity.setAuthor(photoRequest.getAuthor());
         entity.setLocation(photoRequest.getLocation());
         entity.setDescription(photoRequest.getDescription());
@@ -61,7 +58,7 @@ public class PhotoMapper {
         response.setOriginalName(entity.getOriginalName());
         response.setFileName(entity.getFileName());
         response.setPath(entity.getPath());
-        response.setCategory(entity.getCategory().toString());
+        response.setCategory(entity.getCategory());
         response.setAuthor(entity.getAuthor());
         response.setLocation(entity.getLocation());
         response.setDescription(entity.getDescription());

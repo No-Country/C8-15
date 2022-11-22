@@ -12,6 +12,9 @@ public class BuyerResponse {
     private String email;
     private String userName;
     private String role;
+    private String telephone;
+    private String city;
+    private String country;
     private String created;
     private String updated;
     private String deleted;

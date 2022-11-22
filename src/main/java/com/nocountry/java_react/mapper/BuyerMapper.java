@@ -13,15 +13,18 @@ import java.util.List;
 @Component
 public class BuyerMapper {
 
+    private static final EUserRole role = EUserRole.BUYER;
+
     public Buyer convertToEntity(Buyer entity, BuyerRequest request) {
         if (request.getName() != null) entity.setName(request.getName());
         if (request.getSurname() != null) entity.setSurname(request.getSurname());
-        if (request.getDocument() != null) entity.setDocument(request.getDocument());
         if (request.getEmail() != null) entity.setEmail(request.getEmail());
         if (request.getUserName() != null) entity.setUserName(request.getUserName());
         if (request.getPassword() != null) entity.setPassword(request.getPassword());
-        EUserRole role = EUserRole.valueOf(request.getRole().toUpperCase());
-        if (request.getRole() != null) entity.setRole(role);
+        entity.setRole(role);
+        if (request.getTelephone() != null) entity.setTelephone(request.getTelephone());
+        if (request.getClass() != null) entity.setCity(request.getCity());
+        if (request.getCountry() != null) entity.setCountry(request.getCountry());
         return entity;
     }
 
@@ -30,10 +33,12 @@ public class BuyerMapper {
         response.setIdPhotographer(entity.getId());
         response.setName(entity.getName());
         response.setSurname(entity.getSurname());
-        response.setDocument(entity.getDocument());
         response.setEmail(entity.getEmail());
         response.setUserName(entity.getUserName());
         response.setRole(entity.getRole().toString());
+        response.setTelephone(entity.getTelephone());
+        response.setCity(entity.getCity());
+        response.setCountry(entity.getCountry());
         // DATE TO STRING
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String stringRegistrationDate = sdf.format(entity.getCreated());

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Photographer")
+@Table(name = "photographer")
 @Getter
 @Setter
 @NoArgsConstructor

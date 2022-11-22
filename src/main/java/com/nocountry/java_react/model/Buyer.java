@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Buyer")
+@Table(name = "buyer")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,6 +29,15 @@ public class Buyer extends User implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    @Column(name = "telephone")
+    private String telephone;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "country")
+    private String country;
 
     // RELATION BUYER --> PHOTO
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)

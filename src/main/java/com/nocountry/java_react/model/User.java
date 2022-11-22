@@ -47,9 +47,6 @@ public class User implements Serializable {
     @Column(name = "surname")
     protected String surname;
 
-    @Column(name = "document", unique = true)
-    protected String document;
-
     @Column(name = "email", unique = true)
     protected String email;
 

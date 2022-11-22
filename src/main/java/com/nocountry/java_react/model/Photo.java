@@ -1,6 +1,5 @@
 package com.nocountry.java_react.model;
 
-import com.nocountry.java_react.commons.enums.EPhotoCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +11,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,7 +25,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Photo")
+@Table(name = "photo")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,7 +40,7 @@ public class Photo implements Serializable {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(unique = true)
-    protected String id;
+    private String id;
 
     @Basic
     @Column(name = "original_name")
@@ -57,8 +54,8 @@ public class Photo implements Serializable {
     private String path;
 
     @Column(name = "category")
-    @Enumerated(EnumType.STRING)
-    private EPhotoCategory category;
+    //@Enumerated(EnumType.STRING)
+    private String category;
 
     @Column(name = "author")
     private String author;
@@ -71,6 +68,9 @@ public class Photo implements Serializable {
 
     @Column(name = "price")
     private Double price;
+
+    @Column(name = "payment_link")
+    private String paymentLink;
 
     @Column(name = "sales")
     private int sales;
