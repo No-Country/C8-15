@@ -21,48 +21,50 @@ import Logo  from '../../../assets/pngwing.com.png'
 const Navbar = () => {
 
   const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
+  position: 'relative',
+  borderRadius:'100px',
+  border:'0.5px solid  #000000 ',
+  backgroundColor: alpha(theme.palette.common.white, 0.7),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.7),
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  color:'#000000',
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: '#000000',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  }));
-  
-  const SearchIconWrapper = styled('div')(({ theme  }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
-  
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        width: '12ch',
-        '&:focus': {
-          width: '20ch',
-        },
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
       },
     },
-  }));
+  },
+}));
 
-  const pages = ['Acerca de', 'Ingresar', 'Registrarse'];
+  const pages = ['Acerca de','Categorias', 'Ingresar', 'Registrarse'];
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
   
@@ -77,13 +79,20 @@ const Navbar = () => {
 
     return (
       <>
-      <AppBar position='static' theme={theme} color='transparent'>
-      <Container maxWidth="xl" >
-        <Toolbar disableGutters>
-          <IconButton>
-          <img src={Logo} width='30px' alt="SVG logo image" href="#" />
+      <AppBar  position='fixed'theme={theme} 
+      sx={{
+        backgroundColor:'rgb( 255, 255,255 ,.5)'
+      }}>
+      <Container maxwidth="xl"   
+      >
+        <Toolbar disableGutters  >
+          <IconButton href="/" >
+          <img src={Logo} width='35px' alt="logo" 
+          sx={{
+            opacity:'0.5'
+          }}/>
           </IconButton>
-          <Typography
+          {/* <Typography
             variant="h6"
             noWrap
             component="a"
@@ -117,23 +126,26 @@ const Navbar = () => {
             }}
             >
             ViewFinder
-          </Typography>
+          </Typography> */}
           <Search>
           <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-                placeholder="Search…"
+                placeholder="Buscar…"
                 inputProps={{ 'aria-label': 'search' }}
               />
           </Search>
-          
-          <Box sx={{ flexGrow:6, display: { xs: 'none', md: 'flex' } , justifyContent: 'flex-end' }}>
+          <Box
+          sx={{ 
+          flexGrow:6,
+          display: { xs: 'none', md: 'flex' } ,
+          justifyContent: 'flex-end' }}>
             {pages.map((page) => (
               <Button
               key={page}
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: '#000000', display: 'block', padding:'6px 20px' }}
+              sx={{ my: 2, color: '#000000', display: 'block', padding:'1px 20px' }}
               >
                 {page}
               </Button>
