@@ -10,10 +10,20 @@ const theme = createTheme({
       secondary:{
         main:'#FFFFFF'
       },
-      divider:'rgba(255, 255, 255, 0.5)'
+      
+      divider:{
+        main:'#FFFFFF',
+        opacity:'0.5'
+      }
     },
     typography:{
-      fontFamily:"Nunito"
+      fontFamily:"Nunito",
+      titleHero:{
+        fontSize:48,
+      },
+      subtitle1:{
+        fontSize:24,
+      }
     }
 
 })
