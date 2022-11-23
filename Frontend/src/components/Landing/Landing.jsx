@@ -1,16 +1,18 @@
 import Hero from './hero/Hero'
-import Carrusel from './carrusel/Carrusel'
+// import Carrusel from './carrusel/Carrusel'
 import Categories from './categories/categories'
+import Feactured from './featured/Feactured'
 
 
 
 const Landing = () => {
   return (
-    <div>
+    <>
     <Hero/>
-    <Carrusel/>
+    {/* <Carrusel/> */}
     <Categories/>
-    </div>
+    <Feactured/>
+    </>
   )
 }
 
