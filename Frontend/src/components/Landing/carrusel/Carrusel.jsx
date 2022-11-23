@@ -1,9 +1,14 @@
-import React from 'react'
-import './Carrusel.css'
+import CardCarrusel from "./cardCarrusel"
+import Grid from '@mui/material'
+
 
 const Carrusel = () => {
   return (
-    <div>Carrusel</div>
+    <>
+    <Grid>
+    <CardCarrusel/>
+    </Grid>
+    </>
   )
 }
 
