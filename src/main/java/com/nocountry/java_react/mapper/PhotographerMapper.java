@@ -34,7 +34,6 @@ public class PhotographerMapper {
     public Photographer convertToEntity(Photographer entity, PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
         boolean existMail = repository.existsByEmail(request.getEmail());
         if (existMail) {
-            //throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
             throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
         }
         if (request.getName() != null) entity.setName(request.getName());
@@ -44,7 +43,6 @@ public class PhotographerMapper {
                 && request.getConfirmPassword().equals(request.getPassword())) {
             entity.setPassword(encryptPassword(request.getPassword()));
         } else {
-            //throw new PhotographerException(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString());
             throw new PhotographerException(messageSource.getMessage("passwords.do.not.match", null, Locale.ENGLISH));
         }
         entity.setRole(role);
@@ -59,7 +57,6 @@ public class PhotographerMapper {
         if (existMail && requestEmail.equals(entityEmail)) {
             extractedForConvertToEntityModifyBasic(entity, request);
         } else if (existMail) {
-            //throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
             throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
         } else {
             extractedForConvertToEntityModifyFull(entity, request);
@@ -138,12 +135,10 @@ public class PhotographerMapper {
                 if (request.getConfirmPassword() != null && request.getConfirmPassword().equals(request.getPassword())) {
                     entity.setPassword(encryptPassword(request.getPassword()));
                 } else {
-                    //throw new PhotographerException(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString());
                     throw new PhotographerException(messageSource.getMessage("passwords.do.not.match", null, Locale.ENGLISH));
                 }
             }
         } else {
-            //throw new PhotographerException(EExceptionMessage.WRONG_PASSWORD.toString());
             throw new PhotographerException(messageSource.getMessage("wrong.password", null, Locale.ENGLISH));
         }
         return entity;
