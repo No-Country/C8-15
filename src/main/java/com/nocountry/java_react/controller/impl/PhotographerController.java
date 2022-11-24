@@ -42,7 +42,7 @@ public class PhotographerController implements IPhotographerController {
 
     @Override
     public ResponseEntity<PhotographerResponse> modifyPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                       @Valid @RequestBody PhotographerRequestModify request) throws EmailAlreadyExistException {
+                                                       @Valid @RequestBody PhotographerRequestModify request) throws EmailAlreadyExistException, PhotographerException {
         PhotographerResponse response = service.modifyPhotographer(idPhotographer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -55,19 +55,19 @@ public class PhotographerController implements IPhotographerController {
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> deletePhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer) {
+    public ResponseEntity<PhotographerResponse> deletePhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer) throws PhotographerException {
         service.deletePhotographer(idPhotographer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> getPhotographerById(@NotNull @PathVariable("id-photographer") String idPhotographer) {
+    public ResponseEntity<PhotographerResponse> getPhotographerById(@NotNull @PathVariable("id-photographer") String idPhotographer) throws PhotographerException {
         PhotographerResponse response = service.getPhotographerById(idPhotographer);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<PhotographerResponse>> getAllPhotographer() {
+    public ResponseEntity<List<PhotographerResponse>> getAllPhotographer() throws PhotographerException {
         List<PhotographerResponse> responseList = service.getAllPhotographer();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }

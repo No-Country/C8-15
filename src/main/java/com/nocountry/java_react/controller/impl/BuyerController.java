@@ -1,16 +1,15 @@
 package com.nocountry.java_react.controller.impl;
 
 import com.nocountry.java_react.commons.constants.Constants;
-import com.nocountry.java_react.exception.BuyerException;
-import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.controller.IBuyerController;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestPassword;
 import com.nocountry.java_react.dto.response.BuyerResponse;
 import com.nocountry.java_react.dto.response.PhotographerResponse;
+import com.nocountry.java_react.exception.BuyerException;
+import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.exception.PhotoException;
-import com.nocountry.java_react.exception.PhotographerException;
 import com.nocountry.java_react.service.IBuyerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,7 +34,7 @@ public class BuyerController implements IBuyerController {
     private final IBuyerService service;
 
     @Override
-    public ResponseEntity<BuyerResponse> createBuyer(@Valid @RequestBody BuyerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
+    public ResponseEntity<BuyerResponse> createBuyer(@Valid @RequestBody BuyerRequestCreate request) throws EmailAlreadyExistException, BuyerException {
         BuyerResponse response = service.saveBuyer(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

@@ -3,15 +3,14 @@ package com.nocountry.java_react.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.commons.enums.EPathUpload;
-import com.nocountry.java_react.exception.BuyerException;
-import com.nocountry.java_react.exception.EmailAlreadyExistException;
-import com.nocountry.java_react.exception.PhotoException;
 import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestPassword;
 import com.nocountry.java_react.dto.response.BuyerResponse;
-import com.nocountry.java_react.exception.PhotographerException;
+import com.nocountry.java_react.exception.BuyerException;
+import com.nocountry.java_react.exception.EmailAlreadyExistException;
+import com.nocountry.java_react.exception.PhotoException;
 import com.nocountry.java_react.mapper.BuyerMapper;
 import com.nocountry.java_react.model.Buyer;
 import com.nocountry.java_react.model.Photo;
@@ -43,7 +42,7 @@ public class BuyerServiceImpl implements IBuyerService {
 
     @Override
     @Transactional
-    public BuyerResponse saveBuyer(BuyerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
+    public BuyerResponse saveBuyer(BuyerRequestCreate request) throws EmailAlreadyExistException, BuyerException {
         Buyer entity = new Buyer();
         Buyer entityForConvert = mapper.convertToEntity(entity, request);
         Buyer entityForSave = repository.save(entityForConvert);

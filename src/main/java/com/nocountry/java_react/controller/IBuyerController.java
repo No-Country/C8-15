@@ -1,14 +1,13 @@
 package com.nocountry.java_react.controller;
 
-import com.nocountry.java_react.exception.BuyerException;
-import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestPassword;
 import com.nocountry.java_react.dto.response.BuyerResponse;
 import com.nocountry.java_react.dto.response.PhotographerResponse;
+import com.nocountry.java_react.exception.BuyerException;
+import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.exception.PhotoException;
-import com.nocountry.java_react.exception.PhotographerException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +26,7 @@ import java.util.List;
 public interface IBuyerController {
 
     @PostMapping(path = "/save-buyer", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<BuyerResponse> createBuyer(@Valid @RequestBody BuyerRequestCreate request) throws EmailAlreadyExistException, PhotographerException;
+    ResponseEntity<BuyerResponse> createBuyer(@Valid @RequestBody BuyerRequestCreate request) throws EmailAlreadyExistException, BuyerException;
 
     @PutMapping(path = "/modify-buyer/{id-buyer}", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<BuyerResponse> modifyBuyer(@NotNull @PathVariable("id-buyer") String idBuyer,

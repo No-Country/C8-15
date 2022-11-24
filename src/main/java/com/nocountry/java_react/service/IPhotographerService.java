@@ -20,19 +20,19 @@ public interface IPhotographerService {
     PhotographerResponse savePhotographer(PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException;
 
     @Transactional
-    PhotographerResponse modifyPhotographer(String idPhotographer, PhotographerRequestModify request) throws EmailAlreadyExistException;
+    PhotographerResponse modifyPhotographer(String idPhotographer, PhotographerRequestModify request) throws EmailAlreadyExistException, PhotographerException;
 
     @Transactional
     PhotographerResponse modifyPassword(String idPhotographer, PhotographerRequestPassword request) throws PhotographerException;
 
     @Transactional
-    void deletePhotographer(String idPhotographer);
+    void deletePhotographer(String idPhotographer) throws PhotographerException;
 
     @Transactional(readOnly = true)
-    PhotographerResponse getPhotographerById(String idPhotographer);
+    PhotographerResponse getPhotographerById(String idPhotographer) throws PhotographerException;
 
     @Transactional(readOnly = true)
-    List<PhotographerResponse> getAllPhotographer();
+    List<PhotographerResponse> getAllPhotographer() throws PhotographerException;
 
     @Transactional
     void addPhotoToPhotographer(String idPhotographer, String stringRequest, MultipartFile photo) throws PhotographerException, PhotoException;

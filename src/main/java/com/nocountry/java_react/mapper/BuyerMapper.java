@@ -1,17 +1,17 @@
 package com.nocountry.java_react.mapper;
 
-import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.commons.enums.EUserRole;
-import com.nocountry.java_react.exception.EmailAlreadyExistException;
-import com.nocountry.java_react.exception.PhotographerException;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestPassword;
 import com.nocountry.java_react.dto.response.BuyerResponse;
 import com.nocountry.java_react.dto.response.PhotoResponse;
+import com.nocountry.java_react.exception.BuyerException;
+import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.model.Buyer;
 import com.nocountry.java_react.repository.IBuyerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
@@ -28,11 +29,12 @@ public class BuyerMapper {
     private final PhotoMapper photoMapper;
     private final BCryptPasswordEncoder passwordEncoder;
     private final IBuyerRepository repository;
+    private final MessageSource messageSource;
 
-    public Buyer convertToEntity(Buyer entity, BuyerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
+    public Buyer convertToEntity(Buyer entity, BuyerRequestCreate request) throws EmailAlreadyExistException, BuyerException {
         boolean existMail = repository.existsByEmail(request.getEmail());
         if (existMail) {
-            throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
+            throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
         }
         if (request.getName() != null) entity.setName(request.getName());
         if (request.getSurname() != null) entity.setSurname(request.getSurname());
@@ -41,7 +43,7 @@ public class BuyerMapper {
                 && request.getConfirmPassword().equals(request.getPassword())) {
             entity.setPassword(encryptPassword(request.getPassword()));
         } else {
-            throw new PhotographerException(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString());
+            throw new BuyerException(messageSource.getMessage("passwords.do.not.match", null, Locale.ENGLISH));
         }
         entity.setRole(role);
         return entity;
@@ -55,7 +57,7 @@ public class BuyerMapper {
         if (existMail && requestEmail.equals(entityEmail)) {
             extractedForConvertToEntityModifyBasic(entity, request);
         } else if (existMail) {
-            throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
+            throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
         } else {
             extractedForConvertToEntityModifyFull(entity, request);
         }
@@ -120,7 +122,7 @@ public class BuyerMapper {
         return password;
     }
 
-    public Buyer convertToEntityModifyPassword(Buyer entity, BuyerRequestPassword request) throws PhotographerException {
+    public Buyer convertToEntityModifyPassword(Buyer entity, BuyerRequestPassword request) throws BuyerException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         boolean passwordChecker = encoder.matches(request.getOldPassword(), entity.getPassword());
         if (passwordChecker) {
@@ -128,11 +130,11 @@ public class BuyerMapper {
                 if (request.getConfirmPassword() != null && request.getConfirmPassword().equals(request.getPassword())) {
                     entity.setPassword(encryptPassword(request.getPassword()));
                 } else {
-                    throw new PhotographerException(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString());
+                    throw new BuyerException(messageSource.getMessage("passwords.do.not.match", null, Locale.ENGLISH));
                 }
             }
         } else {
-            throw new PhotographerException(EExceptionMessage.WRONG_PASSWORD.toString());
+            throw new BuyerException(messageSource.getMessage("wrong.password", null, Locale.ENGLISH));
         }
         return entity;
     }
