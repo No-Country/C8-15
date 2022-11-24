@@ -1,5 +1,6 @@
 package com.nocountry.java_react.mapper;
 
+import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.commons.enums.EUserRole;
 import com.nocountry.java_react.dto.request.photographer.PhotographerRequestCreate;
 import com.nocountry.java_react.dto.request.photographer.PhotographerRequestModify;
@@ -34,7 +35,8 @@ public class PhotographerMapper {
     public Photographer convertToEntity(Photographer entity, PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
         boolean existMail = repository.existsByEmail(request.getEmail());
         if (existMail) {
-            throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
+            //throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
+            throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
         }
         if (request.getName() != null) entity.setName(request.getName());
         if (request.getSurname() != null) entity.setSurname(request.getSurname());
