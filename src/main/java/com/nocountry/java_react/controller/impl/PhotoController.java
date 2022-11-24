@@ -5,6 +5,7 @@ import com.nocountry.java_react.commons.enums.EPathUpload;
 import com.nocountry.java_react.controller.IPhotoController;
 import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.response.PhotoResponse;
+import com.nocountry.java_react.exception.PhotoException;
 import com.nocountry.java_react.service.IPhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -36,7 +37,7 @@ public class PhotoController implements IPhotoController {
 
     @Override
     public ResponseEntity<PhotoResponse> uploadPhoto(String stringRequest,
-                                                     @RequestParam("photo") MultipartFile photo) {
+                                                     @RequestParam("photo") MultipartFile photo) throws PhotoException {
         PhotoRequest photoRequest = new PhotoRequest();
         try {
             photoRequest = new ObjectMapper().readValue(stringRequest, PhotoRequest.class);
@@ -50,7 +51,7 @@ public class PhotoController implements IPhotoController {
     @Override
     public ResponseEntity<PhotoResponse> modifyPhoto(@NotNull @PathVariable("id-photo") String idPhoto,
                                                      String stringRequest,
-                                                     @RequestParam(value = "photo", required = false) MultipartFile photo) {
+                                                     @RequestParam(value = "photo", required = false) MultipartFile photo) throws PhotoException {
         PhotoRequest photoRequest = new PhotoRequest();
         try {
             photoRequest = new ObjectMapper().readValue(stringRequest, PhotoRequest.class);
@@ -62,7 +63,7 @@ public class PhotoController implements IPhotoController {
     }
 
     @Override
-    public ResponseEntity<PhotoResponse> deletePhoto(@NotNull @PathVariable("id-photo") String idPhoto) {
+    public ResponseEntity<PhotoResponse> deletePhoto(@NotNull @PathVariable("id-photo") String idPhoto) throws PhotoException {
         service.deletePhotoById(idPhoto, pathFolderUpload);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -74,7 +75,7 @@ public class PhotoController implements IPhotoController {
     }
 
     @Override
-    public ResponseEntity<PhotoResponse> getPhotoById(@NotNull @PathVariable("id-photo") String idPhoto) {
+    public ResponseEntity<PhotoResponse> getPhotoById(@NotNull @PathVariable("id-photo") String idPhoto) throws PhotoException {
         PhotoResponse response = service.getPhotoResponse(service.getPhotoById(idPhoto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

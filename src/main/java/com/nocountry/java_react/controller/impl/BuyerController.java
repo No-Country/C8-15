@@ -1,9 +1,16 @@
 package com.nocountry.java_react.controller.impl;
 
 import com.nocountry.java_react.commons.constants.Constants;
+import com.nocountry.java_react.exception.BuyerException;
+import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.controller.IBuyerController;
-import com.nocountry.java_react.dto.request.BuyerRequest;
+import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
+import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
+import com.nocountry.java_react.dto.request.buyer.BuyerRequestPassword;
 import com.nocountry.java_react.dto.response.BuyerResponse;
+import com.nocountry.java_react.dto.response.PhotographerResponse;
+import com.nocountry.java_react.exception.PhotoException;
+import com.nocountry.java_react.exception.PhotographerException;
 import com.nocountry.java_react.service.IBuyerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -27,33 +35,58 @@ public class BuyerController implements IBuyerController {
     private final IBuyerService service;
 
     @Override
-    public ResponseEntity<BuyerResponse> create(@Valid @RequestBody BuyerRequest request) {
+    public ResponseEntity<BuyerResponse> createBuyer(@Valid @RequestBody BuyerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
         BuyerResponse response = service.saveBuyer(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<BuyerResponse> modify(@NotNull @PathVariable("id-buyer") String idBuyer,
-                                                @Valid @RequestBody BuyerRequest request) {
+    public ResponseEntity<BuyerResponse> modifyBuyer(@NotNull @PathVariable("id-buyer") String idBuyer,
+                                                     @Valid @RequestBody BuyerRequestModify request) throws EmailAlreadyExistException {
         BuyerResponse response = service.modifyBuyer(idBuyer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<BuyerResponse> delete(@NotNull @PathVariable("id-buyer") String idBuyer) {
+    public ResponseEntity<BuyerResponse> modifyPassword(@NotNull @PathVariable("id-buyer") String idBuyer,
+                                                        @Valid @RequestBody BuyerRequestPassword request) throws BuyerException {
+        BuyerResponse response = service.modifyPassword(idBuyer, request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<BuyerResponse> deleteBuyer(@NotNull @PathVariable("id-buyer") String idBuyer) {
         service.deleteBuyer(idBuyer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
-    public ResponseEntity<BuyerResponse> getById(@NotNull @PathVariable("id-buyer") String idBuyer) {
+    public ResponseEntity<BuyerResponse> getBuyerById(@NotNull @PathVariable("id-buyer") String idBuyer) {
         BuyerResponse response = service.getBuyerById(idBuyer);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<BuyerResponse>> getAll() {
+    public ResponseEntity<List<BuyerResponse>> getAllBuyer() {
         List<BuyerResponse> responseList = service.getAllBuyer();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<PhotographerResponse> addPhotoToBuyer(String idBuyer, String stringRequest, MultipartFile photo) throws BuyerException, PhotoException {
+        service.addPhotoToBuyer(idBuyer, stringRequest, photo);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
+    public ResponseEntity<PhotographerResponse> removePhotoToBuyer(String idBuyer, String idPhoto) throws PhotoException, BuyerException {
+        service.removePhotoToBuyer(idBuyer, idPhoto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
+    public ResponseEntity<PhotographerResponse> removeAllPhotosToBuyer(String idBuyer) throws BuyerException, PhotoException {
+        service.removeAllPhotosToBuyer(idBuyer);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

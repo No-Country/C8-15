@@ -29,7 +29,8 @@ public class PhotoMapper {
         entity.setAuthor(photoRequest.getAuthor());
         entity.setLocation(photoRequest.getLocation());
         entity.setDescription(photoRequest.getDescription());
-        BigDecimal price = BigDecimal.valueOf(photoRequest.getPrice()).setScale(2, RoundingMode.HALF_UP);
+        double stringToDouble = Double.parseDouble(photoRequest.getPrice().replace(",", "."));
+        BigDecimal price = BigDecimal.valueOf(stringToDouble).setScale(2, RoundingMode.HALF_UP);
         entity.setPrice(price.doubleValue());
     }
 
@@ -43,7 +44,8 @@ public class PhotoMapper {
         entity.setAuthor(photoRequest.getAuthor());
         entity.setLocation(photoRequest.getLocation());
         entity.setDescription(photoRequest.getDescription());
-        BigDecimal price = BigDecimal.valueOf(photoRequest.getPrice()).setScale(2, RoundingMode.HALF_UP);
+        double stringToDouble = Double.parseDouble(photoRequest.getPrice().replace(",", "."));
+        BigDecimal price = BigDecimal.valueOf(stringToDouble).setScale(2, RoundingMode.HALF_UP);
         entity.setPrice(price.doubleValue());
     }
 

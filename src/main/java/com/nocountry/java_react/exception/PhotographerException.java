@@ -1,8 +1,8 @@
-package com.nocountry.java_react.config.exception;
+package com.nocountry.java_react.exception;
 
 import java.io.Serial;
 
-public class PhotographerException extends RuntimeException {
+public class PhotographerException extends Exception {
 
     @Serial
     private static final long serialVersionUID = 1L;

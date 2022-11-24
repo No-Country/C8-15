@@ -1,6 +1,5 @@
 package com.nocountry.java_react.exception;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,12 +12,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-
-
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
-        @Override
+    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
@@ -26,7 +23,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
 
-            
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
@@ -35,7 +31,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    /*Ejemplo value={} cclase de la excepcion a manejar
+    /*Ejemplo value={} clase de la excepción a manejar
 
     
     @ExceptionHandler(value = {AlreadyExistsException.class})
@@ -47,7 +43,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false));
 
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST); dependiendo del error va a cambiar el httpStatus badrequest,forbidden,not found,ect
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST); dependiendo del error va a cambiar el httpStatus bad request,forbidden,not found,ect
     }
     
     */

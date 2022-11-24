@@ -62,7 +62,7 @@ public class User implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false)
-    protected Date created = new Date();
+    protected final Date created = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = " updated")

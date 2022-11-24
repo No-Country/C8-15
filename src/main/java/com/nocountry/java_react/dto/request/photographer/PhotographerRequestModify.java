@@ -1,15 +1,13 @@
-package com.nocountry.java_react.dto.request;
+package com.nocountry.java_react.dto.request.photographer;
 
 import lombok.Data;
 
 @Data
-public class PhotographerRequest {
+public class PhotographerRequestModify {
     
     private String name;
     private String surname;
     private String email;
-    private String userName;
-    private String password;
     private String telephone;
     private String city;
     private String country;

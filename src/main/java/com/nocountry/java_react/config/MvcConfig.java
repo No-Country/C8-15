@@ -8,7 +8,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class MvcConfig implements WebMvcConfigurer{
+public class MvcConfig implements WebMvcConfigurer {
 
     @Bean
     public MessageSource messageSource() {
@@ -23,8 +23,5 @@ public class MvcConfig implements WebMvcConfigurer{
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());
         return bean;
-
-
     }
-    
 }

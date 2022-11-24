@@ -3,11 +3,14 @@ package com.nocountry.java_react.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.commons.enums.EPathUpload;
-import com.nocountry.java_react.config.exception.PhotographerException;
+import com.nocountry.java_react.exception.EmailAlreadyExistException;
+import com.nocountry.java_react.exception.PhotographerException;
 import com.nocountry.java_react.dto.request.PhotoRequest;
-import com.nocountry.java_react.dto.request.PhotographerRequest;
+import com.nocountry.java_react.dto.request.photographer.PhotographerRequestCreate;
+import com.nocountry.java_react.dto.request.photographer.PhotographerRequestModify;
+import com.nocountry.java_react.dto.request.photographer.PhotographerRequestPassword;
 import com.nocountry.java_react.dto.response.PhotographerResponse;
-import com.nocountry.java_react.config.exception.PhotoException;
+import com.nocountry.java_react.exception.PhotoException;
 import com.nocountry.java_react.mapper.PhotographerMapper;
 import com.nocountry.java_react.model.Photo;
 import com.nocountry.java_react.model.Photographer;
@@ -40,7 +43,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional
-    public PhotographerResponse savePhotographer(PhotographerRequest request) {
+    public PhotographerResponse savePhotographer(PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
         Photographer entity = new Photographer();
         Photographer entityForConvert = mapper.convertToEntity(entity, request);
         Photographer entityForSave = repository.save(entityForConvert);
@@ -49,11 +52,29 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional
-    public PhotographerResponse modifyPhotographer(String idPhotographer, PhotographerRequest request) {
+    public PhotographerResponse modifyPhotographer(String idPhotographer, PhotographerRequestModify request) throws EmailAlreadyExistException {
         Photographer entity = repository.getReferenceById(idPhotographer);
-        Photographer entityForConvert = mapper.convertToEntity(entity, request);
+        Photographer entityForConvert = mapper.convertToEntityModify(entity, request);
         Photographer entityForSave = repository.save(entityForConvert);
         return mapper.convertToResponse(entityForSave);
+    }
+
+    @Override
+    @Transactional
+    public PhotographerResponse modifyPassword(String idPhotographer, PhotographerRequestPassword request) throws PhotographerException {
+        try {
+            Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
+            if (optionalPhotographer.isPresent()) {
+                Photographer photographer = optionalPhotographer.get();
+                Photographer entityForConvert = mapper.convertToEntityModifyPassword(photographer, request);
+                Photographer entityForSave = repository.save(entityForConvert);
+                return mapper.convertToResponse(entityForSave);
+            } else {
+                throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
+            }
+        } catch (Exception exception) {
+            throw new PhotographerException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
+        }
     }
 
     @Override
@@ -88,7 +109,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional
-    public void addPhotoToPhotographer(String idPhotographer, String stringRequest, MultipartFile photo) {
+    public void addPhotoToPhotographer(String idPhotographer, String stringRequest, MultipartFile photo) throws PhotographerException, PhotoException {
         Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
         if (optionalPhotographer.isPresent()) {
             Photographer photographer = repository.getReferenceById(idPhotographer);
@@ -100,7 +121,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
         }
     }
 
-    private void addPhotoToPhotographer(Photographer photographer, String stringRequest, MultipartFile photo) {
+    private void addPhotoToPhotographer(Photographer photographer, String stringRequest, MultipartFile photo) throws PhotoException {
         PhotoRequest photoRequest = new PhotoRequest();
         try {
             photoRequest = new ObjectMapper().readValue(stringRequest, PhotoRequest.class);
@@ -115,7 +136,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional
-    public void removePhotoToPhotographer(String idPhotographer, String idPhoto) {
+    public void removePhotoToPhotographer(String idPhotographer, String idPhoto) throws PhotographerException, PhotoException {
         Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
         if (optionalPhotographer.isPresent()) {
             Photographer photographer = repository.getReferenceById(idPhotographer);
@@ -137,7 +158,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional
-    public void removeAllPhotosToPhotographer(String idPhotographer) {
+    public void removeAllPhotosToPhotographer(String idPhotographer) throws PhotographerException, PhotoException {
         Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
         if (optionalPhotographer.isPresent()) {
             Photographer photographer = repository.getReferenceById(idPhotographer);

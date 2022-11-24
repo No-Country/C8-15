@@ -1,8 +1,13 @@
 package com.nocountry.java_react.controller.impl;
 
+import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.controller.IPhotographerController;
-import com.nocountry.java_react.dto.request.PhotographerRequest;
+import com.nocountry.java_react.dto.request.photographer.PhotographerRequestCreate;
+import com.nocountry.java_react.dto.request.photographer.PhotographerRequestModify;
+import com.nocountry.java_react.dto.request.photographer.PhotographerRequestPassword;
 import com.nocountry.java_react.dto.response.PhotographerResponse;
+import com.nocountry.java_react.exception.PhotoException;
+import com.nocountry.java_react.exception.PhotographerException;
 import com.nocountry.java_react.service.IPhotographerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,15 +35,22 @@ public class PhotographerController implements IPhotographerController {
     private final IPhotographerService service;
 
     @Override
-    public ResponseEntity<PhotographerResponse> create(@Valid @RequestBody PhotographerRequest request) {
+    public ResponseEntity<PhotographerResponse> create(@Valid @RequestBody PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
         PhotographerResponse response = service.savePhotographer(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<PhotographerResponse> modify(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                       @Valid @RequestBody PhotographerRequest request) {
+                                                       @Valid @RequestBody PhotographerRequestModify request) throws EmailAlreadyExistException {
         PhotographerResponse response = service.modifyPhotographer(idPhotographer, request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<PhotographerResponse> modifyPassword(@NotNull @PathVariable("id-photographer") String idPhotographer,
+                                                               @Valid @RequestBody PhotographerRequestPassword request) throws PhotographerException {
+        PhotographerResponse response = service.modifyPassword(idPhotographer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -63,20 +75,20 @@ public class PhotographerController implements IPhotographerController {
     @Override
     public ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
                                                                        String stringRequest,
-                                                                       @RequestParam(value = "photo") MultipartFile photo) {
+                                                                       @RequestParam(value = "photo") MultipartFile photo) throws PhotographerException, PhotoException {
         service.addPhotoToPhotographer(idPhotographer, stringRequest, photo);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
     public ResponseEntity<PhotographerResponse> removeFileToStudent(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                                    @NotNull @PathVariable("id-photo") String idPhoto) {
+                                                                    @NotNull @PathVariable("id-photo") String idPhoto) throws PhotoException, PhotographerException {
         service.removePhotoToPhotographer(idPhotographer, idPhoto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> removeAllPhotosToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer) {
+    public ResponseEntity<PhotographerResponse> removeAllPhotosToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer) throws PhotographerException, PhotoException {
         service.removeAllPhotosToPhotographer(idPhotographer);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

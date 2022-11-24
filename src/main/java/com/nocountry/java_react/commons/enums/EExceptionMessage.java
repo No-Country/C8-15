@@ -9,16 +9,16 @@ public enum EExceptionMessage {
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     ID_NOT_FOUND("ID NOT FOUND"),
-    ID_ALREADY_EXISTS("ID ALREADY EXISTS"),
-    PARAM_NOT_FOUND("PARAM_NOT_FOUND"),
     REQUEST_WRONG_DATA("REQUEST WRONG DATA"),
     RESPONSE_WRONG_DATA("RESPONSE WRONG DATA"),
-    DOCUMENT_ALREADY_EXISTS("DOCUMENT {0} ALREADY EXISTS"),
     EMAIL_ALREADY_EXISTS("EMAIL {0} ALREADY EXISTS"),
+    PASSWORDS_DO_NOT_MATCH("PASSWORDS DO NOT MATCH"),
+    WRONG_PASSWORD("WRONG PASSWORD"),
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     // PHOTO EXCEPTION MESSAGE
     ////////////////////////////////////////////////////////////////////////////////////////////
+
     PHOTO_NOT_FOUND("PHOTO NOT FOUND"),
     THE_FOLDER_CANNOT_BE_INITIALIZED("THE FOLDER CANNOT BE INITIALIZED fileUploads"),
     THE_PHOTO_CANNOT_BE_SAVED("THE PHOTO CANNOT BE SAVED. ERROR "),
@@ -28,7 +28,14 @@ public enum EExceptionMessage {
     ////////////////////////////////////////////////////////////////////////////////////////////
     // PHOTOGRAPHER EXCEPTION MESSAGE
     ////////////////////////////////////////////////////////////////////////////////////////////
-    PHOTOGRAPHER_NOT_FOUND("PHOTOGRAPHER NOT FOUND");
+
+    PHOTOGRAPHER_NOT_FOUND("PHOTOGRAPHER NOT FOUND"),
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // BUYER EXCEPTION MESSAGE
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    BUYER_NOT_FOUND("BUYER NOT FOUND");
 
     private final String messageString;
 
