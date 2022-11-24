@@ -63,7 +63,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
         try {
             Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
             if (optionalPhotographer.isPresent()) {
-                Photographer entity = repository.getReferenceById(idPhotographer);
+                Photographer entity = optionalPhotographer.get();
                 Photographer entityForConvert = mapper.convertToEntityModify(entity, request);
                 Photographer entityForSave = repository.save(entityForConvert);
                 return mapper.convertToResponse(entityForSave);
@@ -96,9 +96,9 @@ public class PhotographerServiceImpl implements IPhotographerService {
     @Override
     @Transactional
     public void deletePhotographer(String idPhotographer) throws PhotographerException {
-        Optional<Photographer> answer = repository.findById(idPhotographer);
-        if (answer.isPresent()) {
-            Photographer entity = answer.get();
+        Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
+        if (optionalPhotographer.isPresent()) {
+            Photographer entity = optionalPhotographer.get();
             entity.setDeleted(!entity.isDeleted());
             entity.setUpdated(new Date());
             repository.save(entity);
@@ -171,7 +171,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
                 photoService.deletePhotoById(idPhoto, pathFolderUpload);
                 repository.save(photographer);
             } else {
-                throw new PhotographerException(messageSource.getMessage("photo.not.found", null, Locale.ENGLISH));
+                throw new PhotoException(messageSource.getMessage("photo.not.found", null, Locale.ENGLISH));
             }
         } else {
             throw new PhotographerException(messageSource.getMessage(PHOTOGRAPHER_NOT_FOUND, null, Locale.ENGLISH));

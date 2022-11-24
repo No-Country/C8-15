@@ -7,6 +7,7 @@ import com.nocountry.java_react.dto.response.BuyerResponse;
 import com.nocountry.java_react.exception.BuyerException;
 import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.exception.PhotoException;
+import com.nocountry.java_react.exception.PhotographerException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,19 +21,19 @@ public interface IBuyerService {
     BuyerResponse saveBuyer(BuyerRequestCreate request) throws EmailAlreadyExistException, BuyerException;
 
     @Transactional
-    BuyerResponse modifyBuyer(String idBuyer, BuyerRequestModify request) throws EmailAlreadyExistException;
+    BuyerResponse modifyBuyer(String idBuyer, BuyerRequestModify request) throws EmailAlreadyExistException, BuyerException;
 
     @Transactional
     BuyerResponse modifyPassword(String idBuyer, BuyerRequestPassword request) throws BuyerException;
 
     @Transactional
-    void deleteBuyer(String idBuyer);
+    void deleteBuyer(String idBuyer) throws BuyerException;
 
     @Transactional(readOnly = true)
-    BuyerResponse getBuyerById(String idBuyer);
+    BuyerResponse getBuyerById(String idBuyer) throws BuyerException;
 
     @Transactional(readOnly = true)
-    List<BuyerResponse> getAllBuyer();
+    List<BuyerResponse> getAllBuyer() throws BuyerException;
 
     @Transactional
     void addPhotoToBuyer(String idBuyer, String stringRequest, MultipartFile photo) throws BuyerException, PhotoException;

@@ -30,7 +30,7 @@ public interface IBuyerController {
 
     @PutMapping(path = "/modify-buyer/{id-buyer}", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<BuyerResponse> modifyBuyer(@NotNull @PathVariable("id-buyer") String idBuyer,
-                                              @Valid @RequestBody BuyerRequestModify request) throws EmailAlreadyExistException;
+                                              @Valid @RequestBody BuyerRequestModify request) throws EmailAlreadyExistException, BuyerException;
 
     @PostMapping(path = "/modify-password/{id-buyer}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,13 +38,13 @@ public interface IBuyerController {
                                                  @Valid @RequestBody BuyerRequestPassword request) throws BuyerException;
 
     @DeleteMapping(path = "/delete-buyer/{id-buyer}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<BuyerResponse> deleteBuyer(@NotNull @PathVariable("id-buyer") String idBuyer);
+    ResponseEntity<BuyerResponse> deleteBuyer(@NotNull @PathVariable("id-buyer") String idBuyer) throws BuyerException;
 
     @GetMapping(path = "/get-by-id/{id-buyer}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<BuyerResponse> getBuyerById(@NotNull @PathVariable("id-buyer") String idBuyer);
+    ResponseEntity<BuyerResponse> getBuyerById(@NotNull @PathVariable("id-buyer") String idBuyer) throws BuyerException;
 
     @GetMapping(path = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<BuyerResponse>> getAllBuyer();
+    ResponseEntity<List<BuyerResponse>> getAllBuyer() throws BuyerException;
 
     @PostMapping(path = "/add-photo/{id-buyer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)

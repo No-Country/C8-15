@@ -41,7 +41,7 @@ public class BuyerController implements IBuyerController {
 
     @Override
     public ResponseEntity<BuyerResponse> modifyBuyer(@NotNull @PathVariable("id-buyer") String idBuyer,
-                                                     @Valid @RequestBody BuyerRequestModify request) throws EmailAlreadyExistException {
+                                                     @Valid @RequestBody BuyerRequestModify request) throws EmailAlreadyExistException, BuyerException {
         BuyerResponse response = service.modifyBuyer(idBuyer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -54,19 +54,19 @@ public class BuyerController implements IBuyerController {
     }
 
     @Override
-    public ResponseEntity<BuyerResponse> deleteBuyer(@NotNull @PathVariable("id-buyer") String idBuyer) {
+    public ResponseEntity<BuyerResponse> deleteBuyer(@NotNull @PathVariable("id-buyer") String idBuyer) throws BuyerException {
         service.deleteBuyer(idBuyer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
-    public ResponseEntity<BuyerResponse> getBuyerById(@NotNull @PathVariable("id-buyer") String idBuyer) {
+    public ResponseEntity<BuyerResponse> getBuyerById(@NotNull @PathVariable("id-buyer") String idBuyer) throws BuyerException {
         BuyerResponse response = service.getBuyerById(idBuyer);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<BuyerResponse>> getAllBuyer() {
+    public ResponseEntity<List<BuyerResponse>> getAllBuyer() throws BuyerException {
         List<BuyerResponse> responseList = service.getAllBuyer();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
