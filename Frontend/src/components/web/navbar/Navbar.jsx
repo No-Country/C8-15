@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, 
+import {
+  AppBar, 
   Toolbar,
   Typography,
   Container,
@@ -11,10 +12,11 @@ import { AppBar,
   Box,
   Button
 } from '@mui/material';
+import ScrollColor from './colorNavScroll';
 import SearchIcon from '@mui/icons-material/Search'
 import MenuIcon from '@mui/icons-material/Menu'
-import theme from '../../../themeConfig'
 import Logo  from '../../../assets/pngwing.com.png'
+
 
 
 
@@ -24,9 +26,9 @@ const Navbar = () => {
   position: 'relative',
   borderRadius:'100px',
   border:'0.5px solid  #000000 ',
-  backgroundColor: alpha(theme.palette.common.white, 0.7),
+  backgroundColor: alpha(theme.palette.common.white, 0.6),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.7),
+    backgroundColor: alpha(theme.palette.common.white, 0.6),
   },
   marginLeft: 0,
   width: '100%',
@@ -79,18 +81,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
     return (
       <>
-      <AppBar  position='fixed'theme={theme} 
-      sx={{
-        backgroundColor:'rgb( 255, 255,255 ,.5)'
-      }}>
-      <Container maxwidth="xl"   
-      >
+      <ScrollColor>
+      <AppBar  position='fixed'>
+      <Container maxwidth="xl">
         <Toolbar disableGutters  >
           <IconButton href="/" >
-          <img src={Logo} width='35px' alt="logo" 
-          sx={{
-            opacity:'0.5'
-          }}/>
+          <img src={Logo} width='35px' alt="logo"/>
           </IconButton>
           {/* <Typography
             variant="h6"
@@ -190,6 +186,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         </Toolbar>
       </Container>
     </AppBar>
+    </ScrollColor>
     </>
     );
   };
