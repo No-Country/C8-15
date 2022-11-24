@@ -34,10 +34,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BuyerServiceImpl implements IBuyerService {
 
-    private static final String REQUEST_WRONG_DATA = "request.wrong.data";
-    private static final String BUYER_NOT_FOUND = "buyer.not.found";
     private final Path pathFolderUpload = Paths.get(EPathUpload.CREATE_BUYER_FOLDER.toString());
     private final String pathFileUpload = EPathUpload.PATH_BUYER_IMAGE.toString();
+    private static final String REQUEST_WRONG_DATA = "request.wrong.data";
+    private static final String BUYER_NOT_FOUND = "buyer.not.found";
     private final IBuyerRepository repository;
     private final BuyerMapper mapper;
     private final IPhotoService photoService;

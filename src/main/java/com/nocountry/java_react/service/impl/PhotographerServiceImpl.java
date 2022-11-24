@@ -34,10 +34,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PhotographerServiceImpl implements IPhotographerService {
 
-    private static final String REQUEST_WRONG_DATA = "request.wrong.data";
-    private static final String PHOTOGRAPHER_NOT_FOUND = "photographer.not.found";
     private final Path pathFolderUpload = Paths.get(EPathUpload.CREATE_PHOTOGRAPHER_FOLDER.toString());
     private final String pathFileUpload = EPathUpload.PATH_PHOTOGRAPHER_IMAGE.toString();
+    private static final String REQUEST_WRONG_DATA = "request.wrong.data";
+    private static final String PHOTOGRAPHER_NOT_FOUND = "photographer.not.found";
     private final IPhotographerRepository repository;
     private final IPhotoRepository photoRepository;
     private final PhotographerMapper mapper;
