@@ -18,6 +18,7 @@ public interface IPhotographerService {
 
     @Transactional
     PhotographerResponse savePhotographer(PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException;
+
     @Transactional
     PhotographerResponse modifyPhotographer(String idPhotographer, PhotographerRequestModify request) throws EmailAlreadyExistException;
 

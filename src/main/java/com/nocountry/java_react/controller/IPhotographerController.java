@@ -24,11 +24,11 @@ import java.util.List;
 
 public interface IPhotographerController {
     @PostMapping(path = "/save-photographer", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PhotographerResponse> create(@Valid @RequestBody PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException;
+    ResponseEntity<PhotographerResponse> createPhotographer(@Valid @RequestBody PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException;
 
     @PutMapping(path = "/modify-photographer/{id-photographer}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PhotographerResponse> modify(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                       @Valid @RequestBody PhotographerRequestModify request) throws EmailAlreadyExistException;
+    ResponseEntity<PhotographerResponse> modifyPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
+                                                            @Valid @RequestBody PhotographerRequestModify request) throws EmailAlreadyExistException;
 
     @PostMapping(path = "/modify-password/{id-photographer}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,19 +36,19 @@ public interface IPhotographerController {
                                                         @Valid @RequestBody PhotographerRequestPassword request) throws PhotographerException;
 
     @DeleteMapping(path = "/delete-photographer/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PhotographerResponse> delete(@NotNull @PathVariable("id-photographer") String idPhotographer);
+    ResponseEntity<PhotographerResponse> deletePhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer);
 
     @GetMapping(path = "/get-by-id/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PhotographerResponse> getById(@NotNull @PathVariable("id-photographer") String idPhotographer);
+    ResponseEntity<PhotographerResponse> getPhotographerById(@NotNull @PathVariable("id-photographer") String idPhotographer);
 
     @GetMapping(path = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<PhotographerResponse>> getAll();
+    ResponseEntity<List<PhotographerResponse>> getAllPhotographer();
 
     @PostMapping(path = "/add-photo/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                                       String stringRequest,
-                                                                       @RequestParam(value = "photo") MultipartFile photo) throws PhotographerException, PhotoException;
+    ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
+                                                                String stringRequest,
+                                                                @RequestParam(value = "photo") MultipartFile photo) throws PhotographerException, PhotoException;
 
     @DeleteMapping(path = "/remove-photo/{id-photographer}/photo/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotographerResponse> removeFileToStudent(@NotNull @PathVariable("id-photographer") String idPhotographer,

@@ -35,13 +35,13 @@ public class PhotographerController implements IPhotographerController {
     private final IPhotographerService service;
 
     @Override
-    public ResponseEntity<PhotographerResponse> create(@Valid @RequestBody PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
+    public ResponseEntity<PhotographerResponse> createPhotographer(@Valid @RequestBody PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
         PhotographerResponse response = service.savePhotographer(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> modify(@NotNull @PathVariable("id-photographer") String idPhotographer,
+    public ResponseEntity<PhotographerResponse> modifyPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
                                                        @Valid @RequestBody PhotographerRequestModify request) throws EmailAlreadyExistException {
         PhotographerResponse response = service.modifyPhotographer(idPhotographer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -55,19 +55,19 @@ public class PhotographerController implements IPhotographerController {
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> delete(@NotNull @PathVariable("id-photographer") String idPhotographer) {
+    public ResponseEntity<PhotographerResponse> deletePhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer) {
         service.deletePhotographer(idPhotographer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> getById(@NotNull @PathVariable("id-photographer") String idPhotographer) {
+    public ResponseEntity<PhotographerResponse> getPhotographerById(@NotNull @PathVariable("id-photographer") String idPhotographer) {
         PhotographerResponse response = service.getPhotographerById(idPhotographer);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<PhotographerResponse>> getAll() {
+    public ResponseEntity<List<PhotographerResponse>> getAllPhotographer() {
         List<PhotographerResponse> responseList = service.getAllPhotographer();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }

@@ -43,7 +43,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     @Override
     @Transactional
-    public PhotographerResponse savePhotographer(PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
+    public PhotographerResponse savePhotographer(PhotographerRequestCreate request) throws PhotographerException, EmailAlreadyExistException {
         Photographer entity = new Photographer();
         Photographer entityForConvert = mapper.convertToEntity(entity, request);
         Photographer entityForSave = repository.save(entityForConvert);
