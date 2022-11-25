@@ -72,9 +72,9 @@ const infoCard =[
     />
     <CardContent>
       <Typography variant="body2" color="text.secondary">
-        <p>{ tittle } </p>
-        <p>{ descripcion }</p>
-        <p>{ date }</p>
+        { tittle } <br/>
+        { descripcion }<br/>
+        { date } <br/>
       </Typography>
     </CardContent>
     <CardActions sx={{

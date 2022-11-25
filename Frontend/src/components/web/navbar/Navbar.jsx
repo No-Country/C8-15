@@ -1,4 +1,5 @@
 import * as React from 'react';
+import  { NavLink } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import {
   AppBar, 
@@ -66,7 +67,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-  const pages = ['Acerca de','Categorias', 'Ingresar', 'Registrarse'];
+  const pages = [
+    {
+      name:'Acerca de',
+      link:'AboutUs'
+    },
+    {
+      name:'Categorias',
+      link:'categories'
+    }, 
+    {
+      name:'Ingresar',
+      link:'/login'
+    }, 
+    {
+      name:'Registrarse',
+      link:'/register'
+    }
+  ];
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
   
@@ -85,7 +103,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       <AppBar  position='fixed'>
       <Container maxwidth="xl">
         <Toolbar disableGutters  >
-          <IconButton href="/" >
+          <IconButton
+          component={ NavLink }
+          to='/'>
           <img src={Logo} width='35px' alt="logo"/>
           </IconButton>
           {/* <Typography
@@ -137,13 +157,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
           flexGrow:6,
           display: { xs: 'none', md: 'flex' } ,
           justifyContent: 'flex-end' }}>
-            {pages.map((page) => (
+            {pages.map(({ name,link }) => (
               <Button
-              key={page}
+              component={ NavLink }
+              to={ link }
+              key={ link }
               onClick={handleCloseNavMenu}
+              underline='none'
               sx={{ my: 2, color: '#000000', display: 'block', padding:'1px 20px' }}
               >
-                {page}
+                { name }
               </Button>
             ))}
           </Box>
@@ -176,9 +199,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
                     display: { xs: 'block', md: 'none' },
                   }}
                 >
-                  {pages.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu} >
-                      <Typography textAlign="center" color="#000000"  >{page}</Typography>
+                  {pages.map(({name, link}) => (
+                    <MenuItem key={link} onClick={handleCloseNavMenu} >
+                      <Typography textAlign="center" color="#000000"  >{ name}</Typography>
                     </MenuItem>
                   ))}
                 </Menu>

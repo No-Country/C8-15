@@ -14,7 +14,7 @@ const Feactured = () =>
       fontSize={'40px'}
       sx={{
         margin:'20px 20px 20px 20px',
-        padding:'20px 20px 20px 20px'
+        padding:'20px 20px 20px 20px',
         // textShadow:'0px 4px 4px',
       }}>
         Profesionales sugeridos

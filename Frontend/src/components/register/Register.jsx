@@ -1,35 +1,28 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+import
+  {
+    Grid,
+    CssBaseline,
+    Box,
+    Paper,
+    Button,
+    TextField,
+    FormControlLabel,
+    Checkbox,
+    Typography,
+    CardMedia
+  } from '@mui/material'
+import theme from '../../themeConfig'
+import LogoBW from '../../components/web/footer/static/logo blanco viewfinder.png'
+import Navbar from '../../components/web/navbar/Navbar'
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
-const theme = createTheme();
+const Register = () =>
+{
 
-export default function SignInSide() {
-  const handleSubmit = (event) => {
+
+  const handleSubmit = (event) =>
+  {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -38,9 +31,11 @@ export default function SignInSide() {
     });
   };
 
+
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+    <>
+      <Navbar />
+      <Grid container component="main" sx={{ height: '100vh' }} >
         <CssBaseline />
         <Grid
           item
@@ -48,14 +43,26 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundImage: 'url(https://source.unsplash.com/random/?land)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+              t.palette.mode === 'light' ? t.palette.grey[ 50 ] : t.palette.grey[ 900 ],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
+        >
+          <CardMedia      
+        component="img"
+        widht='120'
+        height='160'
+        image= { LogoBW }
+        alt='logobw'
+        sx={{
+          position:'relative',
+          margin:' 300px 0px 200px 0px'
+        }}
         />
+          </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -66,19 +73,45 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
+            <Typography component="h1" variant="h5" sx={{ mt: 6 }}>
+              Registrate gratis
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Typography>
+              Ya tienes una cuenta? <Link to='/login' >Ingresa </Link>
+            </Typography>
+            <Box>
+            </Box>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 4 }}>
+              <TextField xs={8} sx={{
+                width: '25ch',
+                mr:1
+                }}
+                margin="normal"
+                required
+                id="firstName"
+                label="Nombre"
+                name="firstName"
+                autoComplete="fisrtName"
+                autoFocus
+              />
+              <TextField xs={8} sx={{
+                width: '25ch',
+                ml:1
+              }}
+                margin="normal"
+                required
+                name="lastName"
+                label="Apellido"
+                type="lastName"
+                id="lastName"
+                autoComplete="lastName"
+              />
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Email"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -93,35 +126,44 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
               />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password2"
+                label="Confirmar contraseña"
+                type="password2"
+                id="password2"
+                autoComplete="current-password2"
+              />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label=" Estoy de acuerdo a los termino y privacidad"
               />
               <Button
+                theme={ theme }
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  color:'primary',
+                  mt: 3, mb: 2 }}
               >
-                Sign In
+                Registrarme
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link to='/login' variant="body2">
+                    {"Ya tienes cuenta? Ingresa"}
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </>
   );
-}
+};
+
+export default Register; 
