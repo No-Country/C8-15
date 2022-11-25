@@ -30,13 +30,13 @@ public class PhotographerRequestCreate {
     @JsonProperty("email")
     private String email;
 
-    @NotBlank(message = "EL PASSWORD DEL FOTÓGRAFO NO PUEDE ESTAR VACÍO O SER NULO")
+    @NotBlank(message = "EL PASSWORD DEL FOTÓGRAFO NO PUEDE ESTAR VACÍA O SER NULA")
     @Size(min = 6, max = 16, message = "EL PASSWORD DEL FOTÓGRAFO DEBE TENER UN MÍNIMO DE 6 CARACTERES Y UN MÁXIMO DE 16")
     @Password(message = "EL PASSWORD DEL FOTÓGRAFO DEBE TENER AL MENOS 1 CARÁCTER EN MAYÚSCULA, 1 CARÁCTER EN MINÚSCULA, 1 NÚMERO Y 1 CARÁCTER ESPECIAL (EJEMPLO: 1Password$)")
     @JsonProperty("password")
     private String password;
 
-    @NotBlank(message = "LA CONFIRMACIÓN DEL PASSWORD DEL FOTÓGRAFO NO PUEDE ESTAR VACÍO O SER NULO")
+    @NotBlank(message = "LA CONFIRMACIÓN DEL PASSWORD DEL FOTÓGRAFO NO PUEDE ESTAR VACÍA O SER NULA")
     @Size(min = 6, max = 16, message = "LA CONFIRMACIÓN DEL PASSWORD DEL FOTÓGRAFO DEBE TENER UN MÍNIMO DE 6 CARACTERES Y UN MÁXIMO DE 16")
     @Password(message = "LA CONFIRMACIÓN DEL PASSWORD DEL FOTÓGRAFO DEBE TENER AL MENOS 1 CARÁCTER EN MAYÚSCULA, 1 CARÁCTER EN MINÚSCULA, 1 NÚMERO Y 1 CARÁCTER ESPECIAL (EJEMPLO: 1Password$)")
     @JsonProperty("confirmPassword")
