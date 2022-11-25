@@ -8,6 +8,7 @@ import com.nocountry.java_react.dto.response.PhotographerResponse;
 import com.nocountry.java_react.exception.BuyerException;
 import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.exception.PhotoException;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -60,4 +61,7 @@ public interface IBuyerController {
 
     @DeleteMapping(path = "/remove-all-photos/{id-buyer}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotographerResponse> removeAllPhotosToBuyer(@NotNull @PathVariable("id-buyer") String idBuyer) throws BuyerException, PhotoException;
+
+    @GetMapping("/download-photo/{id-photo}")
+    ResponseEntity<Resource> downloadPhoto(@PathVariable("id-photo") String idPhoto) throws Exception;
 }
