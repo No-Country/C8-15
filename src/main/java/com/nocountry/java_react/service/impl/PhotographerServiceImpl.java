@@ -1,6 +1,7 @@
 package com.nocountry.java_react.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.commons.enums.EPathUpload;
 import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.request.photographer.PhotographerRequestCreate;
@@ -18,7 +19,6 @@ import com.nocountry.java_react.repository.IPhotographerRepository;
 import com.nocountry.java_react.service.IPhotoService;
 import com.nocountry.java_react.service.IPhotographerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +27,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -36,60 +35,45 @@ public class PhotographerServiceImpl implements IPhotographerService {
 
     private final Path pathFolderUpload = Paths.get(EPathUpload.CREATE_PHOTOGRAPHER_FOLDER.toString());
     private final String pathFileUpload = EPathUpload.PATH_PHOTOGRAPHER_IMAGE.toString();
-    private static final String REQUEST_WRONG_DATA = "request.wrong.data";
-    private static final String PHOTOGRAPHER_NOT_FOUND = "photographer.not.found";
     private final IPhotographerRepository repository;
     private final IPhotoRepository photoRepository;
     private final PhotographerMapper mapper;
     private final IPhotoService photoService;
-    private final MessageSource messageSource;
 
     @Override
     @Transactional
     public PhotographerResponse savePhotographer(PhotographerRequestCreate request) throws PhotographerException, EmailAlreadyExistException {
-        try {
-            Photographer entity = new Photographer();
-            Photographer entityForConvert = mapper.convertToEntity(entity, request);
-            Photographer entityForSave = repository.save(entityForConvert);
-            return mapper.convertToResponse(entityForSave);
-        } catch (PhotographerException exception) {
-            throw new PhotographerException(messageSource.getMessage(REQUEST_WRONG_DATA, null, Locale.ENGLISH));
-        }
+        Photographer entity = new Photographer();
+        Photographer entityForConvert = mapper.convertToEntity(entity, request);
+        Photographer entityForSave = repository.save(entityForConvert);
+        return mapper.convertToResponse(entityForSave);
     }
 
     @Override
     @Transactional
     public PhotographerResponse modifyPhotographer(String idPhotographer, PhotographerRequestModify request) throws EmailAlreadyExistException, PhotographerException {
-        try {
-            Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
-            if (optionalPhotographer.isPresent()) {
-                Photographer entity = optionalPhotographer.get();
-                Photographer entityForConvert = mapper.convertToEntityModify(entity, request);
-                Photographer entityForSave = repository.save(entityForConvert);
-                return mapper.convertToResponse(entityForSave);
-            } else {
-                throw new PhotographerException(messageSource.getMessage(PHOTOGRAPHER_NOT_FOUND, null, Locale.ENGLISH));
-            }
-        } catch (PhotographerException exception) {
-            throw new PhotographerException(messageSource.getMessage(REQUEST_WRONG_DATA, null, Locale.ENGLISH));
+        Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
+        if (optionalPhotographer.isPresent()) {
+            Photographer entity = optionalPhotographer.get();
+            Photographer entityForConvert = mapper.convertToEntityModify(entity, request);
+            Photographer entityForSave = repository.save(entityForConvert);
+            return mapper.convertToResponse(entityForSave);
+        } else {
+            throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
         }
     }
 
     @Override
     @Transactional
     public PhotographerResponse modifyPassword(String idPhotographer, PhotographerRequestPassword request) throws PhotographerException {
-        try {
-            Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
-            if (optionalPhotographer.isPresent()) {
-                Photographer photographer = optionalPhotographer.get();
-                Photographer entityForConvert = mapper.convertToEntityModifyPassword(photographer, request);
-                Photographer entityForSave = repository.save(entityForConvert);
-                return mapper.convertToResponse(entityForSave);
-            } else {
-                throw new PhotographerException(messageSource.getMessage(PHOTOGRAPHER_NOT_FOUND, null, Locale.ENGLISH));
-            }
-        } catch (Exception exception) {
-            throw new PhotographerException(messageSource.getMessage(REQUEST_WRONG_DATA, null, Locale.ENGLISH));
+        Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
+        if (optionalPhotographer.isPresent()) {
+            Photographer photographer = optionalPhotographer.get();
+            Photographer entityForConvert = mapper.convertToEntityModifyPassword(photographer, request);
+            Photographer entityForSave = repository.save(entityForConvert);
+            return mapper.convertToResponse(entityForSave);
+        } else {
+            throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
         }
     }
 
@@ -103,7 +87,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
             entity.setUpdated(new Date());
             repository.save(entity);
         } else {
-            throw new PhotographerException(messageSource.getMessage(PHOTOGRAPHER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
         }
     }
 
@@ -114,7 +98,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
             Photographer entity = repository.getReferenceById(idPhotographer);
             return mapper.convertToResponse(entity);
         } else {
-            throw new PhotographerException(messageSource.getMessage(PHOTOGRAPHER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
         }
     }
 
@@ -125,7 +109,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
         if (!photographerList.isEmpty()) {
             return mapper.convertToResponseList(photographerList);
         } else {
-            throw new PhotographerException(messageSource.getMessage("the.list.of.photographers.is.empty", null, Locale.ENGLISH));
+            throw new PhotographerException(EExceptionMessage.THE_LIST_OF_PHOTOGRAPHERS_IS_EMPTY.toString());
         }
     }
 
@@ -139,7 +123,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
             addPhotoToPhotographer(photographer, stringRequest, photo);
             repository.save(photographer);
         } else {
-            throw new PhotographerException(messageSource.getMessage(PHOTOGRAPHER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
         }
     }
 
@@ -171,10 +155,10 @@ public class PhotographerServiceImpl implements IPhotographerService {
                 photoService.deletePhotoById(idPhoto, pathFolderUpload);
                 repository.save(photographer);
             } else {
-                throw new PhotoException(messageSource.getMessage("photo.not.found", null, Locale.ENGLISH));
+                throw new PhotographerException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
             }
         } else {
-            throw new PhotographerException(messageSource.getMessage(PHOTOGRAPHER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
         }
     }
 
@@ -192,7 +176,7 @@ public class PhotographerServiceImpl implements IPhotographerService {
             photographer.setPhotos(photoList);
             repository.save(photographer);
         } else {
-            throw new PhotographerException(messageSource.getMessage(PHOTOGRAPHER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
         }
     }
 }

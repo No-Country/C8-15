@@ -14,19 +14,19 @@ public class PhotographerRequestCreate {
 
     @NotBlank(message = "EL NOMBRE DEL FOTÓGRAFO NO PUEDE ESTAR VACÍO O SER NULO")
     @Size(min = 3, max = 50, message = "EL NOMBRE DEL FOTÓGRAFO DEBE TENER UN MÍNIMO DE 3 LETRAS Y UN MÁXIMO DE 50")
-    @StartingWithBlankSpaces(message = "EL NOMBRE DEL FOTÓGRAFO NO DEBE COMENZAR CON ESPACIOS EN BLANCO")
+    //@StartingWithBlankSpaces(message = "EL NOMBRE DEL FOTÓGRAFO NO DEBE COMENZAR CON ESPACIOS EN BLANCO")
     @JsonProperty("name")
     private String name;
 
     @NotBlank(message = "EL APELLIDO DEL FOTÓGRAFO NO PUEDE ESTAR VACÍO O SER NULO")
     @Size(min = 3, max = 50, message = "EL APELLIDO DEL FOTÓGRAFO DEBE TENER UN MÍNIMO DE 3 LETRAS Y UN MÁXIMO DE 50")
-    @StartingWithBlankSpaces(message = "EL APELLIDO DEL FOTÓGRAFO NO DEBE COMENZAR CON ESPACIOS EN BLANCO")
+    //@StartingWithBlankSpaces(message = "EL APELLIDO DEL FOTÓGRAFO NO DEBE COMENZAR CON ESPACIOS EN BLANCO")
     @JsonProperty("surname")
     private String surname;
 
     @NotBlank(message = "EL CORREO ELECTRÓNICO DEL FOTÓGRAFO NO PUEDE ESTAR VACÍO O SER NULO")
     @Email(message = "EL CORREO ELECTRÓNICO DEL FOTÓGRAFO DEBE TENER UN FORMATO CORRECTO")
-    @StartingWithBlankSpaces(message = "EL CORREO ELECTRÓNICO DEL FOTÓGRAFO NO DEBE COMENZAR CON ESPACIOS EN BLANCO")
+    //@StartingWithBlankSpaces(message = "EL CORREO ELECTRÓNICO DEL FOTÓGRAFO NO DEBE COMENZAR CON ESPACIOS EN BLANCO")
     @JsonProperty("email")
     private String email;
 

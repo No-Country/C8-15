@@ -80,18 +80,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                     exception);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        if (exception.getMessage().equals(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString())) {
-            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
-                    EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString(),
-                    exception);
-            status = HttpStatus.BAD_REQUEST;
-        }
-        if (exception.getMessage().equals(EExceptionMessage.WRONG_PASSWORD.toString())) {
-            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
-                    EExceptionMessage.WRONG_PASSWORD.toString(),
-                    exception);
-            status = HttpStatus.BAD_REQUEST;
-        }
         assert status != null;
         return new ResponseEntity<>(errorResponse, status);
     }
@@ -119,6 +107,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                     exception);
             status = HttpStatus.OK;
         }
+        if (exception.getMessage().equals(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
+                    EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString(),
+                    exception);
+            status = HttpStatus.BAD_REQUEST;
+        }
+        if (exception.getMessage().equals(EExceptionMessage.WRONG_PASSWORD.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
+                    EExceptionMessage.WRONG_PASSWORD.toString(),
+                    exception);
+            status = HttpStatus.BAD_REQUEST;
+        }
         assert status != null;
         return new ResponseEntity<>(errorResponse, status);
     }
@@ -145,6 +145,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                     EExceptionMessage.THE_LIST_OF_BUYERS_IS_EMPTY.toString(),
                     exception);
             status = HttpStatus.OK;
+        }
+        if (exception.getMessage().equals(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
+                    EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString(),
+                    exception);
+            status = HttpStatus.BAD_REQUEST;
+        }
+        if (exception.getMessage().equals(EExceptionMessage.WRONG_PASSWORD.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
+                    EExceptionMessage.WRONG_PASSWORD.toString(),
+                    exception);
+            status = HttpStatus.BAD_REQUEST;
         }
         assert status != null;
         return new ResponseEntity<>(errorResponse, status);

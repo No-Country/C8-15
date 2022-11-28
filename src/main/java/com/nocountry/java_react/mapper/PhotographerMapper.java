@@ -12,7 +12,6 @@ import com.nocountry.java_react.exception.PhotographerException;
 import com.nocountry.java_react.model.Photographer;
 import com.nocountry.java_react.repository.IPhotographerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
@@ -30,63 +28,74 @@ public class PhotographerMapper {
     private final PhotoMapper photoMapper;
     private final BCryptPasswordEncoder passwordEncoder;
     private final IPhotographerRepository repository;
-    private final MessageSource messageSource;
 
     public Photographer convertToEntity(Photographer entity, PhotographerRequestCreate request) throws EmailAlreadyExistException, PhotographerException {
-        boolean existMail = repository.existsByEmail(request.getEmail());
-        if (existMail) {
-            //throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
-            throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
-        }
-        if (request.getName() != null) entity.setName(request.getName());
-        if (request.getSurname() != null) entity.setSurname(request.getSurname());
-        if (request.getEmail() != null) entity.setEmail(request.getEmail());
-        if (request.getPassword() != null && request.getConfirmPassword() != null
-                && request.getConfirmPassword().equals(request.getPassword())) {
-            entity.setPassword(encryptPassword(request.getPassword()));
-        } else {
-            throw new PhotographerException(messageSource.getMessage("passwords.do.not.match", null, Locale.ENGLISH));
-        }
+        validateRequest(request);
+        entity.setName(request.getName());
+        entity.setSurname(request.getSurname());
+        validateEmail(request);
+        entity.setEmail(request.getEmail());
+        passwordMatch(request);
+        entity.setPassword(encryptPassword(request.getPassword()));
         entity.setRole(role);
         return entity;
     }
 
-    public Photographer convertToEntityModify(Photographer entity, PhotographerRequestModify request)
-            throws EmailAlreadyExistException {
+    public Photographer convertToEntityModify(Photographer entity, PhotographerRequestModify request) throws EmailAlreadyExistException, PhotographerException {
+        validateRequestModify(request);
         String requestEmail = request.getEmail();
         String entityEmail = entity.getEmail();
-        boolean existMail = repository.existsByEmail(requestEmail);
+        boolean existMail = repository.existsByEmail(request.getEmail());
         if (existMail && requestEmail.equals(entityEmail)) {
-            extractedForConvertToEntityModifyBasic(entity, request);
+
+            forConvertToEntityModifyBasic(entity, request);
         } else if (existMail) {
-            throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
+            throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
         } else {
-            extractedForConvertToEntityModifyFull(entity, request);
+            forConvertToEntityModifyFull(entity, request);
         }
         return entity;
     }
 
-    private static void extractedForConvertToEntityModifyBasic(Photographer entity, PhotographerRequestModify request) {
-        if (request.getName() != null) entity.setName(request.getName());
-        if (request.getSurname() != null) entity.setSurname(request.getSurname());
-        if (request.getTelephone() != null) entity.setTelephone(request.getTelephone());
-        if (request.getClass() != null) entity.setCity(request.getCity());
-        if (request.getCountry() != null) entity.setCountry(request.getCountry());
-        if (request.getFacebookUrl() != null) entity.setFacebookUrl(request.getFacebookUrl());
-        if (request.getInstagramUrl() != null) entity.setInstagramUrl(request.getInstagramUrl());
+    private static void forConvertToEntityModifyBasic(Photographer entity, PhotographerRequestModify request) {
+        entity.setName(request.getName());
+        entity.setSurname(request.getSurname());
+        entity.setTelephone(request.getTelephone());
+        entity.setCity(request.getCity());
+        entity.setCountry(request.getCountry());
+        entity.setFacebookUrl(request.getFacebookUrl());
+        entity.setInstagramUrl(request.getInstagramUrl());
         entity.setUpdated(new Date());
     }
 
-    private static void extractedForConvertToEntityModifyFull(Photographer entity, PhotographerRequestModify request) {
-        if (request.getName() != null) entity.setName(request.getName());
-        if (request.getSurname() != null) entity.setSurname(request.getSurname());
-        if (request.getEmail() != null) entity.setEmail(request.getEmail());
-        if (request.getTelephone() != null) entity.setTelephone(request.getTelephone());
-        if (request.getClass() != null) entity.setCity(request.getCity());
-        if (request.getCountry() != null) entity.setCountry(request.getCountry());
-        if (request.getFacebookUrl() != null) entity.setFacebookUrl(request.getFacebookUrl());
-        if (request.getInstagramUrl() != null) entity.setInstagramUrl(request.getInstagramUrl());
+    private static void forConvertToEntityModifyFull(Photographer entity, PhotographerRequestModify request) {
+        entity.setName(request.getName());
+        entity.setSurname(request.getSurname());
+        entity.setEmail(request.getEmail());
+        entity.setTelephone(request.getTelephone());
+        entity.setCity(request.getCity());
+        entity.setCountry(request.getCountry());
+        entity.setFacebookUrl(request.getFacebookUrl());
+        entity.setInstagramUrl(request.getInstagramUrl());
         entity.setUpdated(new Date());
+    }
+
+    public Photographer convertToEntityModifyPassword(Photographer entity, PhotographerRequestPassword request) throws PhotographerException {
+        validateRequestPassword(request);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        boolean passwordChecker = encoder.matches(request.getOldPassword(), entity.getPassword());
+        if (passwordChecker) {
+            if (request.getPassword() != null) {
+                if (request.getConfirmPassword() != null && request.getConfirmPassword().equals(request.getPassword())) {
+                    entity.setPassword(encryptPassword(request.getPassword()));
+                } else {
+                    throw new PhotographerException(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString());
+                }
+            }
+        } else {
+            throw new PhotographerException(EExceptionMessage.WRONG_PASSWORD.toString());
+        }
+        return entity;
     }
 
     public PhotographerResponse convertToResponse(Photographer entity) {
@@ -129,20 +138,38 @@ public class PhotographerMapper {
         return password;
     }
 
-    public Photographer convertToEntityModifyPassword(Photographer entity, PhotographerRequestPassword request) throws PhotographerException {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        boolean passwordChecker = encoder.matches(request.getOldPassword(), entity.getPassword());
-        if (passwordChecker) {
-            if (request.getPassword() != null) {
-                if (request.getConfirmPassword() != null && request.getConfirmPassword().equals(request.getPassword())) {
-                    entity.setPassword(encryptPassword(request.getPassword()));
-                } else {
-                    throw new PhotographerException(messageSource.getMessage("passwords.do.not.match", null, Locale.ENGLISH));
-                }
-            }
-        } else {
-            throw new PhotographerException(messageSource.getMessage("wrong.password", null, Locale.ENGLISH));
+    private static void validateRequest(PhotographerRequestCreate request) throws PhotographerException {
+        if (request.getName() == null || request.getSurname() == null || request.getEmail() == null ||
+                request.getPassword() == null || request.getConfirmPassword() == null) {
+            throw new PhotographerException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
         }
-        return entity;
+    }
+
+    private static void validateRequestModify(PhotographerRequestModify request) throws PhotographerException {
+        if (request.getName() == null || request.getSurname() == null || request.getEmail() == null ||
+                request.getTelephone() == null || request.getCity() == null || request.getCountry() == null ||
+                request.getFacebookUrl() == null || request.getInstagramUrl() == null) {
+            throw new PhotographerException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
+        }
+    }
+
+    private static void validateRequestPassword(PhotographerRequestPassword request) throws PhotographerException {
+        if (request.getOldPassword() == null || request.getPassword() == null || request.getConfirmPassword() == null) {
+            throw new PhotographerException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
+        }
+    }
+
+    private static void passwordMatch(PhotographerRequestCreate request) throws PhotographerException {
+        if (!(request.getPassword() != null && request.getConfirmPassword() != null
+                && request.getConfirmPassword().equals(request.getPassword()))) {
+            throw new PhotographerException(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString());
+        }
+    }
+
+    private void validateEmail(PhotographerRequestCreate request) throws EmailAlreadyExistException {
+        boolean existMail = repository.existsByEmail(request.getEmail());
+        if (existMail) {
+            throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
+        }
     }
 }
