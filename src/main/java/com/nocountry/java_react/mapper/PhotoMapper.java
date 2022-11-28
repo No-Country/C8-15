@@ -1,7 +1,9 @@
 package com.nocountry.java_react.mapper;
 
+import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.response.PhotoResponse;
+import com.nocountry.java_react.exception.PhotoException;
 import com.nocountry.java_react.model.Photo;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,16 +17,17 @@ import java.util.List;
 @Component
 public class PhotoMapper {
 
-    public Photo convertToEntity(PhotoRequest photoRequest, Photo entity, MultipartFile file, String newFileName, String pathFileUpload) {
+    public Photo convertToEntity(PhotoRequest photoRequest, Photo entity, MultipartFile file, String newFileName, String pathFileUpload) throws PhotoException {
         extractedForConvertToEntity(photoRequest, entity, file, newFileName, pathFileUpload);
         return entity;
     }
 
-    private static void extractedForConvertToEntity(PhotoRequest photoRequest, Photo entity, MultipartFile file, String newFileName, String pathFileUpload) {
+    private static void extractedForConvertToEntity(PhotoRequest photoRequest, Photo entity, MultipartFile file, String newFileName, String pathFileUpload) throws PhotoException {
         String path = pathFileUpload + newFileName;
         entity.setOriginalName(file.getOriginalFilename());
         entity.setFileName(newFileName);
         entity.setPath(path);
+        validateRequest(photoRequest);
         entity.setCategory(photoRequest.getCategory());
         entity.setAuthor(photoRequest.getAuthor());
         entity.setLocation(photoRequest.getLocation());
@@ -34,12 +37,13 @@ public class PhotoMapper {
         entity.setPrice(price.doubleValue());
     }
 
-    public Photo convertToEntityModify(PhotoRequest photoRequest, Photo entity) {
+    public Photo convertToEntityModify(PhotoRequest photoRequest, Photo entity) throws PhotoException {
         extractedForConvertToEntityModify(photoRequest, entity);
         return entity;
     }
 
-    private static void extractedForConvertToEntityModify(PhotoRequest photoRequest, Photo entity) {
+    private static void extractedForConvertToEntityModify(PhotoRequest photoRequest, Photo entity) throws PhotoException {
+        validateRequest(photoRequest);
         entity.setCategory(photoRequest.getCategory());
         entity.setAuthor(photoRequest.getAuthor());
         entity.setLocation(photoRequest.getLocation());
@@ -81,5 +85,12 @@ public class PhotoMapper {
             responseList.add(this.convertToResponse(entity));
         }
         return responseList;
+    }
+
+    private static void validateRequest(PhotoRequest request) throws PhotoException {
+        if (request.getCategory() == null || request.getAuthor() == null || request.getLocation() == null ||
+                request.getDescription() == null || request.getPrice() == null) {
+            throw new PhotoException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
+        }
     }
 }

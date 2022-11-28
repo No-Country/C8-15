@@ -1,5 +1,6 @@
 package com.nocountry.java_react.service.impl;
 
+import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.response.PhotoResponse;
 import com.nocountry.java_react.exception.PhotoException;
@@ -8,7 +9,6 @@ import com.nocountry.java_react.model.Photo;
 import com.nocountry.java_react.repository.IPhotoRepository;
 import com.nocountry.java_react.service.IPhotoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,11 +31,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PhotoServiceImpl implements IPhotoService {
 
-    private static final String REQUEST_WRONG_DATA = "request.wrong.data";
-    private static final String PHOTO_NOT_FOUND = "photo.not.found";
     private final IPhotoRepository repository;
     private final PhotoMapper mapper;
-    private final MessageSource messageSource;
 
     @Override
     @Transactional
@@ -44,7 +40,7 @@ public class PhotoServiceImpl implements IPhotoService {
         try {
             if (!Files.exists(pathFolderUpload)) Files.createDirectory(pathFolderUpload);
         } catch (IOException e) {
-            throw new PhotoException(messageSource.getMessage("the.folder.cannot.be.initialized", null, Locale.ENGLISH));
+            throw new PhotoException(EExceptionMessage.THE_FOLDER_CANNOT_BE_INITIALIZED.toString());
         }
     }
 
@@ -61,7 +57,7 @@ public class PhotoServiceImpl implements IPhotoService {
                     replaceAll(getPhotoExtension(originalFileName), getPhotoExtension(originalFileName));
             Files.copy(multipartFile.getInputStream(), pathFolderUpload.resolve(newPhotoName));
         } catch (IOException e) {
-            throw new PhotoException(messageSource.getMessage("the.photo.cannot.be.saved", null, Locale.ENGLISH));
+            throw new PhotoException(EExceptionMessage.THE_PHOTO_CANNOT_BE_SAVED.toString());
         }
         return newPhotoName;
     }
@@ -80,7 +76,7 @@ public class PhotoServiceImpl implements IPhotoService {
             Photo entityForConvert = mapper.convertToEntity(photoRequest, photo, multipartFile, newPhotoName, pathFileUpload);
             return repository.save(entityForConvert);
         } catch (PhotoException exception) {
-            throw new PhotoException(messageSource.getMessage(REQUEST_WRONG_DATA, null, Locale.ENGLISH));
+            throw new PhotoException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
         }
     }
 
@@ -104,7 +100,7 @@ public class PhotoServiceImpl implements IPhotoService {
             }
             return photoList;
         } catch (PhotoException exception) {
-            throw new PhotoException(messageSource.getMessage(REQUEST_WRONG_DATA, null, Locale.ENGLISH));
+            throw new PhotoException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
         }
     }
 
@@ -129,9 +125,9 @@ public class PhotoServiceImpl implements IPhotoService {
                 return repository.save(entityForConvert);
             }
         } catch (PhotoException exception) {
-            throw new PhotoException(messageSource.getMessage(PHOTO_NOT_FOUND, null, Locale.ENGLISH));
+            throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
         } catch (Exception exception) {
-            throw new PhotoException(messageSource.getMessage(REQUEST_WRONG_DATA, null, Locale.ENGLISH));
+            throw new PhotoException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
         }
     }
 
@@ -144,7 +140,7 @@ public class PhotoServiceImpl implements IPhotoService {
             repository.delete(entity);
             deletePhotoByOriginalName(entity.getFileName(), pathFolderUpload);
         } else {
-            throw new PhotoException(messageSource.getMessage(PHOTO_NOT_FOUND, null, Locale.ENGLISH));
+            throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
         }
     }
 
@@ -154,10 +150,10 @@ public class PhotoServiceImpl implements IPhotoService {
         try {
             @SuppressWarnings("unused")
             Boolean delete = Files.deleteIfExists(pathFileUpload.resolve(originalName));
-            return messageSource.getMessage("photo.deleted", null, Locale.ENGLISH);
+            return EExceptionMessage.PHOTO_DELETED.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            return messageSource.getMessage("error.deleting.photo", null, Locale.ENGLISH);
+            return EExceptionMessage.ERROR_DELETING_PHOTO.toString();
         }
     }
 
@@ -173,7 +169,7 @@ public class PhotoServiceImpl implements IPhotoService {
         if (repository.existsById(idPhoto)) {
             return repository.getReferenceById(idPhoto);
         } else {
-            throw new PhotoException(messageSource.getMessage(PHOTO_NOT_FOUND, null, Locale.ENGLISH));
+            throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
         }
     }
 
@@ -186,7 +182,7 @@ public class PhotoServiceImpl implements IPhotoService {
             Path file = pathFolderUpload.resolve(name);
             return new UrlResource(file.toUri());
         } else {
-            throw new PhotoException(messageSource.getMessage(PHOTO_NOT_FOUND, null, Locale.ENGLISH));
+            throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
         }
     }
 }
