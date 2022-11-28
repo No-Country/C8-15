@@ -47,7 +47,6 @@ public class PhotographerMapper {
         String entityEmail = entity.getEmail();
         boolean existMail = repository.existsByEmail(request.getEmail());
         if (existMail && requestEmail.equals(entityEmail)) {
-
             forConvertToEntityModifyBasic(entity, request);
         } else if (existMail) {
             throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
@@ -89,11 +88,11 @@ public class PhotographerMapper {
                 if (request.getConfirmPassword() != null && request.getConfirmPassword().equals(request.getPassword())) {
                     entity.setPassword(encryptPassword(request.getPassword()));
                 } else {
-                    throw new PhotographerException(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString());
+                    throw new PhotographerException(EExceptionMessage.NEW_PASSWORDS_DO_NOT_MATCH.toString());
                 }
             }
         } else {
-            throw new PhotographerException(EExceptionMessage.WRONG_PASSWORD.toString());
+            throw new PhotographerException(EExceptionMessage.OLD_PASSWORD_DOES_NOT_MATCH.toString());
         }
         return entity;
     }

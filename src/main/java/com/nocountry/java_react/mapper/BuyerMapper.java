@@ -1,5 +1,6 @@
 package com.nocountry.java_react.mapper;
 
+import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.commons.enums.EUserRole;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
@@ -11,7 +12,6 @@ import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.model.Buyer;
 import com.nocountry.java_react.repository.IBuyerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
@@ -29,35 +28,28 @@ public class BuyerMapper {
     private final PhotoMapper photoMapper;
     private final BCryptPasswordEncoder passwordEncoder;
     private final IBuyerRepository repository;
-    private final MessageSource messageSource;
 
     public Buyer convertToEntity(Buyer entity, BuyerRequestCreate request) throws EmailAlreadyExistException, BuyerException {
-        boolean existMail = repository.existsByEmail(request.getEmail());
-        if (existMail) {
-            throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
-        }
-        if (request.getName() != null) entity.setName(request.getName());
-        if (request.getSurname() != null) entity.setSurname(request.getSurname());
-        if (request.getEmail() != null) entity.setEmail(request.getEmail());
-        if (request.getPassword() != null && request.getConfirmPassword() != null
-                && request.getConfirmPassword().equals(request.getPassword())) {
-            entity.setPassword(encryptPassword(request.getPassword()));
-        } else {
-            throw new BuyerException(messageSource.getMessage("passwords.do.not.match", null, Locale.ENGLISH));
-        }
+        validateRequest(request);
+        entity.setName(request.getName());
+        entity.setSurname(request.getSurname());
+        validateEmail(request);
+        entity.setEmail(request.getEmail());
+        passwordMatch(request);
+        entity.setPassword(encryptPassword(request.getPassword()));
         entity.setRole(role);
         return entity;
     }
 
-    public Buyer convertToEntityModify(Buyer entity, BuyerRequestModify request)
-            throws EmailAlreadyExistException {
+    public Buyer convertToEntityModify(Buyer entity, BuyerRequestModify request) throws EmailAlreadyExistException, BuyerException {
+        validateRequestModify(request);
         String requestEmail = request.getEmail();
         String entityEmail = entity.getEmail();
         boolean existMail = repository.existsByEmail(requestEmail);
         if (existMail && requestEmail.equals(entityEmail)) {
             extractedForConvertToEntityModifyBasic(entity, request);
         } else if (existMail) {
-            throw new EmailAlreadyExistException(messageSource.getMessage("email.already.exists", null, Locale.ENGLISH));
+            throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
         } else {
             extractedForConvertToEntityModifyFull(entity, request);
         }
@@ -65,22 +57,40 @@ public class BuyerMapper {
     }
 
     private static void extractedForConvertToEntityModifyBasic(Buyer entity, BuyerRequestModify request) {
-        if (request.getName() != null) entity.setName(request.getName());
-        if (request.getSurname() != null) entity.setSurname(request.getSurname());
-        if (request.getTelephone() != null) entity.setTelephone(request.getTelephone());
-        if (request.getClass() != null) entity.setCity(request.getCity());
-        if (request.getCountry() != null) entity.setCountry(request.getCountry());
+        entity.setName(request.getName());
+        entity.setSurname(request.getSurname());
+        entity.setTelephone(request.getTelephone());
+        entity.setCity(request.getCity());
+        entity.setCountry(request.getCountry());
         entity.setUpdated(new Date());
     }
 
     private static void extractedForConvertToEntityModifyFull(Buyer entity, BuyerRequestModify request) {
-        if (request.getName() != null) entity.setName(request.getName());
-        if (request.getSurname() != null) entity.setSurname(request.getSurname());
-        if (request.getEmail() != null) entity.setEmail(request.getEmail());
-        if (request.getTelephone() != null) entity.setTelephone(request.getTelephone());
-        if (request.getClass() != null) entity.setCity(request.getCity());
-        if (request.getCountry() != null) entity.setCountry(request.getCountry());
+        entity.setName(request.getName());
+        entity.setSurname(request.getSurname());
+        entity.setEmail(request.getEmail());
+        entity.setTelephone(request.getTelephone());
+        entity.setCity(request.getCity());
+        entity.setCountry(request.getCountry());
         entity.setUpdated(new Date());
+    }
+
+    public Buyer convertToEntityModifyPassword(Buyer entity, BuyerRequestPassword request) throws BuyerException {
+        validateRequestPassword(request);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        boolean passwordChecker = encoder.matches(request.getOldPassword(), entity.getPassword());
+        if (passwordChecker) {
+            if (request.getPassword() != null) {
+                if (request.getConfirmPassword() != null && request.getConfirmPassword().equals(request.getPassword())) {
+                    entity.setPassword(encryptPassword(request.getPassword()));
+                } else {
+                    throw new BuyerException(EExceptionMessage.NEW_PASSWORDS_DO_NOT_MATCH.toString());
+                }
+            }
+        } else {
+            throw new BuyerException(EExceptionMessage.OLD_PASSWORD_DOES_NOT_MATCH.toString());
+        }
+        return entity;
     }
 
     public BuyerResponse convertToResponse(Buyer entity) {
@@ -122,20 +132,37 @@ public class BuyerMapper {
         return password;
     }
 
-    public Buyer convertToEntityModifyPassword(Buyer entity, BuyerRequestPassword request) throws BuyerException {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        boolean passwordChecker = encoder.matches(request.getOldPassword(), entity.getPassword());
-        if (passwordChecker) {
-            if (request.getPassword() != null) {
-                if (request.getConfirmPassword() != null && request.getConfirmPassword().equals(request.getPassword())) {
-                    entity.setPassword(encryptPassword(request.getPassword()));
-                } else {
-                    throw new BuyerException(messageSource.getMessage("passwords.do.not.match", null, Locale.ENGLISH));
-                }
-            }
-        } else {
-            throw new BuyerException(messageSource.getMessage("wrong.password", null, Locale.ENGLISH));
+    private static void validateRequest(BuyerRequestCreate request) throws BuyerException {
+        if (request.getName() == null || request.getSurname() == null || request.getEmail() == null ||
+                request.getPassword() == null || request.getConfirmPassword() == null) {
+            throw new BuyerException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
         }
-        return entity;
+    }
+
+    private static void validateRequestModify(BuyerRequestModify request) throws BuyerException {
+        if (request.getName() == null || request.getSurname() == null || request.getEmail() == null ||
+                request.getTelephone() == null || request.getCity() == null || request.getCountry() == null) {
+            throw new BuyerException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
+        }
+    }
+
+    private static void validateRequestPassword(BuyerRequestPassword request) throws BuyerException {
+        if (request.getOldPassword() == null || request.getPassword() == null || request.getConfirmPassword() == null) {
+            throw new BuyerException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
+        }
+    }
+
+    private static void passwordMatch(BuyerRequestCreate request) throws BuyerException {
+        if (!(request.getPassword() != null && request.getConfirmPassword() != null
+                && request.getConfirmPassword().equals(request.getPassword()))) {
+            throw new BuyerException(EExceptionMessage.PASSWORDS_DO_NOT_MATCH.toString());
+        }
+    }
+
+    private void validateEmail(BuyerRequestCreate request) throws EmailAlreadyExistException {
+        boolean existMail = repository.existsByEmail(request.getEmail());
+        if (existMail) {
+            throw new EmailAlreadyExistException(EExceptionMessage.EMAIL_ALREADY_EXISTS.getMessage(request.getEmail()));
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.nocountry.java_react.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.commons.enums.EPathUpload;
 import com.nocountry.java_react.dto.request.PhotoRequest;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
@@ -18,7 +19,6 @@ import com.nocountry.java_react.repository.IPhotoRepository;
 import com.nocountry.java_react.service.IBuyerService;
 import com.nocountry.java_react.service.IPhotoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +27,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -36,60 +35,45 @@ public class BuyerServiceImpl implements IBuyerService {
 
     private final Path pathFolderUpload = Paths.get(EPathUpload.CREATE_BUYER_FOLDER.toString());
     private final String pathFileUpload = EPathUpload.PATH_BUYER_IMAGE.toString();
-    private static final String REQUEST_WRONG_DATA = "request.wrong.data";
-    private static final String BUYER_NOT_FOUND = "buyer.not.found";
     private final IBuyerRepository repository;
     private final BuyerMapper mapper;
     private final IPhotoService photoService;
     private final IPhotoRepository photoRepository;
-    private final MessageSource messageSource;
 
     @Override
     @Transactional
     public BuyerResponse saveBuyer(BuyerRequestCreate request) throws EmailAlreadyExistException, BuyerException {
-        try {
-            Buyer entity = new Buyer();
-            Buyer entityForConvert = mapper.convertToEntity(entity, request);
-            Buyer entityForSave = repository.save(entityForConvert);
-            return mapper.convertToResponse(entityForSave);
-        } catch (BuyerException exception) {
-            throw new BuyerException(messageSource.getMessage(REQUEST_WRONG_DATA, null, Locale.ENGLISH));
-        }
+        Buyer entity = new Buyer();
+        Buyer entityForConvert = mapper.convertToEntity(entity, request);
+        Buyer entityForSave = repository.save(entityForConvert);
+        return mapper.convertToResponse(entityForSave);
     }
 
     @Override
     @Transactional
     public BuyerResponse modifyBuyer(String idBuyer, BuyerRequestModify request) throws EmailAlreadyExistException, BuyerException {
-        try {
-            Optional<Buyer> optionalBuyer = repository.findById(idBuyer);
-            if (optionalBuyer.isPresent()) {
-                Buyer entity = optionalBuyer.get();
-                Buyer entityForConvert = mapper.convertToEntityModify(entity, request);
-                Buyer entityForSave = repository.save(entityForConvert);
-                return mapper.convertToResponse(entityForSave);
-            } else {
-                throw new BuyerException(messageSource.getMessage(BUYER_NOT_FOUND, null, Locale.ENGLISH));
-            }
-        } catch (BuyerException exception) {
-            throw new BuyerException(messageSource.getMessage(REQUEST_WRONG_DATA, null, Locale.ENGLISH));
+        Optional<Buyer> optionalBuyer = repository.findById(idBuyer);
+        if (optionalBuyer.isPresent()) {
+            Buyer entity = optionalBuyer.get();
+            Buyer entityForConvert = mapper.convertToEntityModify(entity, request);
+            Buyer entityForSave = repository.save(entityForConvert);
+            return mapper.convertToResponse(entityForSave);
+        } else {
+            throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
         }
     }
 
     @Override
     @Transactional
     public BuyerResponse modifyPassword(String idBuyer, BuyerRequestPassword request) throws BuyerException {
-        try {
-            Optional<Buyer> optionalBuyer = repository.findById(idBuyer);
-            if (optionalBuyer.isPresent()) {
-                Buyer buyer = optionalBuyer.get();
-                Buyer entityForConvert = mapper.convertToEntityModifyPassword(buyer, request);
-                Buyer entityForSave = repository.save(entityForConvert);
-                return mapper.convertToResponse(entityForSave);
-            } else {
-                throw new BuyerException(messageSource.getMessage(BUYER_NOT_FOUND, null, Locale.ENGLISH));
-            }
-        } catch (Exception exception) {
-            throw new BuyerException(messageSource.getMessage(REQUEST_WRONG_DATA, null, Locale.ENGLISH));
+        Optional<Buyer> optionalBuyer = repository.findById(idBuyer);
+        if (optionalBuyer.isPresent()) {
+            Buyer buyer = optionalBuyer.get();
+            Buyer entityForConvert = mapper.convertToEntityModifyPassword(buyer, request);
+            Buyer entityForSave = repository.save(entityForConvert);
+            return mapper.convertToResponse(entityForSave);
+        } else {
+            throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
         }
     }
 
@@ -103,7 +87,7 @@ public class BuyerServiceImpl implements IBuyerService {
             entity.setUpdated(new Date());
             repository.save(entity);
         } else {
-            throw new BuyerException(messageSource.getMessage(BUYER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
         }
     }
 
@@ -114,7 +98,7 @@ public class BuyerServiceImpl implements IBuyerService {
             Buyer entity = repository.getReferenceById(idBuyer);
             return mapper.convertToResponse(entity);
         } else {
-            throw new BuyerException(messageSource.getMessage(BUYER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
         }
     }
 
@@ -125,14 +109,13 @@ public class BuyerServiceImpl implements IBuyerService {
         if (!buyerList.isEmpty()) {
             return mapper.convertToResponseList(buyerList);
         } else {
-            throw new BuyerException(messageSource.getMessage("the.list.of.buyers.is.empty", null, Locale.ENGLISH));
+            throw new BuyerException(EExceptionMessage.THE_LIST_OF_BUYERS_IS_EMPTY.toString());
         }
     }
 
     @Override
     @Transactional
-    public void addPhotoToBuyer(String idBuyer, String stringRequest, MultipartFile photo) throws
-            BuyerException, PhotoException {
+    public void addPhotoToBuyer(String idBuyer, String stringRequest, MultipartFile photo) throws BuyerException, PhotoException {
         Optional<Buyer> optionalBuyer = repository.findById(idBuyer);
         if (optionalBuyer.isPresent()) {
             Buyer buyer = repository.getReferenceById(idBuyer);
@@ -140,7 +123,7 @@ public class BuyerServiceImpl implements IBuyerService {
             addPhotoToBuyer(buyer, stringRequest, photo);
             repository.save(buyer);
         } else {
-            throw new BuyerException(messageSource.getMessage(BUYER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
         }
     }
 
@@ -172,10 +155,10 @@ public class BuyerServiceImpl implements IBuyerService {
                 photoService.deletePhotoById(idPhoto, pathFolderUpload);
                 repository.save(buyer);
             } else {
-                throw new PhotoException(messageSource.getMessage("photo.not.found", null, Locale.ENGLISH));
+                throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
             }
         } else {
-            throw new BuyerException(messageSource.getMessage(BUYER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
         }
     }
 
@@ -193,7 +176,7 @@ public class BuyerServiceImpl implements IBuyerService {
             buyer.setPhotos(photoList);
             repository.save(buyer);
         } else {
-            throw new BuyerException(messageSource.getMessage(BUYER_NOT_FOUND, null, Locale.ENGLISH));
+            throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
         }
     }
 }

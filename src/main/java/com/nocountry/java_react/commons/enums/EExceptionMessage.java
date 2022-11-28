@@ -13,6 +13,8 @@ public enum EExceptionMessage {
     EMAIL_ALREADY_EXISTS("EMAIL {0} ALREADY EXISTS"),
     PASSWORDS_DO_NOT_MATCH("PASSWORDS DO NOT MATCH"),
     WRONG_PASSWORD("WRONG PASSWORD"),
+    OLD_PASSWORD_DOES_NOT_MATCH("OLD PASSWORD DOES NOT MATCH"),
+    NEW_PASSWORDS_DO_NOT_MATCH("NEW PASSWORDS DO NOT MATCH"),
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     // PHOTO EXCEPTION MESSAGE

@@ -119,6 +119,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                     exception);
             status = HttpStatus.BAD_REQUEST;
         }
+        if (exception.getMessage().equals(EExceptionMessage.OLD_PASSWORD_DOES_NOT_MATCH.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
+                    EExceptionMessage.OLD_PASSWORD_DOES_NOT_MATCH.toString(),
+                    exception);
+            status = HttpStatus.BAD_REQUEST;
+        }
+        if (exception.getMessage().equals(EExceptionMessage.NEW_PASSWORDS_DO_NOT_MATCH.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
+                    EExceptionMessage.NEW_PASSWORDS_DO_NOT_MATCH.toString(),
+                    exception);
+            status = HttpStatus.BAD_REQUEST;
+        }
         assert status != null;
         return new ResponseEntity<>(errorResponse, status);
     }
@@ -155,6 +167,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         if (exception.getMessage().equals(EExceptionMessage.WRONG_PASSWORD.toString())) {
             errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
                     EExceptionMessage.WRONG_PASSWORD.toString(),
+                    exception);
+            status = HttpStatus.BAD_REQUEST;
+        }
+        if (exception.getMessage().equals(EExceptionMessage.OLD_PASSWORD_DOES_NOT_MATCH.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
+                    EExceptionMessage.OLD_PASSWORD_DOES_NOT_MATCH.toString(),
+                    exception);
+            status = HttpStatus.BAD_REQUEST;
+        }
+        if (exception.getMessage().equals(EExceptionMessage.NEW_PASSWORDS_DO_NOT_MATCH.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
+                    EExceptionMessage.NEW_PASSWORDS_DO_NOT_MATCH.toString(),
                     exception);
             status = HttpStatus.BAD_REQUEST;
         }

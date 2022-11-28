@@ -51,7 +51,7 @@ public class PhotographerController implements IPhotographerController {
     public ResponseEntity<PhotographerResponse> modifyPassword(@NotNull @PathVariable("id-photographer") String idPhotographer,
                                                                @Valid @RequestBody PhotographerRequestPassword request) throws PhotographerException {
         PhotographerResponse response = service.modifyPassword(idPhotographer, request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
