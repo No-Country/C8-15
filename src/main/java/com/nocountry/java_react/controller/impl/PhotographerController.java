@@ -42,7 +42,7 @@ public class PhotographerController implements IPhotographerController {
 
     @Override
     public ResponseEntity<PhotographerResponse> modifyPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                       @Valid @RequestBody PhotographerRequestModify request) throws EmailAlreadyExistException, PhotographerException {
+                                                                   @Valid @RequestBody PhotographerRequestModify request) throws EmailAlreadyExistException, PhotographerException {
         PhotographerResponse response = service.modifyPhotographer(idPhotographer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -50,7 +50,7 @@ public class PhotographerController implements IPhotographerController {
     @Override
     public ResponseEntity<PhotographerResponse> modifyPassword(@NotNull @PathVariable("id-photographer") String idPhotographer,
                                                                @Valid @RequestBody PhotographerRequestPassword request) throws PhotographerException {
-        PhotographerResponse response = service.modifyPassword(idPhotographer, request);
+        service.modifyPassword(idPhotographer, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
