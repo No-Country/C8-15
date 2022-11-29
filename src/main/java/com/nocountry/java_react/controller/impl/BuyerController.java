@@ -58,7 +58,7 @@ public class BuyerController implements IBuyerController {
     public ResponseEntity<BuyerResponse> modifyPassword(@NotNull @PathVariable("id-buyer") String idBuyer,
                                                         @Valid @RequestBody BuyerRequestPassword request) throws BuyerException {
         BuyerResponse response = service.modifyPassword(idBuyer, request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
