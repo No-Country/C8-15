@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useFormik  } from 'formik';
-import { ValidateSchema  } from '../../validation/validationForm';
+import { useFormik } from 'formik';
+import { ValidateSchema } from '../../validation/validationForm';
 import axios from 'axios';
 import
 {
@@ -10,52 +10,54 @@ import
   Paper,
   Button,
   Typography,
-  CardMedia, 
-  TextField
+  CardMedia,
+  TextField,
+
 } from '@mui/material';
 import theme from '../../themeConfig';
 import LogoBW from '../../components/web/footer/static/logo blanco viewfinder.png';
 import Navbar from '../../components/web/navbar/Navbar';
-
-
-  const initialCredentials = {
-    name: '',
-    surname: '',
-    email: '',
-    password: '',
-    passwordConfirm: ''
-  };
+import authRest from '../../services/authRest';
 
 
 
-const Register = () => { 
-  
 
-    const formik = useFormik({
 
-      initialValues : initialCredentials ,
-      validationSchema : ValidateSchema,
 
-    onSubmit:  async (values) => {
-        await new Promise((res) => setTimeout(res, 400));
-        localStorage.setItem('User temp', values);
-        alert(JSON.stringify(values));
+const Register = () =>
+{
 
-        try {
-          const { data } = await axios.post(
-            //'http://localhost:3001/api/auth/register',
-            values
-          );
-          alert(data.message);
-          window.location.replace('/');
-          return data.message;
-        } catch ({ response }) {
-          alert(response.data.message);
-        }
-      
+const initialCredentials = {
+  name: '',
+  surname: '',
+  email: '',
+  password: '',
+  passwordConfirm: ''
+};
+
+
+  const formik = useFormik({
+
+    initialValues: initialCredentials,
+    validationSchema: ValidateSchema,
+
+    onSubmit: async (values ,{ setSubmitting }) => {
+      await new Promise((res) => setTimeout(res, 1800));
+      localStorage.setItem('User temp', values);
+      alert(JSON.stringify(values, null, 2 ));
+      setSubmitting(false);
+      try {
+        const { data } = await authRest.register(values);
+        alert(data.message);
+        window.location.replace('/');
+        return true;
+      } catch ({ response })
+      {
+        alert(response.data.message);
+      }
     }
 
-    })
+  })
 
 
   return (
@@ -69,7 +71,8 @@ const Register = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random/?land)',
+            display: { xs: 'none' },
+            backgroundImage: 'url(https://source.unsplash.com/random)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[ 50 ] : t.palette.grey[ 900 ],
@@ -92,7 +95,7 @@ const Register = () => {
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
-              mb:10,
+              mb: 10,
               my: 8,
               mx: 4,
               display: 'flex',
@@ -107,14 +110,13 @@ const Register = () => {
               Ya tienes una cuenta? <Link to='/login' >Ingresa </Link>
             </Typography>
             <Box>
-                  <form onSubmit={formik.handleSubmit}>
-                  <TextField xs={8} 
-                  sx={{
-                    width: '25ch',
-                    mr: 1,
-                    mb: 2
-                  }}
+              <form  onSubmit={formik.handleSubmit}>
+                <Box  sx={{ xl:{ m: 1, width: '25ch' }
+                }}>
+                  <TextField 
+                    margin='normal'
                     required
+                    fullWidth 
                     id="name"
                     label="Nombre"
                     name="name"
@@ -123,91 +125,91 @@ const Register = () => {
                     error={formik.touched.name && Boolean(formik.errors.name)}
                     helperText={formik.touched.name && formik.errors.name}
                     autoComplete="name"
-                  /> 
-                <TextField xs={8} sx={{
-                  width: '25ch',
-                  ml: 1
-                }}
-                  required
-                  id="surname"
-                  label="Apellido"
-                  name="surname"
-                  type="surname"
-                  value={formik.values.surname}
-                  onChange={formik.handleChange}
-                  error={formik.touched.surname && Boolean(formik.errors.surname)}
-                  helperText={formik.touched.surname && formik.errors.surname}
-                  
-                  autoComplete="surname"
-                />
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email"
-                  name="email"
-                  type='email'
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                  autoComplete="email"
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="password"
-                  name="password"
-                  label="Password"
-                  type="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  error={formik.touched.password && Boolean(formik.errors.password)}
-                  helperText={formik.touched.password && formik.errors.password}
-                  
-                  autoComplete="current-password"
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="passwordConfirm"
-                  name="passwordConfirm"
-                  label="Confirmar contraseña"
-                  type="password"
-                  value={formik.values.passwordConfirm}
-                  onChange={formik.handleChange}
-                  error={formik.touched.passwordConfirm && Boolean(formik.errors.passwordConfirm)}
-                  helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
-                  autoComplete="current-passwordConfirm"
-                />
-                <Button
-                  theme={theme}
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{
-                    color: 'primary',
-                    mt: 3, mb: 2
-                  }}
-                >
-                  Registrarme
-                </Button>
-                <Grid container>
-                  <Grid item>
-                    <Link to='/login' variant="body2">
-                      {"Ya tienes cuenta? Ingresa"}
-                    </Link>
+                  />
+                  <TextField 
+                    margin='normal'
+                    required
+                    fullWidth
+                    id="surname"
+                    label="Apellido"
+                    name="surname"
+                    type="surname"
+                    value={formik.values.surname}
+                    onChange={formik.handleChange}
+                    error={formik.touched.surname && Boolean(formik.errors.surname)}
+                    helperText={formik.touched.surname && formik.errors.surname}
+                    autoComplete="surname"
+                  />
+                  </Box>
+                  <TextField
+                    margin='normal'
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email"
+                    name="email"
+                    type='email'
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="password"
+                    name="password"
+                    label="Contraseña"
+                    type="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
+                    autoComplete="current-password"
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="passwordConfirm"
+                    name="passwordConfirm"
+                    label="Confirmar contraseña"
+                    type="password"
+                    value={formik.values.passwordConfirm}
+                    onChange={formik.handleChange}
+                    error={formik.touched.passwordConfirm && Boolean(formik.errors.passwordConfirm)}
+                    helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
+                    autoComplete="current-passwordConfirm"
+                  />
+                  <Button
+                    theme={theme}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{
+                      color: 'primary',
+                      mt: 3, mb: 2
+                    }}
+                  >
+                    Registrarme
+                  </Button>
+                  <Grid container>
+                    <Grid item>
+                      <Link to='/login' variant="body2">
+                        {"Ya tienes cuenta? Ingresa"}
+                      </Link>
+                    </Grid>
                   </Grid>
-                </Grid> 
-                </form>
-              </Box>
+              </form>
             </Box>
+          </Box>
         </Grid>
       </Grid>
     </>
   )
-  };
+};
+
+
 
 export default Register; 

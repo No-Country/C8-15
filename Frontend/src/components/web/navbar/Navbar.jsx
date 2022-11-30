@@ -4,14 +4,14 @@ import { styled, alpha } from '@mui/material/styles';
 import {
   AppBar, 
   Toolbar,
-  Typography,
   Container,
   InputBase,
   IconButton,
   Menu,
   MenuItem, 
   Box,
-  Button
+  Button,
+  Link
 } from '@mui/material';
 import ScrollColor from './colorNavScroll';
 import SearchIcon from '@mui/icons-material/Search'
@@ -201,7 +201,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
                 >
                   {pages.map(({name, link}) => (
                     <MenuItem key={link} onClick={handleCloseNavMenu} >
-                      <Typography textAlign="center" color="#000000"  >{ name}</Typography>
+                      <Link  component={NavLink} underline='none' to={ link }   textAlign="center" color="#000000" >{ name }</Link>
                     </MenuItem>
                   ))}
                 </Menu>

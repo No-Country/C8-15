@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom'
+import { useFormik } from 'formik'
+import { ValidateSchema } from '../../validation/validationForm'
+import axios from 'axios'
 import
   {
     Grid,
@@ -7,34 +10,53 @@ import
     Paper,
     Button,
     TextField,
-    FormControlLabel,
-    Checkbox,
     Typography,
-    CardMedia
+    CardMedia,
   } from '@mui/material'
 import theme from '../../themeConfig'
 import LogoBW from '../../components/web/footer/static/logo blanco viewfinder.png'
 import Navbar from '../web/navbar/Navbar'
 
 
+
+const initialCredentials = {
+    email:'',
+    password:'',
+    //remenberMe:false,
+};
+
+
 const Login = () =>
 {
+    const formik = useFormik({
 
+      initialValues : initialCredentials,
+      validationShema: ValidateSchema,
 
-  const handleSubmit = (event) =>
-  {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+      onSubmit: async (values) => {
+          await new Promise((res) => setTimeout(res, 400));
+          alert(JSON.stringify(values));
+    try {
+      const { data } = await axios.post(
+        `${apiClient}/users`, 
+        values
+      );
+    
+    alert(data.message);
+    window.location.replace('/');
+    return data.message;
+  } catch ({ response }) {
+    alert(response.data.message);
+  }
+}
+})
+
+  
 
 
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -53,7 +75,8 @@ const Login = () =>
             <Typography>
               No tienes cuenta? <Link  to='/register' >Registrate!</Link>
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box sx={{ mt: 1 }}>
+              <form  onSubmit={formik.handleSubmit}>
               <TextField
                 margin="normal"
                 required
@@ -61,22 +84,24 @@ const Login = () =>
                 id="email"
                 label="Email"
                 name="email"
-                autoComplete="email"
-                autoFocus
+                type='email'
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
+                id="password"
                 name="password"
                 label="Contraseña"
                 type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Recuerdame"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
               />
               <Button
                 theme={ theme }
@@ -95,16 +120,15 @@ const Login = () =>
                   </Link>
                 </Grid>
               </Grid>
+              </form>
             </Box>
           </Box>
         </Grid>
         <Grid
           item
-          xs={false}
-          sm={4}
-          md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random/?city)',
+            display:{ xs:'none'},
+            backgroundImage: 'url(https://source.unsplash.com/random)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

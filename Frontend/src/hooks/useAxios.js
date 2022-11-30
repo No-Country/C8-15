@@ -1,30 +1,34 @@
-import { useState , useEfect, useDebugValue } from 'react';
-import apiCliente from '../services/api.service';
+import { useState, useEffect } from 'react';
+import apiClient from '../services/apiRest';
 
 
-const useAxios = ( url ) => {
 
-    let [ dataDB, setDataDb ] = useState([]);
-    let [ loading , setLoading ] = useState( true );
-    let [ error , setError ] = useState('');
+const useAxios = ( url ) =>
+{
+    let [ response , setResponse ] = useState([]);
+    let [ loading, setLoading ] = useState(true);
+    let [ error, setError ] = useState('');
 
 
-    const getData = async () =>{
-      try {
-          const { data } = await apiCliente.get(url);
-          setDataDb( data );
-          setLoading( false );
-      } catch ( error ) {
-          setError( error.message )
-      }
-    }
+    const getData = async () =>
+    {
+        try
+        {
+            const { data } = await apiClient.get( url );
+            setResponse( data );
+            setLoading( false );
+        } catch ( error ){
+            setError( error.message )
+        };
+    };
 
-    useEfect( () => {
+    useEffect( () =>
+    {
         getData();
 
-    }, [url ])
+    }, [ url ])
 
-    return { dataDB, loading , error }
+    return { response, loading, error }
 }
 
 export default useAxios; 
