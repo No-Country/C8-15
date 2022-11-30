@@ -1,7 +1,6 @@
 package com.nocountry.java_react.controller.impl;
 
 import com.nocountry.java_react.commons.constants.Constants;
-import com.nocountry.java_react.commons.enums.EPathUpload;
 import com.nocountry.java_react.controller.IBuyerController;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
@@ -12,7 +11,6 @@ import com.nocountry.java_react.exception.BuyerException;
 import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.exception.PhotoException;
 import com.nocountry.java_react.service.IBuyerService;
-import com.nocountry.java_react.service.IPhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -27,8 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -37,9 +33,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BuyerController implements IBuyerController {
 
-    private final Path pathFolderUpload = Paths.get(EPathUpload.CREATE_BUYER_FOLDER.toString());
     private final IBuyerService service;
-    private final IPhotoService photoService;
 
     @Override
     public ResponseEntity<BuyerResponse> createBuyer(@Valid @RequestBody BuyerRequestCreate request) throws EmailAlreadyExistException, BuyerException {
@@ -98,8 +92,9 @@ public class BuyerController implements IBuyerController {
     }
 
     @Override
-    public ResponseEntity<Resource> downloadPhoto(@PathVariable("id-photo") String idPhoto) throws Exception {
-        Resource resource = photoService.downloadPhoto(idPhoto, pathFolderUpload);
+    public ResponseEntity<Resource> downloadPhoto(@NotNull @PathVariable("id-buyer") String idBuyer,
+                                                  @NotNull @PathVariable("id-photo") String idPhoto) throws Exception {
+        Resource resource = service.downloadPhoto(idBuyer, idPhoto);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);

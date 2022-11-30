@@ -62,6 +62,7 @@ public interface IBuyerController {
     @DeleteMapping(path = "/remove-all-photos/{id-buyer}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotographerResponse> removeAllPhotosToBuyer(@NotNull @PathVariable("id-buyer") String idBuyer) throws BuyerException, PhotoException;
 
-    @GetMapping("/download-photo/{id-photo}")
-    ResponseEntity<Resource> downloadPhoto(@PathVariable("id-photo") String idPhoto) throws Exception;
+    @GetMapping("/download-photo/{id-buyer}/photo/{id-photo}")
+    ResponseEntity<Resource> downloadPhoto(@NotNull @PathVariable("id-buyer") String idBuyer,
+                                           @NotNull @PathVariable("id-photo") String idPhoto) throws Exception;
 }

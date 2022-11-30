@@ -7,7 +7,7 @@ import com.nocountry.java_react.dto.response.BuyerResponse;
 import com.nocountry.java_react.exception.BuyerException;
 import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.exception.PhotoException;
-import com.nocountry.java_react.exception.PhotographerException;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,4 +43,7 @@ public interface IBuyerService {
 
     @Transactional
     void removeAllPhotosToBuyer(String idBuyer) throws BuyerException, PhotoException;
+
+    @Transactional
+    Resource downloadPhoto(String idBuyer, String idPhoto) throws Exception;
 }

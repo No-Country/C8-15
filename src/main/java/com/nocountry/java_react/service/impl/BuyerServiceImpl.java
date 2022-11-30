@@ -19,6 +19,7 @@ import com.nocountry.java_react.repository.IPhotoRepository;
 import com.nocountry.java_react.service.IBuyerService;
 import com.nocountry.java_react.service.IPhotoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,7 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -175,6 +177,33 @@ public class BuyerServiceImpl implements IBuyerService {
             photoList.clear();
             buyer.setPhotos(photoList);
             repository.save(buyer);
+        } else {
+            throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
+        }
+    }
+
+    @Override
+    @Transactional
+    public Resource downloadPhoto(String idBuyer, String idPhoto) throws Exception {
+        Optional<Buyer> optionalBuyer = repository.findById(idBuyer);
+        if (optionalBuyer.isPresent()) {
+            Buyer buyer = repository.getReferenceById(idBuyer);
+            List<Photo> photoList = buyer.getPhotos();
+            Photo photoById = photoService.getPhotoById(idPhoto);
+            boolean exists = false;
+            for (Photo photo : photoList) {
+                System.out.println("LISTA DE FOTOS :" + photo.getId());
+                if (photo.getId().equals(photoById.getId())) {
+                    exists = true;
+                    System.out.println("EXIST " + true);
+                    break;
+                }
+            }
+            if (exists) {
+                return photoService.downloadPhoto(idPhoto, pathFolderUpload);
+            } else {
+                throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
+            }
         } else {
             throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
         }
