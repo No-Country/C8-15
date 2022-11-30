@@ -40,7 +40,7 @@ export const ValidateSchema = Yup.object().shape({
         })
         .required('Debe ingresar una contraseña')
         .min(6,'Debe ingresar minimo 6 caracteres')
-        .max(10,'La contraseña no debe de mas de 10 caracteres.'),
+        .max(10,'La contraseña no debe ser de mas de 10 caracteres.'),
   passwordConfirm: Yup.string().when('password', {
     is:( value ) => ( value && value.length > 0 ? true : false ),
     then: Yup.string()

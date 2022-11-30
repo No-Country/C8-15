@@ -16,6 +16,7 @@ const CardProfile = () => {
 const infoCard =[
 
   {
+    id:'1',
     avatar:'V',
     name:'Vivian Maier',
     type:'Urbano',
@@ -25,6 +26,8 @@ const infoCard =[
     url:'https://source.unsplash.com/random/?street'
   },
   {
+
+    id:'2',
     avatar:'A',
     name:'Ansel Adams ',
     type:'retratos',
@@ -35,6 +38,7 @@ const infoCard =[
   
   },
   {
+    id:'3',
     avatar:'D',
     name:'Diane Arbus',
     type:'Naturaleza',
@@ -48,8 +52,10 @@ const infoCard =[
 
     return (  
     <>
-    { infoCard.map( ({avatar , name , type, tittle , date, descripcion, url }) =>(
-    <Card sx={{ width: '320px' }} >
+    { infoCard.map( ({id, avatar , name , type, tittle , date, descripcion, url }) =>(
+    <Card
+    key={ id }
+    sx={{ width: '320px' }} >
     <CardHeader
       avatar={
         <Avatar aria-label="">
