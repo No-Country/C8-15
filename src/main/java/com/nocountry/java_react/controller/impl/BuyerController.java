@@ -6,7 +6,6 @@ import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestPassword;
 import com.nocountry.java_react.dto.response.BuyerResponse;
-import com.nocountry.java_react.dto.response.PhotographerResponse;
 import com.nocountry.java_react.exception.BuyerException;
 import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.exception.PhotoException;
@@ -21,10 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @RestController
@@ -42,15 +41,15 @@ public class BuyerController implements IBuyerController {
     }
 
     @Override
-    public ResponseEntity<BuyerResponse> modifyBuyer(@NotNull @PathVariable("id-buyer") String idBuyer,
-                                                     @Valid @RequestBody BuyerRequestModify request) throws EmailAlreadyExistException, BuyerException {
+    public ResponseEntity<BuyerResponse> modifyBuyer(@NotNull @PathVariable("id-buyer") String idBuyer, @Valid @RequestBody BuyerRequestModify request)
+            throws EmailAlreadyExistException, BuyerException {
         BuyerResponse response = service.modifyBuyer(idBuyer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<BuyerResponse> modifyPassword(@NotNull @PathVariable("id-buyer") String idBuyer,
-                                                        @Valid @RequestBody BuyerRequestPassword request) throws BuyerException {
+    public ResponseEntity<BuyerResponse> modifyPassword(@NotNull @PathVariable("id-buyer") String idBuyer, @Valid @RequestBody BuyerRequestPassword request)
+            throws BuyerException {
         service.modifyPassword(idBuyer, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -74,29 +73,30 @@ public class BuyerController implements IBuyerController {
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> addPhotoToBuyer(String idBuyer, String stringRequest, MultipartFile photo) throws BuyerException, PhotoException {
-        service.addPhotoToBuyer(idBuyer, stringRequest, photo);
+    public ResponseEntity<BuyerResponse> buyPhoto(@NotNull @PathVariable("id-buyer") String idBuyer, @NotNull @PathVariable("id-photo") String idPhoto, String stringRequest)
+            throws PhotoException, BuyerException {
+        service.purchasePhoto(idBuyer, idPhoto, stringRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> removePhotoToBuyer(String idBuyer, String idPhoto) throws PhotoException, BuyerException {
+    public ResponseEntity<Resource> downloadPhoto(@NotNull @PathVariable("id-buyer") String idBuyer, @NotNull @PathVariable("id-photo") String idPhoto)
+            throws MalformedURLException, PhotoException, BuyerException {
+        Resource resource = service.downloadPhoto(idBuyer, idPhoto);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+    @Override
+    public ResponseEntity<BuyerResponse> removePhotoToBuyer(String idBuyer, String idPhoto) throws PhotoException, BuyerException {
         service.removePhotoToBuyer(idBuyer, idPhoto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> removeAllPhotosToBuyer(String idBuyer) throws BuyerException, PhotoException {
+    public ResponseEntity<BuyerResponse> removeAllPhotosToBuyer(String idBuyer) throws BuyerException, PhotoException {
         service.removeAllPhotosToBuyer(idBuyer);
         return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @Override
-    public ResponseEntity<Resource> downloadPhoto(@NotNull @PathVariable("id-buyer") String idBuyer,
-                                                  @NotNull @PathVariable("id-photo") String idPhoto) throws Exception {
-        Resource resource = service.downloadPhoto(idBuyer, idPhoto);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
     }
 }
