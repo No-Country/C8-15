@@ -1,11 +1,11 @@
 package com.nocountry.java_react.controller.impl;
 
-import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.controller.IPhotographerController;
 import com.nocountry.java_react.dto.request.photographer.PhotographerRequestCreate;
 import com.nocountry.java_react.dto.request.photographer.PhotographerRequestModify;
 import com.nocountry.java_react.dto.request.photographer.PhotographerRequestPassword;
 import com.nocountry.java_react.dto.response.PhotographerResponse;
+import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.exception.PhotoException;
 import com.nocountry.java_react.exception.PhotographerException;
 import com.nocountry.java_react.service.IPhotographerService;
@@ -41,15 +41,15 @@ public class PhotographerController implements IPhotographerController {
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> modifyPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                                   @Valid @RequestBody PhotographerRequestModify request) throws EmailAlreadyExistException, PhotographerException {
+    public ResponseEntity<PhotographerResponse> modifyPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer, @Valid @RequestBody PhotographerRequestModify request)
+            throws EmailAlreadyExistException, PhotographerException {
         PhotographerResponse response = service.modifyPhotographer(idPhotographer, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> modifyPassword(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                               @Valid @RequestBody PhotographerRequestPassword request) throws PhotographerException {
+    public ResponseEntity<PhotographerResponse> modifyPassword(@NotNull @PathVariable("id-photographer") String idPhotographer, @Valid @RequestBody PhotographerRequestPassword request)
+            throws PhotographerException {
         service.modifyPassword(idPhotographer, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -73,8 +73,7 @@ public class PhotographerController implements IPhotographerController {
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                                       String stringRequest,
+    public ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer, String stringRequest,
                                                                        @RequestParam(value = "photo") MultipartFile photo) throws PhotographerException, PhotoException {
         service.addPhotoToPhotographer(idPhotographer, stringRequest, photo);
         return ResponseEntity.status(HttpStatus.OK).build();
