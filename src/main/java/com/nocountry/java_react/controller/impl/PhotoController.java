@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -36,8 +37,7 @@ public class PhotoController implements IPhotoController {
     private final String pathFileUpload = EPathUpload.PATH_PHOTO_IMAGE.toString();
 
     @Override
-    public ResponseEntity<PhotoResponse> uploadPhoto(String stringRequest,
-                                                     @RequestParam("photo") MultipartFile photo) throws PhotoException {
+    public ResponseEntity<PhotoResponse> uploadPhoto(String stringRequest, @RequestParam("photo") MultipartFile photo) throws PhotoException {
         PhotoRequest photoRequest = new PhotoRequest();
         try {
             photoRequest = new ObjectMapper().readValue(stringRequest, PhotoRequest.class);
@@ -49,8 +49,7 @@ public class PhotoController implements IPhotoController {
     }
 
     @Override
-    public ResponseEntity<PhotoResponse> modifyPhoto(@NotNull @PathVariable("id-photo") String idPhoto,
-                                                     String stringRequest,
+    public ResponseEntity<PhotoResponse> modifyPhoto(@NotNull @PathVariable("id-photo") String idPhoto, String stringRequest,
                                                      @RequestParam(value = "photo", required = false) MultipartFile photo) throws PhotoException {
         PhotoRequest photoRequest = new PhotoRequest();
         try {
@@ -69,7 +68,7 @@ public class PhotoController implements IPhotoController {
     }
 
     @Override
-    public ResponseEntity<PhotoResponse> deletePhotoByOriginalName(@PathVariable String originalName) {
+    public ResponseEntity<PhotoResponse> deletePhotoByOriginalName(@PathVariable String originalName) throws PhotoException {
         service.deletePhotoByOriginalName(originalName, pathFolderUpload);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -81,7 +80,7 @@ public class PhotoController implements IPhotoController {
     }
 
     @Override
-    public ResponseEntity<Resource> downloadPhoto(@PathVariable("id-photo") String idPhoto) throws Exception {
+    public ResponseEntity<Resource> downloadPhoto(@PathVariable("id-photo") String idPhoto) throws MalformedURLException, PhotoException {
         Resource resource = service.downloadPhoto(idPhoto, pathFolderUpload);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")

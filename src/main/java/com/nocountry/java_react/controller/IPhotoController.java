@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import java.net.MalformedURLException;
 
 @Validated
 public interface IPhotoController {
@@ -22,19 +23,18 @@ public interface IPhotoController {
     ResponseEntity<PhotoResponse> uploadPhoto(String stringRequest, @RequestParam("photo") MultipartFile photo) throws PhotoException;
 
     @PutMapping(path = "/modify-photo/{id-photo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<PhotoResponse> modifyPhoto(@NotNull @PathVariable("id-photo") String idPhoto,
-                                              String stringRequest,
+    ResponseEntity<PhotoResponse> modifyPhoto(@NotNull @PathVariable("id-photo") String idPhoto, String stringRequest,
                                               @RequestParam(value = "photo", required = false) MultipartFile photo) throws PhotoException;
 
     @DeleteMapping(path = "/delete-photo/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotoResponse> deletePhoto(@NotNull @PathVariable("id-photo") String idPhoto) throws PhotoException;
 
     @DeleteMapping(path = "/delete-photo-by-original-name/{filename:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PhotoResponse> deletePhotoByOriginalName(@PathVariable String originalName);
+    ResponseEntity<PhotoResponse> deletePhotoByOriginalName(@PathVariable String originalName) throws PhotoException;
 
     @GetMapping(path = "/get-photo-by-id/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotoResponse> getPhotoById(@NotNull @PathVariable("id-photo") String idPhoto) throws PhotoException;
 
     @GetMapping("/download-photo/{id-photo}")
-    ResponseEntity<Resource> downloadPhoto(@PathVariable("id-photo") String idPhoto) throws Exception;
+    ResponseEntity<Resource> downloadPhoto(@PathVariable("id-photo") String idPhoto) throws MalformedURLException, PhotoException;
 }
