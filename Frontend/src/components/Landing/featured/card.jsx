@@ -23,7 +23,7 @@ const infoCard =[
     tittle:'Streat 2',
     date:'19 noviembre, New York, NY',
     descripcion:'Workers on a store',
-    url:'https://source.unsplash.com/random/?street'
+    url:'https://picsum.photos/800/500?random&dummyParam=2'
   },
   {
 
@@ -34,7 +34,7 @@ const infoCard =[
     tittle:'Monte',
     date:'22 noviembre 2022',
     descripcion:'Pinchot pass',
-    url:'https://source.unsplash.com/random/?person'
+    url:'https://picsum.photos/800/500?random&dummyParam=4'
   
   },
   {
@@ -45,7 +45,7 @@ const infoCard =[
     tittle:'EEUU',
     date:'14 septiembre 2021',
     descripcion:'dos personas',
-    url:'https://source.unsplash.com/random/?land'
+    url:'https://picsum.photos/800/500?random&dummyParam=1'
   }
     
   ];

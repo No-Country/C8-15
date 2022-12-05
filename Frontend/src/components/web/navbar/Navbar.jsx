@@ -68,10 +68,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
   const pages = [
-    {
-      name:'Acerca de',
-      link:'AboutUs'
-    },
+  
     {
       name:'Categorias',
       link:'categories'

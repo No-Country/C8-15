@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom'
-import { useFormik } from 'formik'
-import { ValidateSchema } from '../../validation/validationForm'
-import axios from 'axios'
+import { Link , useNavigate } from 'react-router-dom';
+import { Formik , Field , Form , ErrorMessage } from 'formik';
+import { ValidateSchema } from '../../validation/validationForm';
 import
   {
     Grid,
@@ -12,47 +11,27 @@ import
     TextField,
     Typography,
     CardMedia,
-  } from '@mui/material'
-import theme from '../../themeConfig'
-import LogoBW from '../../components/web/footer/static/logo blanco viewfinder.png'
-import Navbar from '../web/navbar/Navbar'
+    LinearProgress
+  } from '@mui/material';
+import theme from '../../themeConfig';
+import LogoBW from '../../components/web/footer/static/logo blanco viewfinder.png';
+import Navbar from '../web/navbar/Navbar'; 
+import { postLoginAxios  } from '../../hooks/postAxios';
+import Swal from 'sweetalert2'; 
 
 
 
-const initialCredentials = {
+const Login = () => {
+
+
+  const initialCredencial = {
+
     email:'',
-    password:'',
-    //remenberMe:false,
-};
+    password:''
+  }; 
 
-
-const Login = () =>
-{
-    const formik = useFormik({
-
-      initialValues : initialCredentials,
-      validationShema: ValidateSchema,
-
-      onSubmit: async (values) => {
-          await new Promise((res) => setTimeout(res, 400));
-          alert(JSON.stringify(values));
-    try {
-      const { data } = await axios.post(
-        `${apiClient}/users`, 
-        values
-      );
-    
-    alert(data.message);
-    window.location.replace('/');
-    return data.message;
-  } catch ({ response }) {
-    alert(response.data.message);
-  }
-}
-})
-
-  
-
+  const navigate = useNavigate(); 
+  let timerInterval; 
 
   return (
     <>
@@ -76,8 +55,35 @@ const Login = () =>
               No tienes cuenta? <Link  to='/register' >Registrate!</Link>
             </Typography>
             <Box sx={{ mt: 1 }}>
-              <form  onSubmit={formik.handleSubmit}>
-              <TextField
+              <Formik  
+                initialValues={initialCredencial}
+                validationSchema={ValidateSchema}
+                onSubmit={ async ( values ) => {
+                  const profile = await postLoginAxios(values); 
+
+                  return Swal.fire({
+                  title:'Bienvenido!',
+                  html:`Bienvenido, ${profile.user.name}` ,
+                  timer: 2100, 
+                  timerProgressBar: true,
+                  didOpen: () => {
+                    Swal.showLoading();
+                    const hi = Swal.getHtmlContainer().querySelector('hi');
+                    timerInterval = setInterval(()=> {
+                      hi.textContent = Swal.getTimerLeft();
+                    }, 100); 
+                  },
+                  willClose: ()=>{
+                    clearInterval(timerInterval);
+                  }
+                  }).then(navigate('/perfil')); 
+                }}
+                
+                >
+              {({ errors, touched , isSubmitting })=> (
+              <Form>
+              <Field
+                as={ TextField }
                 margin="normal"
                 required
                 fullWidth
@@ -85,12 +91,12 @@ const Login = () =>
                 label="Email"
                 name="email"
                 type='email'
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
+                helperText={ <ErrorMessage name='emial'/>}
+                error={ errors.email && touched.email}
+                
               />
-              <TextField
+              <Field
+                as={ TextField }
                 margin="normal"
                 required
                 fullWidth
@@ -98,10 +104,8 @@ const Login = () =>
                 name="password"
                 label="Contraseña"
                 type="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={formik.touched.password && Boolean(formik.errors.password)}
-                helperText={formik.touched.password && formik.errors.password}
+                helperText={ <ErrorMessage name='password'/>}
+                error={ errors.password && touched.password}
               />
               <Button
                 theme={ theme }
@@ -119,16 +123,29 @@ const Login = () =>
                     olvidaste la contraseña?
                   </Link>
                 </Grid>
+                <Grid>
+                <Grid>
+                        { isSubmitting ?(
+                        <LinearProgress/>
+                        ): null }
+                          </Grid>
+                </Grid>
               </Grid>
-              </form>
+              </Form>
+              )}
+              </Formik>
             </Box>
           </Box>
         </Grid>
         <Grid
           item
+          sm={1}
+          md={7}
           sx={{
-            display:{ xs:'none'},
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+            widht:'100%',
+            height:'100vh',
+            display: { xs: 'none', sm: 'block', md: 'block', lg:'block' },
+            backgroundImage: 'url(https://source.unsplash.com/random?land)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -138,8 +155,8 @@ const Login = () =>
         >
         <CardMedia      
         component="img"
-        widht='120'
-        height='160'
+        widht='100'
+        height='180'
         image= { LogoBW }
         alt='logobw'
         sx={{

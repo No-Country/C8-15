@@ -24,7 +24,7 @@ const theme = createTheme({
       subtitle1:{
         fontSize:24,
       }
-    }
+    }, 
 
 })
 

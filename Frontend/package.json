@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@brainstationau/formik-material-ui": "^1.0.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.10.14",
-    "@mui/material": "^5.10.14",
+    "@mui/icons-material": "^5.10.16",
+    "@mui/lab": "^5.0.0-alpha.110",
+    "@mui/material": "^5.10.16",
     "@mui/styled-engine-sc": "^5.10.14",
     "axios": "^1.2.0",
     "formik": "^2.2.9",
@@ -28,6 +30,7 @@
     "react-scripts": "^5.0.1",
     "react-scroll": "^1.8.8",
     "styled-components": "^5.3.6",
+    "sweetalert2": "^11.6.15",
     "yup": "^0.32.11"
   },
   "devDependencies": {

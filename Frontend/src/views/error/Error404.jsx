@@ -1,6 +1,6 @@
 import img404 from './static/404-Error-rafiki.jpeg';
 import Navbar from "../../components/web/navbar/Navbar";
-import { Grid  } from '@mui/material'
+import { Grid } from '@mui/material'
 
 
 const Error404 = () => {
@@ -26,8 +26,8 @@ const Error404 = () => {
         backgroundSize:'650px 550px',
         minHeight:'100vh',
         }}>
-    </div> 
-  </Grid> 
+    </div>
+  </Grid>
   </>
   )
 

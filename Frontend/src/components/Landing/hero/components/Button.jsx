@@ -18,13 +18,6 @@ const ButtonHero = () =>{
       }}>
         Buscar ahora
       </Button>
-      <Button variant="outlined" size='large' href="#contained-buttons" color='primary' theme={theme}
-      sx={{
-        borderRadius:'100px',
-        border:'3px solid'
-      }}>
-        Mas Info
-      </Button>
     </Stack>
   </>
   )
