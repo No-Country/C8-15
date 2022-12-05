@@ -1,7 +1,6 @@
 import Navbar from "../../web/navbar/Navbar";
 import
-{
-
+{ Container,
   IconButton,
   Button,
   Grid,
@@ -9,10 +8,13 @@ import
   TextField,
   Chip,
   Autocomplete,
+  Typography
 } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom'
+import theme from '../../../themeConfig'
 
 const UploadPhoto = () =>
 {
@@ -53,21 +55,12 @@ const UploadPhoto = () =>
   return (
     <>
       <Navbar />
-      <Grid 
-        container direction="column"
-        justifyContent="flex-start"
-        alignItems="center"
-        sx={{ padding:'15% 5% 10% 10%' }} >
-        <Box 
-          cols={12}
-          component="form"
-          sx={{
-            "& .MuiTextField-root": { m: 1, width:'50%' },
-          }}
-          noValidate
-          autoComplete="off">
-          <Box>
-          <IconButton 
+      <Container component="main" maxWidth="sm" sx={{ mb: 4 , mt:15}}>
+      <Typography variant="h6" gutterBottom>
+      Subir Fotografia 
+      </Typography>
+      
+          <IconButton theme={theme}
             sx={{ widht: '50px', heigth: '50px' }}
             color="primary"
             aria-label="upload picture"
@@ -75,13 +68,14 @@ const UploadPhoto = () =>
             <input hidden accept="image/*" type="file" onChange={(e) => handleChange(e.target)} />
             <PhotoCamera fontSize="large" />
           </IconButton>
-          </Box>
           {img.map((row, index) => 
             <Box xs={{ margin:'40% 40% 40% 40%'}}
               key={index}>
               <img src={row} alt={row}   Width='60%' height='50%' />
               <Box>
-              <Button  
+              <Button 
+              theme={theme}
+              color='primary' 
               variant="outlined" 
               onClick={() => deleteImg(row)} 
               startIcon={<DeleteIcon />}
@@ -91,39 +85,70 @@ const UploadPhoto = () =>
               </Box>
             </Box>
           )}
-          <Box marginTop={5} xs={12}>
+
+
+          <Grid spacing={3} >
+          <Grid item xs={12}>
           <TextField
+          margin="normal"
             id="filled-basic"
             label="Titulo"
+            fullWidth
             variant="filled" />
+            </Grid>
+          <Grid item xs={12} >
           <TextField
+          margin="normal"
+            fullWidth
             id="filled-basic"
             label="Fecha"
             variant="filled" />
+            </Grid>
+          <Grid item xs={12}>
           <TextField
+          margin="normal"
+          fullWidth
               id="filled-basic"
               label="Ubicacion"
               variant="filled" />
+              </Grid>
+          <Grid item xs={12} >
           <TextField
+          margin="normal"
+          fullWidth
             id="filled-basic"
             label="Detalle Equipo"
             variant="filled" />
+            </Grid>
+          <Grid item xs={12}>
           <TextField
+          margin="normal"
+          fullWidth
             id="filled-basic"
             label="Link Mercado Pago"
             variant="filled" />
+            </Grid>
+          <Grid item xs={12} >
             <TextField
+            margin="normal"            fullWidth
               id="filled-basic"
               label="Precio"
               variant="filled" />
+              </Grid>
+          <Grid item xs={12} >
           <TextField
+          margin="normal"
+          fullWidth
             id="filled-multiline-static"
             label="Descripcion"
             multiline
             rows={4}
             variant="filled"
           />
+          </Grid>
+          <Grid item xs={12}>
           <Autocomplete
+          margin="normal"
             multiple
             id="tags-filled"
             options={Categories.map((Categories) => Categories)}
@@ -141,13 +166,16 @@ const UploadPhoto = () =>
                 placeholder="Favorites"
               />
             )}
-          />
-          <Box margin='5% 5% 15% 15%'>
-          <Button variant="contained" size='large'>Subir Foto</Button>
+          /></Grid>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button theme={theme} color='primary' component={ Link } to='/Profile' sx={{ mt: 3, ml: 1 }}>
+                  volver 
+                  </Button>
+          <Button theme={theme} bg='secondary' variant="contained" size='medium'
+          sx={{ mt: 3, ml: 1 }}>Subir Foto</Button>
           </Box>
-          </Box>
-        </Box>
-      </Grid >
+        </Grid>
+      </Container>
     </>
   );
 };

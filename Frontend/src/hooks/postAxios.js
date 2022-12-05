@@ -3,7 +3,7 @@ import apiClient from '../services/apiRest';
 
 export const postRegisterAxios = async (values) => {
   try{
-    const { data } = await apiClient.post('/users', values);
+    const { data } = await apiClient.post('/auth/register', values);
     return data;
   } catch ({ err }){
     return err.message;

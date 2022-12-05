@@ -8,6 +8,7 @@ const ProfilePage = React.lazy(()=> import ('./views/profile/profilePage'));
 const ProfileUserPage = React.lazy(()=> import ('./views/profile/PorfileUserPage'));
 const SettingPage = React.lazy(()=> import ('./views/profile/SettingPage'));
 const UploadPhotoPage = React.lazy(() => import ('./views/profile/UploadPhotoPage'));
+const ConfirmPage = React.lazy(()=> import ('./views/Confirmation/ConfirmPage')); 
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <Route path='profile-user' element={<ProfileUserPage/>} />
       <Route path='setting' element={<SettingPage/>}/>
       <Route path='Upload-photo' element={<UploadPhotoPage/>}/>
+      <Route path='confirm' element={<ConfirmPage/>}/>
       <Route path='*' element={<Navigate to='/404' />}/>
       </Routes>
     </Suspense>
