@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.commons.enums.EPathUpload;
 import com.nocountry.java_react.dto.request.PhotoRequest;
+import com.nocountry.java_react.dto.request.buyer.BuyerRequestBuyPhoto;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestPassword;
@@ -19,22 +20,34 @@ import com.nocountry.java_react.repository.IPhotoRepository;
 import com.nocountry.java_react.service.IBuyerService;
 import com.nocountry.java_react.service.IPhotoService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import static com.nocountry.java_react.commons.enums.EPathUpload.PATH_BUYER_IMAGE;
 
 @Service
 @RequiredArgsConstructor
 public class BuyerServiceImpl implements IBuyerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(BuyerServiceImpl.class);
+    private static final String TRUE = "true";
+    private static final Path ORIGIN_PATH = Paths.get(EPathUpload.ORIGIN_PATH.toString());
+    private static final Path DESTINY_PATH = Paths.get(EPathUpload.DESTINY_PATH.toString());
     private final Path pathFolderUpload = Paths.get(EPathUpload.CREATE_BUYER_FOLDER.toString());
     private final String pathFileUpload = EPathUpload.PATH_BUYER_IMAGE.toString();
     private final IBuyerRepository repository;
@@ -129,6 +142,10 @@ public class BuyerServiceImpl implements IBuyerService {
         }
     }
 
+    public static String getPhotoExtension(String originalName) {
+        return originalName.substring(originalName.lastIndexOf("."));
+    }
+
     private void addPhotoToBuyer(Buyer buyer, String stringRequest, MultipartFile photo) throws PhotoException {
         PhotoRequest photoRequest = new PhotoRequest();
         try {
@@ -138,8 +155,74 @@ public class BuyerServiceImpl implements IBuyerService {
         }
         Photo savePhoto = photoService.savePhoto(photoRequest, photo, pathFolderUpload, pathFileUpload);
 
-        savePhoto.setBuyer(buyer);
+        savePhoto.getBuyers().add(buyer);
         buyer.getPhotos().add(savePhoto);
+    }
+
+    @Override
+    @Transactional
+    public void buyPhoto(String idBuyer, String idPhoto, BuyerRequestBuyPhoto request) throws BuyerException, PhotoException, IOException {
+        Optional<Buyer> optionalBuyer = repository.findById(idBuyer);
+        if (optionalBuyer.isPresent()) {
+            Buyer buyer = repository.getReferenceById(idBuyer);
+            Optional<Photo> optionalPhoto = photoRepository.findById(idPhoto);
+            if (optionalPhoto.isPresent()) {
+                Photo photo = photoRepository.getReferenceById(idPhoto);
+
+                Photo newPhoto = new Photo();
+
+                logger.info("ID PHOTO : {}", photo.getId());
+                logger.info("ID NEW PHOTO : {}", newPhoto.getId());
+
+                if (request.getPurchasedPhoto().equalsIgnoreCase(TRUE)) {
+                    photo.setSales(photo.getSales() + 1);
+
+                    List<Photo> photoList = buyer.getPhotos();
+                    newPhoto.setId(UUID.randomUUID().toString());
+                    newPhoto.setSales(0);
+                    newPhoto.setPhotographer(null);
+                    newPhoto.setPrice(null);
+                    newPhoto.setPaymentLink(null);
+                    newPhoto.setPath(PATH_BUYER_IMAGE + photo.getFileName());
+                    newPhoto.setUpdated(new Date());
+                    newPhoto.setAuthor(photo.getAuthor());
+                    newPhoto.setCategory(photo.getCategory());
+                    newPhoto.setDescription(photo.getDescription());
+                    newPhoto.setLocation(photo.getLocation());
+                    newPhoto.setOriginalName(photo.getOriginalName());
+
+                    // COPY NEW PHOTO TO BUYER FOLDER - DOWNLOADED PHOTO
+
+                    Path originPath = Paths.get("%s\\%s".formatted(ORIGIN_PATH, photo.getFileName()));
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss");
+                    String stringDate = sdf.format(new Date());
+                    String newPhotoName = photo.getOriginalName().replaceAll(getPhotoExtension(photo.getOriginalName()),
+                            " - " + stringDate + getPhotoExtension(photo.getOriginalName()));
+                    Path destinyPath = Paths.get("%s\\%s".formatted(DESTINY_PATH, newPhotoName));
+                    Files.copy(originPath, destinyPath/*, StandardCopyOption.REPLACE_EXISTING*/);
+
+                    // END COPY PHOTO
+
+                    newPhoto.setFileName(newPhotoName);
+
+                    photoList.add(newPhoto);
+                    logger.info("PHOTO LIST : {}", photoList.size());
+                    logger.info("ID NEW PHOTO : {}", newPhoto.getId());
+                    buyer.setPhotos(photoList);
+
+                    newPhoto.getBuyers().add(buyer);
+                    repository.save(buyer);
+
+                } else {
+                    throw new BuyerException(EExceptionMessage.YOU_MUST_FIRST_PURCHASE_THE_PHOTO_TO_DOWNLOAD_IT.toString());
+                }
+            } else {
+                throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
+            }
+        } else {
+            throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
+        }
     }
 
     @Override
@@ -184,7 +267,7 @@ public class BuyerServiceImpl implements IBuyerService {
 
     @Override
     @Transactional
-    public Resource downloadPhoto(String idBuyer, String idPhoto) throws Exception {
+    public Resource downloadPhoto(String idBuyer, String idPhoto) throws PhotoException, BuyerException, MalformedURLException {
         Optional<Buyer> optionalBuyer = repository.findById(idBuyer);
         if (optionalBuyer.isPresent()) {
             Buyer buyer = repository.getReferenceById(idBuyer);
@@ -192,17 +275,17 @@ public class BuyerServiceImpl implements IBuyerService {
             Photo photoById = photoService.getPhotoById(idPhoto);
             boolean exists = false;
             for (Photo photo : photoList) {
-                System.out.println("LISTA DE FOTOS :" + photo.getId());
+                logger.info("LISTA DE FOTOS : {}", photo.getId());
                 if (photo.getId().equals(photoById.getId())) {
                     exists = true;
-                    System.out.println("EXIST " + true);
+                    logger.info("EXIST " + true);
                     break;
                 }
             }
             if (exists) {
                 return photoService.downloadPhoto(idPhoto, pathFolderUpload);
             } else {
-                throw new PhotoException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
+                throw new MalformedURLException(EExceptionMessage.PHOTO_NOT_FOUND.toString());
             }
         } else {
             throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());

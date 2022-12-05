@@ -2,6 +2,7 @@ package com.nocountry.java_react.controller.impl;
 
 import com.nocountry.java_react.commons.constants.Constants;
 import com.nocountry.java_react.controller.IBuyerController;
+import com.nocountry.java_react.dto.request.buyer.BuyerRequestBuyPhoto;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestPassword;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -73,9 +75,9 @@ public class BuyerController implements IBuyerController {
     }
 
     @Override
-    public ResponseEntity<BuyerResponse> buyPhoto(@NotNull @PathVariable("id-buyer") String idBuyer, @NotNull @PathVariable("id-photo") String idPhoto, String stringRequest)
-            throws PhotoException, BuyerException {
-        service.purchasePhoto(idBuyer, idPhoto, stringRequest);
+    public ResponseEntity<BuyerResponse> buyPhoto(@NotNull @PathVariable("id-buyer") String idBuyer, @NotNull @PathVariable("id-photo") String idPhoto,
+                                                  @Valid @RequestBody BuyerRequestBuyPhoto request) throws PhotoException, BuyerException, CloneNotSupportedException, IOException {
+        service.buyPhoto(idBuyer, idPhoto, request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

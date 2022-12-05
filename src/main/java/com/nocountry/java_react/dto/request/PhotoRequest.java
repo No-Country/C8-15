@@ -25,4 +25,8 @@ public class PhotoRequest {
     @NotBlank(message = "EL PRECIO DE LA FOTO NO PUEDE ESTAR VACÍO O SER NULO")
     @JsonProperty("price")
     private String price;
+
+    @NotBlank(message = "EL LINK DE PAGO DE LA FOTO NO PUEDE ESTAR VACÍO O SER NULO")
+    @JsonProperty("paymentLink")
+    private String paymentLink;
 }

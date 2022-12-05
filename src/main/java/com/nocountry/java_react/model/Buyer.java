@@ -10,7 +10,8 @@ import org.hibernate.Hibernate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serial;
 import java.io.Serializable;
@@ -40,7 +41,11 @@ public class Buyer extends User implements Serializable {
     private String country;
 
     // RELATION BUYER --> PHOTO
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "buyers", fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH})
     @ToString.Exclude
     private List<Photo> photos = new ArrayList<>();
 

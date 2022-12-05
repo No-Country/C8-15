@@ -14,6 +14,7 @@ public class PhotoResponse {
     private String location;
     private String description;
     private Double price;
+    private String paymentLink;
     private String created;
     private String updated;
     private String deleted;

@@ -35,6 +35,7 @@ public class PhotoMapper {
         double stringToDouble = Double.parseDouble(photoRequest.getPrice().replace(",", "."));
         BigDecimal price = BigDecimal.valueOf(stringToDouble).setScale(2, RoundingMode.HALF_UP);
         entity.setPrice(price.doubleValue());
+        entity.setPaymentLink(photoRequest.getPaymentLink());
     }
 
     public Photo convertToEntityModify(PhotoRequest photoRequest, Photo entity) throws PhotoException {
@@ -51,6 +52,7 @@ public class PhotoMapper {
         double stringToDouble = Double.parseDouble(photoRequest.getPrice().replace(",", "."));
         BigDecimal price = BigDecimal.valueOf(stringToDouble).setScale(2, RoundingMode.HALF_UP);
         entity.setPrice(price.doubleValue());
+        entity.setPaymentLink(photoRequest.getPaymentLink());
     }
 
     public PhotoResponse convertToResponse(Photo entity) {
@@ -70,6 +72,7 @@ public class PhotoMapper {
         response.setDescription(entity.getDescription());
         BigDecimal price = BigDecimal.valueOf(entity.getPrice()).setScale(2, RoundingMode.HALF_UP);
         response.setPrice(price.doubleValue());
+        response.setPaymentLink(entity.getPaymentLink());
         // DATE TO STRING
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String stringCreated = sdf.format(entity.getCreated());
@@ -89,7 +92,7 @@ public class PhotoMapper {
 
     private static void validateRequest(PhotoRequest request) throws PhotoException {
         if (request.getCategory() == null || request.getAuthor() == null || request.getLocation() == null ||
-                request.getDescription() == null || request.getPrice() == null) {
+                request.getDescription() == null || request.getPrice() == null || request.getPaymentLink() == null) {
             throw new PhotoException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
         }
     }

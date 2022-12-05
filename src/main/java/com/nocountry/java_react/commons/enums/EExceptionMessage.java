@@ -35,7 +35,8 @@ public enum EExceptionMessage {
     // BUYER EXCEPTION MESSAGE
     ////////////////////////////////////////////////////////////////////////////////////////////
     BUYER_NOT_FOUND("BUYER NOT FOUND"),
-    THE_LIST_OF_BUYERS_IS_EMPTY("THE LIST OF BUYERS IS EMPTY");
+    THE_LIST_OF_BUYERS_IS_EMPTY("THE LIST OF BUYERS IS EMPTY"),
+    YOU_MUST_FIRST_PURCHASE_THE_PHOTO_TO_DOWNLOAD_IT("YOU MUST FIRST PURCHASE THE PHOTO TO DOWNLOAD IT");
 
     private final String messageString;
 

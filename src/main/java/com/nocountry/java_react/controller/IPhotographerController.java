@@ -36,7 +36,7 @@ public interface IPhotographerController {
     ResponseEntity<PhotographerResponse> modifyPassword(@NotNull @PathVariable("id-photographer") String idPhotographer, @Valid @RequestBody PhotographerRequestPassword request)
             throws PhotographerException;
 
-    @DeleteMapping(path = "/delete-photographer/{id-photographer}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/delete-photographer/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotographerResponse> deletePhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer) throws PhotographerException;
 
     @GetMapping(path = "/get-by-id/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,10 +49,10 @@ public interface IPhotographerController {
     ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer, String stringRequest,
                                                                 @RequestParam(value = "photo") MultipartFile photo) throws PhotographerException, PhotoException;
 
-    @DeleteMapping(path = "/remove-photo/{id-photographer}/photo/{id-photo}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PhotographerResponse> removeFileToStudent(@NotNull @PathVariable("id-photographer") String idPhotographer, @NotNull @PathVariable("id-photo") String idPhoto)
+    @DeleteMapping(path = "/remove-photo/{id-photographer}/photo/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<PhotographerResponse> removePhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer, @NotNull @PathVariable("id-photo") String idPhoto)
             throws PhotoException, PhotographerException;
 
-    @DeleteMapping(path = "/remove-all-photos/{id-photographer}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/remove-all-photos/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotographerResponse> removeAllPhotosToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer) throws PhotographerException, PhotoException;
 }

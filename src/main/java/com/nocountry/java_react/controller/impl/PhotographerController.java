@@ -80,8 +80,8 @@ public class PhotographerController implements IPhotographerController {
     }
 
     @Override
-    public ResponseEntity<PhotographerResponse> removeFileToStudent(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                                    @NotNull @PathVariable("id-photo") String idPhoto) throws PhotoException, PhotographerException {
+    public ResponseEntity<PhotographerResponse> removePhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
+                                                                          @NotNull @PathVariable("id-photo") String idPhoto) throws PhotoException, PhotographerException {
         service.removePhotoToPhotographer(idPhotographer, idPhoto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

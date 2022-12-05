@@ -7,7 +7,9 @@ public enum EPathUpload {
     CREATE_PHOTOGRAPHER_FOLDER("src/main/resources/static/fileUploads/photographer"),
     PATH_PHOTOGRAPHER_IMAGE("/fileUploads/photographer/"),
     CREATE_BUYER_FOLDER("src/main/resources/static/fileUploads/buyer"),
-    PATH_BUYER_IMAGE("/fileUploads/buyer/");
+    PATH_BUYER_IMAGE("/fileUploads/buyer/"),
+    ORIGIN_PATH("src/main/resources/static/fileUploads/photographer"),
+    DESTINY_PATH("src/main/resources/static/fileUploads/buyer");
 
     private final String pathFileUploadString;
 

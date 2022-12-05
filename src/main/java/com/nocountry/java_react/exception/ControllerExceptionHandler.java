@@ -1,9 +1,5 @@
 package com.nocountry.java_react.exception;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.nocountry.java_react.commons.enums.EExceptionMessage;
 import com.nocountry.java_react.dto.response.ErrorResponse;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +11,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
@@ -131,6 +131,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                     exception);
             status = HttpStatus.BAD_REQUEST;
         }
+        if (exception.getMessage().equals(EExceptionMessage.PHOTO_NOT_FOUND.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.NOT_FOUND, typeException,
+                    EExceptionMessage.PHOTO_NOT_FOUND.toString(),
+                    exception);
+            status = HttpStatus.NOT_FOUND;
+        }
         assert status != null;
         return new ResponseEntity<>(errorResponse, status);
     }
@@ -179,6 +185,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         if (exception.getMessage().equals(EExceptionMessage.NEW_PASSWORDS_DO_NOT_MATCH.toString())) {
             errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
                     EExceptionMessage.NEW_PASSWORDS_DO_NOT_MATCH.toString(),
+                    exception);
+            status = HttpStatus.BAD_REQUEST;
+        }
+        if (exception.getMessage().equals(EExceptionMessage.PHOTO_NOT_FOUND.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.NOT_FOUND, typeException,
+                    EExceptionMessage.PHOTO_NOT_FOUND.toString(),
+                    exception);
+            status = HttpStatus.NOT_FOUND;
+        }
+        if (exception.getMessage().equals(EExceptionMessage.YOU_MUST_FIRST_PURCHASE_THE_PHOTO_TO_DOWNLOAD_IT.toString())) {
+            errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, typeException,
+                    EExceptionMessage.YOU_MUST_FIRST_PURCHASE_THE_PHOTO_TO_DOWNLOAD_IT.toString(),
                     exception);
             status = HttpStatus.BAD_REQUEST;
         }

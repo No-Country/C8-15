@@ -9,6 +9,8 @@ import com.nocountry.java_react.model.Photo;
 import com.nocountry.java_react.repository.IPhotoRepository;
 import com.nocountry.java_react.service.IPhotoService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
@@ -25,12 +28,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class PhotoServiceImpl implements IPhotoService {
 
+    private static final Logger logger = LoggerFactory.getLogger(PhotoServiceImpl.class);
     private final IPhotoRepository repository;
     private final PhotoMapper mapper;
 
@@ -53,8 +56,8 @@ public class PhotoServiceImpl implements IPhotoService {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss");
             String stringDate = sdf.format(new Date());
-            newPhotoName = UUID.randomUUID() + " - " + stringDate + " - " + originalFileName.
-                    replaceAll(getPhotoExtension(originalFileName), getPhotoExtension(originalFileName));
+            newPhotoName = originalFileName.replaceAll(getPhotoExtension(originalFileName),
+                    " - " + stringDate + getPhotoExtension(originalFileName));
             Files.copy(multipartFile.getInputStream(), pathFolderUpload.resolve(newPhotoName));
         } catch (IOException e) {
             throw new PhotoException(EExceptionMessage.THE_PHOTO_CANNOT_BE_SAVED.toString());
@@ -81,6 +84,7 @@ public class PhotoServiceImpl implements IPhotoService {
     }
 
     @Override
+    @Transactional
     public PhotoResponse getPhotoResponse(Photo photo) {
         return mapper.convertToResponse(photo);
     }
@@ -146,14 +150,14 @@ public class PhotoServiceImpl implements IPhotoService {
 
     @Override
     @Transactional
-    public String deletePhotoByOriginalName(String originalName, Path pathFileUpload) {
+    public String deletePhotoByOriginalName(String originalName, Path pathFileUpload) throws PhotoException {
         try {
             @SuppressWarnings("unused")
             Boolean delete = Files.deleteIfExists(pathFileUpload.resolve(originalName));
             return EExceptionMessage.PHOTO_DELETED.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            return EExceptionMessage.ERROR_DELETING_PHOTO.toString();
+            throw new PhotoException(EExceptionMessage.ERROR_DELETING_PHOTO.toString());
         }
     }
 
@@ -174,7 +178,7 @@ public class PhotoServiceImpl implements IPhotoService {
     }
 
     @Override
-    public Resource downloadPhoto(String idPhoto, Path pathFolderUpload) throws Exception {
+    public Resource downloadPhoto(String idPhoto, Path pathFolderUpload) throws PhotoException, MalformedURLException {
         Optional<Photo> optionalPhoto = repository.findById(idPhoto);
         if (optionalPhoto.isPresent()) {
             Photo photo = optionalPhoto.get();

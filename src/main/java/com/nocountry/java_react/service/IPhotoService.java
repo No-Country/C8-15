@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public interface IPhotoService {
     @Transactional
     Photo savePhoto(PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) throws PhotoException;
 
-    PhotoResponse getPhotoResponse(Photo file);
+    @Transactional
+    PhotoResponse getPhotoResponse(Photo photo);
 
     @Transactional
     List<Photo> savePhotos(PhotoRequest photoRequest, List<MultipartFile> multipartFiles, Path pathFolderUpload, String pathFileUpload) throws PhotoException;
@@ -33,19 +35,19 @@ public interface IPhotoService {
     List<PhotoResponse> getPhotosResponses(List<Photo> photoList);
 
     @Transactional
-    Photo modifyPhoto(String id, PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) throws PhotoException;
+    Photo modifyPhoto(String idPhoto, PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) throws PhotoException;
 
     @Transactional
-    void deletePhotoById(String id, Path pathFolderUpload) throws PhotoException;
+    void deletePhotoById(String idPhoto, Path pathFolderUpload) throws PhotoException;
 
     @Transactional
-    String deletePhotoByOriginalName(String originalName, Path pathFileUpload);
+    String deletePhotoByOriginalName(String originalName, Path pathFileUpload) throws PhotoException;
 
     @Transactional
     void deleteAllPhotos(Path pathFolderUpload);
 
     @Transactional(readOnly = true)
-    Photo getPhotoById(String id) throws PhotoException;
+    Photo getPhotoById(String idPhoto) throws PhotoException;
 
-    Resource downloadPhoto(String idPhoto, Path pathFolderUpload) throws Exception;
+    Resource downloadPhoto(String idPhoto, Path pathFolderUpload) throws PhotoException, MalformedURLException;
 }
