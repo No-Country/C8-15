@@ -73,6 +73,12 @@ public class PhotographerController implements IPhotographerController {
     }
 
     @Override
+    public ResponseEntity<PhotographerResponse> addProfilePictureToPhotographer(String idPhotographer, MultipartFile profilePicture) throws PhotographerException, PhotoException {
+        service.addProfilePictureToPhotographer(idPhotographer, profilePicture);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
     public ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer, String stringRequest,
                                                                        @RequestParam(value = "photo") MultipartFile photo) throws PhotographerException, PhotoException {
         service.addPhotoToPhotographer(idPhotographer, stringRequest, photo);

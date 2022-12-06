@@ -19,6 +19,8 @@ import com.nocountry.java_react.repository.IPhotographerRepository;
 import com.nocountry.java_react.service.IPhotoService;
 import com.nocountry.java_react.service.IPhotographerService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +35,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PhotographerServiceImpl implements IPhotographerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(PhotographerServiceImpl.class);
     private final Path pathFolderUpload = Paths.get(EPathUpload.CREATE_PHOTOGRAPHER_FOLDER.toString());
     private final String pathFileUpload = EPathUpload.PATH_PHOTOGRAPHER_IMAGE.toString();
     private final IPhotographerRepository repository;
@@ -110,6 +113,28 @@ public class PhotographerServiceImpl implements IPhotographerService {
             return mapper.convertToResponseList(photographerList);
         } else {
             throw new PhotographerException(EExceptionMessage.THE_LIST_OF_PHOTOGRAPHERS_IS_EMPTY.toString());
+        }
+    }
+
+    @Override
+    public void addProfilePictureToPhotographer(String idPhotographer, MultipartFile profilePicture) throws PhotographerException, PhotoException {
+        Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
+        if (optionalPhotographer.isPresent()) {
+            Photographer photographer = repository.getReferenceById(idPhotographer);
+            if (photographer.getIdProfilePicture() != null) {
+                String idPhoto = photographer.getIdProfilePicture();
+                logger.info("ID PHOTO : {}", idPhoto);
+                photoService.deletePhotoById(idPhoto, pathFolderUpload);
+                Photo saveProfilePicture = photoService.saveProfilePicture(profilePicture, pathFolderUpload, pathFileUpload);
+                photographer.setIdProfilePicture(saveProfilePicture.getId());
+                photographer.setProfilePicture(saveProfilePicture.getPath());
+            } else {
+                Photo saveProfilePicture = photoService.saveProfilePicture(profilePicture, pathFolderUpload, pathFileUpload);
+                photographer.setIdProfilePicture(saveProfilePicture.getId());
+                photographer.setProfilePicture(saveProfilePicture.getPath());
+            }
+        } else {
+            throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
         }
     }
 

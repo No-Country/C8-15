@@ -65,6 +65,24 @@ public class PhotoServiceImpl implements IPhotoService {
         return newPhotoName;
     }
 
+    @Override
+    @Transactional
+    public String uploadProfilePicture(MultipartFile multipartFile, Path pathFolderUpload) throws PhotoException {
+        String originalFileName = "Profile Picture - " + multipartFile.getOriginalFilename();
+        String newProfilePictureName;
+        getPhotoExtension(Objects.requireNonNull(originalFileName));
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss");
+            String stringDate = sdf.format(new Date());
+            newProfilePictureName = originalFileName.replaceAll(getPhotoExtension(originalFileName),
+                    " - " + stringDate + getPhotoExtension(originalFileName));
+            Files.copy(multipartFile.getInputStream(), pathFolderUpload.resolve(newProfilePictureName));
+        } catch (IOException e) {
+            throw new PhotoException(EExceptionMessage.THE_PHOTO_CANNOT_BE_SAVED.toString());
+        }
+        return newProfilePictureName;
+    }
+
     public static String getPhotoExtension(String originalFileName) {
         return originalFileName.substring(originalFileName.lastIndexOf("."));
     }
@@ -77,6 +95,20 @@ public class PhotoServiceImpl implements IPhotoService {
             Photo photo = new Photo();
             String newPhotoName = uploadPhotos(multipartFile, pathFolderUpload);
             Photo entityForConvert = mapper.convertToEntity(photoRequest, photo, multipartFile, newPhotoName, pathFileUpload);
+            return repository.save(entityForConvert);
+        } catch (PhotoException exception) {
+            throw new PhotoException(EExceptionMessage.REQUEST_WRONG_DATA.toString());
+        }
+    }
+
+    @Override
+    @Transactional
+    public Photo saveProfilePicture(MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) throws PhotoException {
+        initFolderUpload(pathFolderUpload);
+        try {
+            Photo photo = new Photo();
+            String newProfilePictureName = uploadProfilePicture(multipartFile, pathFolderUpload);
+            Photo entityForConvert = mapper.convertToEntityProfilePicture(photo, multipartFile, newProfilePictureName, pathFileUpload);
             return repository.save(entityForConvert);
         } catch (PhotoException exception) {
             throw new PhotoException(EExceptionMessage.REQUEST_WRONG_DATA.toString());

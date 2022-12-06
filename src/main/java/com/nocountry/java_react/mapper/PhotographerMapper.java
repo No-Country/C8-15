@@ -104,6 +104,7 @@ public class PhotographerMapper {
         response.setSurname(entity.getSurname());
         response.setEmail(entity.getEmail());
         response.setRole(entity.getRole().toString());
+        response.setProfilePicture(entity.getProfilePicture());
         response.setTelephone(entity.getTelephone());
         response.setCity(entity.getCity());
         response.setCountry(entity.getCountry());

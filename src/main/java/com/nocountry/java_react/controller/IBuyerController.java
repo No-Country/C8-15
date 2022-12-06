@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -47,6 +49,10 @@ public interface IBuyerController {
 
     @GetMapping(path = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<BuyerResponse>> getAllBuyer() throws BuyerException;
+
+    @PostMapping(path = "/add-profile-picture/{id-buyer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<BuyerResponse> addProfilePictureToBuyer(@NotNull @PathVariable("id-buyer") String idBuyer,
+                                                           @RequestParam(value = "profilePicture") MultipartFile profilePicture) throws BuyerException, PhotoException;
 
     @PostMapping(path = "/buy-photo/{id-buyer}/photo/{id-photo}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)

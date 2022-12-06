@@ -50,15 +50,18 @@ public class User implements Serializable {
     @Column(name = "email", unique = true)
     protected String email;
 
-    @Column(name = "user_name", unique = true)
-    protected String userName;
-
     @Column(name = "password")
     protected String password;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     protected EUserRole role;
+
+    @Column(name = "id_profile_picture")
+    private String idProfilePicture;
+
+    @Column(name = "profile_picture")
+    private String profilePicture;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false)

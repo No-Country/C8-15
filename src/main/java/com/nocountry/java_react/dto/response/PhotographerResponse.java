@@ -12,6 +12,7 @@ public class PhotographerResponse {
     private String surname;
     private String email;
     private String role;
+    private String profilePicture;
     private String telephone;
     private String city;
     private String country;

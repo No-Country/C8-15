@@ -99,8 +99,8 @@ public class BuyerMapper {
         response.setName(entity.getName());
         response.setSurname(entity.getSurname());
         response.setEmail(entity.getEmail());
-        response.setUserName(entity.getUserName());
         response.setRole(entity.getRole().toString());
+        response.setProfilePicture(entity.getProfilePicture());
         response.setTelephone(entity.getTelephone());
         response.setCity(entity.getCity());
         response.setCountry(entity.getCountry());

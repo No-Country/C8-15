@@ -14,6 +14,7 @@ public class BuyerResponse {
     private String email;
     private String userName;
     private String role;
+    private String profilePicture;
     private String telephone;
     private String city;
     private String country;

@@ -55,6 +55,18 @@ public class PhotoMapper {
         entity.setPaymentLink(photoRequest.getPaymentLink());
     }
 
+    private static void extractedForConvertToEntityProfilePicture(Photo entity, MultipartFile file, String newFileName, String pathFileUpload) {
+        String path = pathFileUpload + newFileName;
+        entity.setOriginalName(file.getOriginalFilename());
+        entity.setFileName(newFileName);
+        entity.setPath(path);
+    }
+
+    public Photo convertToEntityProfilePicture(Photo entity, MultipartFile file, String newFileName, String pathFileUpload) {
+        extractedForConvertToEntityProfilePicture(entity, file, newFileName, pathFileUpload);
+        return entity;
+    }
+
     public PhotoResponse convertToResponse(Photo entity) {
         PhotoResponse response = new PhotoResponse();
         extractedForConvertToResponse(entity, response);

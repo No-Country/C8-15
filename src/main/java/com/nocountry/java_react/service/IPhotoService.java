@@ -23,7 +23,13 @@ public interface IPhotoService {
     String uploadPhotos(MultipartFile multipartFile, Path pathFolderUpload) throws PhotoException;
 
     @Transactional
+    String uploadProfilePicture(MultipartFile multipartFile, Path pathFolderUpload) throws PhotoException;
+
+    @Transactional
     Photo savePhoto(PhotoRequest photoRequest, MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) throws PhotoException;
+
+    @Transactional
+    Photo saveProfilePicture(MultipartFile multipartFile, Path pathFolderUpload, String pathFileUpload) throws PhotoException;
 
     @Transactional
     PhotoResponse getPhotoResponse(Photo photo);

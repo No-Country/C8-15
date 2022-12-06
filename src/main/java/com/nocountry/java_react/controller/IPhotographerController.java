@@ -45,6 +45,10 @@ public interface IPhotographerController {
     @GetMapping(path = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<PhotographerResponse>> getAllPhotographer() throws PhotographerException;
 
+    @PostMapping(path = "/add-profile-picture/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<PhotographerResponse> addProfilePictureToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
+                                                                         @RequestParam(value = "profilePicture") MultipartFile profilePicture) throws PhotographerException, PhotoException;
+
     @PostMapping(path = "/add-photo/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer, String stringRequest,
                                                                 @RequestParam(value = "photo") MultipartFile photo) throws PhotographerException, PhotoException;

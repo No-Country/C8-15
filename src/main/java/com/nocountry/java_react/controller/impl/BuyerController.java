@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -75,8 +76,14 @@ public class BuyerController implements IBuyerController {
     }
 
     @Override
+    public ResponseEntity<BuyerResponse> addProfilePictureToBuyer(String idBuyer, MultipartFile profilePicture) throws BuyerException, PhotoException {
+        service.addProfilePictureToBuyer(idBuyer, profilePicture);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
     public ResponseEntity<BuyerResponse> buyPhoto(@NotNull @PathVariable("id-buyer") String idBuyer, @NotNull @PathVariable("id-photo") String idPhoto,
-                                                  @Valid @RequestBody BuyerRequestBuyPhoto request) throws PhotoException, BuyerException, CloneNotSupportedException, IOException {
+                                                  @Valid @RequestBody BuyerRequestBuyPhoto request) throws PhotoException, BuyerException, IOException {
         service.buyPhoto(idBuyer, idPhoto, request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
