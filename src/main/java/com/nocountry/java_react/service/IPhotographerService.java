@@ -38,6 +38,9 @@ public interface IPhotographerService {
     void addProfilePictureToPhotographer(String idPhotographer, MultipartFile profilePicture) throws PhotographerException, PhotoException;
 
     @Transactional
+    void removeProfilePictureToPhotographer(String idPhotographer) throws PhotographerException, PhotoException;
+
+    @Transactional
     void addPhotoToPhotographer(String idPhotographer, String stringRequest, MultipartFile photo) throws PhotographerException, PhotoException;
 
     @Transactional

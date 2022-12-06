@@ -151,6 +151,23 @@ public class BuyerServiceImpl implements IBuyerService {
     }
 
     @Override
+    public void removeProfilePictureToBuyer(String idBuyer) throws BuyerException, PhotoException {
+        Optional<Buyer> optionalBuyer = repository.findById(idBuyer);
+        if (optionalBuyer.isPresent()) {
+            Buyer buyer = repository.getReferenceById(idBuyer);
+            if (buyer.getIdProfilePicture() != null) {
+                String idPhoto = buyer.getIdProfilePicture();
+                logger.info("ID PHOTO : {}", idPhoto);
+                photoService.deletePhotoById(idPhoto, pathFolderUpload);
+                buyer.setIdProfilePicture(null);
+                buyer.setProfilePicture(null);
+            } else {
+                throw new BuyerException(EExceptionMessage.BUYER_NOT_FOUND.toString());
+            }
+        }
+    }
+
+    @Override
     @Transactional
     public void addPhotoToBuyer(String idBuyer, String stringRequest, MultipartFile photo) throws BuyerException, PhotoException {
         Optional<Buyer> optionalBuyer = repository.findById(idBuyer);

@@ -42,6 +42,9 @@ public interface IBuyerService {
     void addProfilePictureToBuyer(String idBuyer, MultipartFile profilePicture) throws PhotoException, BuyerException;
 
     @Transactional
+    void removeProfilePictureToBuyer(String idBuyer) throws BuyerException, PhotoException;
+
+    @Transactional
     void addPhotoToBuyer(String idBuyer, String stringRequest, MultipartFile photo) throws BuyerException, PhotoException;
 
     @Transactional

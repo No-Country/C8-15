@@ -45,18 +45,26 @@ public interface IPhotographerController {
     @GetMapping(path = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<PhotographerResponse>> getAllPhotographer() throws PhotographerException;
 
-    @PostMapping(path = "/add-profile-picture/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/add-profile-picture/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotographerResponse> addProfilePictureToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
-                                                                         @RequestParam(value = "profilePicture") MultipartFile profilePicture) throws PhotographerException, PhotoException;
+                                                                         @RequestParam(value = "profilePicture") MultipartFile profilePicture)
+            throws PhotographerException, PhotoException;
 
-    @PostMapping(path = "/add-photo/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/remove-profile-picture/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<PhotographerResponse> removeProfilePictureToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer)
+            throws PhotographerException, PhotoException;
+
+    @PostMapping(path = "/add-photo/{id-photographer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PhotographerResponse> addPhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer, String stringRequest,
                                                                 @RequestParam(value = "photo") MultipartFile photo) throws PhotographerException, PhotoException;
 
     @DeleteMapping(path = "/remove-photo/{id-photographer}/photo/{id-photo}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PhotographerResponse> removePhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer, @NotNull @PathVariable("id-photo") String idPhoto)
-            throws PhotoException, PhotographerException;
+    ResponseEntity<PhotographerResponse> removePhotoToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer,
+                                                                   @NotNull @PathVariable("id-photo") String idPhoto) throws PhotoException, PhotographerException;
 
     @DeleteMapping(path = "/remove-all-photos/{id-photographer}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PhotographerResponse> removeAllPhotosToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer) throws PhotographerException, PhotoException;
+    ResponseEntity<PhotographerResponse> removeAllPhotosToPhotographer(@NotNull @PathVariable("id-photographer") String idPhotographer)
+            throws PhotographerException, PhotoException;
 }

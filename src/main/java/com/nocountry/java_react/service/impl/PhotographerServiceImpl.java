@@ -139,6 +139,23 @@ public class PhotographerServiceImpl implements IPhotographerService {
     }
 
     @Override
+    public void removeProfilePictureToPhotographer(String idPhotographer) throws PhotographerException, PhotoException {
+        Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);
+        if (optionalPhotographer.isPresent()) {
+            Photographer photographer = repository.getReferenceById(idPhotographer);
+            if (photographer.getIdProfilePicture() != null) {
+                String idPhoto = photographer.getIdProfilePicture();
+                logger.info("ID PHOTO : {}", idPhoto);
+                photoService.deletePhotoById(idPhoto, pathFolderUpload);
+                photographer.setIdProfilePicture(null);
+                photographer.setProfilePicture(null);
+            }
+        } else {
+            throw new PhotographerException(EExceptionMessage.PHOTOGRAPHER_NOT_FOUND.toString());
+        }
+    }
+
+    @Override
     @Transactional
     public void addPhotoToPhotographer(String idPhotographer, String stringRequest, MultipartFile photo) throws PhotographerException, PhotoException {
         Optional<Photographer> optionalPhotographer = repository.findById(idPhotographer);

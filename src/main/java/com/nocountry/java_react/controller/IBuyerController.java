@@ -5,6 +5,7 @@ import com.nocountry.java_react.dto.request.buyer.BuyerRequestCreate;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestModify;
 import com.nocountry.java_react.dto.request.buyer.BuyerRequestPassword;
 import com.nocountry.java_react.dto.response.BuyerResponse;
+import com.nocountry.java_react.dto.response.PhotographerResponse;
 import com.nocountry.java_react.exception.BuyerException;
 import com.nocountry.java_react.exception.EmailAlreadyExistException;
 import com.nocountry.java_react.exception.PhotoException;
@@ -50,9 +51,14 @@ public interface IBuyerController {
     @GetMapping(path = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<BuyerResponse>> getAllBuyer() throws BuyerException;
 
-    @PostMapping(path = "/add-profile-picture/{id-buyer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/add-profile-picture/{id-buyer}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<BuyerResponse> addProfilePictureToBuyer(@NotNull @PathVariable("id-buyer") String idBuyer,
                                                            @RequestParam(value = "profilePicture") MultipartFile profilePicture) throws BuyerException, PhotoException;
+
+    @DeleteMapping(path = "/remove-profile-picture/{id-buyer}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<PhotographerResponse> removeProfilePictureToBuyer(@NotNull @PathVariable("id-buyer") String idBuyer)
+            throws BuyerException, PhotoException;
 
     @PostMapping(path = "/buy-photo/{id-buyer}/photo/{id-photo}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
