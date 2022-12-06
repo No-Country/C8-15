@@ -16,6 +16,7 @@ const SearchBar = () => {
     width:'100%',
     color:"primary",
     fontSize:'25px',
+    padding:'10px 20px 10px 20px ', 
     margin:'5px 5px 5px 5px'
     
   }));

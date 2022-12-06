@@ -16,9 +16,9 @@ const Buttons = () => {
               sx={{
                 color:'primary',
                 font:'Nunito',
-                fontSize:'14px',
+                fontSize:'15x',
                 margin: '15px 15px 15px 15px',
-                borderRadius:'100px'
+                borderRadius:'100px',
               }}    
               key={categories}
               >

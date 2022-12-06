@@ -6,7 +6,7 @@ export const postRegisterAxios = async (values) => {
     const { data } = await apiClient.post('/auth/register', values);
     return data;
   } catch ({ err }){
-    return err.message;
+    return err.message
   }
 };
 

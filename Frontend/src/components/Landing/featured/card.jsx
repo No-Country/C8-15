@@ -55,7 +55,7 @@ const infoCard =[
     { infoCard.map( ({id, avatar , name , type, tittle , date, descripcion, url }) =>(
     <Card
     key={ id }
-    sx={{ width: '320px' }} >
+    sx={{ width: '400px'}}>
     <CardHeader
       avatar={
         <Avatar aria-label="">

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import { Formik , Field , Form , ErrorMessage } from "formik";
 import { ValidateSchema } from "../../validation/validationForm";
 import { postRegisterAxios } from "../../hooks/postAxios";
@@ -28,6 +28,7 @@ const Register = () => {
   
   
   const initialCredentials = {
+    role:"", 
     name: "",
     surname: "",
     email: "",
@@ -90,7 +91,7 @@ const Register = () => {
             <Formik
               initialValues={initialCredentials}
               validationSchema={ValidateSchema}
-              onSubmit={async (values) => {
+              onSubmit={ async (values) => {
                 try {
                   await postRegisterAxios(values);
                   return Swal.fire(
@@ -101,27 +102,41 @@ const Register = () => {
                 } catch (error) {
                   alert("Error:", error);
                 }
-              }}>
-                {({  errors , touched , isSubmitting }) =>(
-                <Form sx={{ mt: 1 }}>
-                  <Box margin="dense" display="flex" justifyContent="center">
-                    <RadioGroup
+
+                console.log(postRegisterAxios());
+              }}
+              >
+                {({ values, errors, touched, isSubmitting}) =>(
+                <Form sx={{ mt: 1 }} > 
+                <Box margin="dense" display="flex" justifyContent="center">
+                    <Field
+                      as={RadioGroup}
                       row
-                      fullWidth
+                      fullWidth={true}
                       aria-labelledby="demo-r-radio-buttons-group-label"
                       defaultValue="fotografo"
-                      name="radio-buttons-group">
-                      <FormControlLabel
-                        value="fotografo"
+                      id="role"
+                      value={values.role}
+                      helperText={<ErrorMessage name="role"/>}
+                      error={ errors.role && touched.role} 
+                      >
+                      <Field
+                        as={ FormControlLabel}
+                        name="role"
+                        id="photographer"
+                        value="photographer"
                         control={<Radio />}
                         label="Fotografo"
-                      />
-                      <FormControlLabel
-                        value="Comprador"
+                        />
+                      <Field
+                        as={ FormControlLabel}
+                        id="Buyer"
+                        name='role'
+                        value="buyer"
                         control={<Radio />}
-                        label="Comprador"
+                        label="Comprador"                          
                       />
-                    </RadioGroup>
+                    </Field>
                   </Box>
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
@@ -129,14 +144,13 @@ const Register = () => {
                         as={ TextField }
                         margin="dense"
                         required
-                        fullWidth
+                        fullWidth={true}
                         id="name"
+                        name='name'
                         label="Nombre"
                         type="text"
-                        name='name'
                         helperText={<ErrorMessage name='name'/>}
                         error={ errors.name && touched.name }
-
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -144,7 +158,7 @@ const Register = () => {
                         as={ TextField }
                         margin="dense"
                         required
-                        fullWidth
+                        fullWidth={true}
                         id="surname"
                         label="Apellido"
                         name="surname"
@@ -157,7 +171,7 @@ const Register = () => {
                         as={ TextField }
                         margin="dense"
                         required
-                        fullWidth
+                        fullWidth={true}
                         id="email"
                         label="Email"
                         name="email"
@@ -171,7 +185,7 @@ const Register = () => {
                         as={ TextField }
                         margin="dense"
                         required
-                        fullWidth
+                        fullWidth={true}
                         id="password"
                         name="password"
                         label="Contraseña"
@@ -185,7 +199,7 @@ const Register = () => {
                         as={ TextField }
                         margin="dense"
                         required
-                        fullWidth
+                        fullWidth={true}
                         id="passwordConfirm"
                         name="passwordConfirm"
                         label="Confirmar contraseña"
@@ -197,9 +211,9 @@ const Register = () => {
                     <Grid item xs={12}>
                       <Button
                         theme={theme}
-                        type='submit'
+                        type="submit"
                         disabled={isSubmitting}
-                        fullWidth
+                        fullWidth={true}
                         variant="contained"
                         sx={{
                           color: "primary",
@@ -209,7 +223,6 @@ const Register = () => {
                         Registrarme
                       </Button>
                       <Grid container>
-                        
                         <Grid item>
                           <Link to="/login" variant="body2">
                             {"Ya tienes cuenta? Ingresa"}

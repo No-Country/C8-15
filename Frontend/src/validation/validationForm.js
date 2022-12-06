@@ -6,6 +6,12 @@ let validateAlphanumeric = /^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜ
 let mailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const ValidateSchema = Yup.object().shape({
+  role: Yup.string()
+      .required('Debe elegir un rol')
+      .matches( validateString, {
+        excludeEmptyString:true,
+        message:'Debe elegir un rol para registrarse'
+      }),
   name: Yup.string()
     .required('Debes ingresar un nombre')
     .matches( validateString, {

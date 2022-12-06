@@ -15,7 +15,6 @@ const Feactured = () =>
       sx={{
         margin:'20px 20px 20px 20px',
         padding:'20px 20px 20px 20px',
-        // textShadow:'0px 4px 4px',
       }}>
         Profesionales sugeridos
       </Typography>
@@ -24,9 +23,10 @@ const Feactured = () =>
         justifyContent="space-around"
         alignItems="center"
         spacing={2}
+        col={1}
         sx={{
-          marginButton:'20px',
-          paddingBottom:'40px',
+          marginButton:'10%',
+          paddingBottom:'5%',
         }}
         >
         <CardProfile />

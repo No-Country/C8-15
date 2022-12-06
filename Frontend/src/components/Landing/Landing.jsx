@@ -9,7 +9,6 @@ const Landing = () => {
   return (
     <>
     <Hero/>
-    {/* <Carrusel/> */}
     <Categories/>
     <Feactured/>
     </>

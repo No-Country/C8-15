@@ -1,3 +1,4 @@
+import React , { useContext } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 import { Formik , Field , Form , ErrorMessage } from 'formik';
 import { ValidateSchema } from '../../validation/validationForm';
@@ -18,20 +19,33 @@ import LogoBW from '../../components/web/footer/static/logo blanco viewfinder.pn
 import Navbar from '../web/navbar/Navbar'; 
 import { postLoginAxios  } from '../../hooks/postAxios';
 import Swal from 'sweetalert2'; 
+import { AuthContext } from '../../context/AuthContext'
 
 
 
 const Login = () => {
 
-
+  const { login , setLoginStatus } = useContext(AuthContext);
   const initialCredencial = {
 
     email:'',
     password:''
   }; 
 
+  const navigateRole = ( role , user ) =>{
+    switch ( role ) {
+      case 'photgrapher':
+        return navigate(`/profile/${user}`, { replace:true });
+      case 'buyer': 
+        return navigate(`/profile-user/${user}`, { replace:true });
+      default:
+        return null; 
+    }
+  }; 
+
   const navigate = useNavigate(); 
   let timerInterval; 
+  console.log('DATA LOGIN --->', login ); 
 
   return (
     <>
@@ -60,11 +74,15 @@ const Login = () => {
                 validationSchema={ValidateSchema}
                 onSubmit={ async ( values ) => {
                   const profile = await postLoginAxios(values); 
-
+                  console.log(profile); 
+                  setLoginStatus();
+                  setTimeout(() => {
+                    setLoginStatus ? navigate('/profile') : navigate('/register')
+                  }, 1000 );
                   return Swal.fire({
                   title:'Bienvenido!',
                   html:`Bienvenido, ${profile.user.name}` ,
-                  timer: 2100, 
+                  timer: 2000, 
                   timerProgressBar: true,
                   didOpen: () => {
                     Swal.showLoading();
@@ -76,9 +94,8 @@ const Login = () => {
                   willClose: ()=>{
                     clearInterval(timerInterval);
                   }
-                  }).then(navigate('/perfil')); 
-                }}
-                
+                })
+              }}
                 >
               {({ errors, touched , isSubmitting })=> (
               <Form>
