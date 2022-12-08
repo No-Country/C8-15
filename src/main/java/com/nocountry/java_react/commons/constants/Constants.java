@@ -6,4 +6,5 @@ public interface Constants {
     String BUYER_URI = "/api/buyer";
     String PHOTO_URI = "/api/photo";
     String PREFERENCE_URI = "/api/preference";
+    String AUTH_URI = "/api/authentication";
 }

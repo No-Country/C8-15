@@ -141,18 +141,31 @@
 			<groupId>com.groupdocs</groupId>
 			<artifactId>groupdocs-metadata</artifactId>
 			<version>20.2</version>
-		</dependency>
+        </dependency>
 
-		<!--JUNIT-->
+        <!--JUNIT-->
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
 
-	</dependencies>
+        <!--JSON WEB TOKEN-->
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+    </dependencies>
 
 	<!-- GROUP DOCS METADATA FOR JAVA API DEPENDENCY -->
 

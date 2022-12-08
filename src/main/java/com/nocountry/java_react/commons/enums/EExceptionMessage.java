@@ -15,6 +15,7 @@ public enum EExceptionMessage {
     WRONG_PASSWORD("WRONG PASSWORD"),
     OLD_PASSWORD_DOES_NOT_MATCH("OLD PASSWORD DOES NOT MATCH"),
     NEW_PASSWORDS_DO_NOT_MATCH("NEW PASSWORDS DO NOT MATCH"),
+    USERNAME_OR_PASSWORD_NOT_FOUND("USERNAME OR PASSWORD NOT FOUND"),
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     // PHOTO EXCEPTION MESSAGE

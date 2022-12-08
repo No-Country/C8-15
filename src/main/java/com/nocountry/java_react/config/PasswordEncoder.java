@@ -1,4 +1,4 @@
-package com.nocountry.java_react.config.security;
+package com.nocountry.java_react.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
