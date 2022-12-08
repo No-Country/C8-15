@@ -2,9 +2,6 @@
 
 Members - Collaborators
 
-- Ayelén E. Martínez
-- Verónica Caro
-- Ruth Abigail San Martín
-- Ezequiel Colicoy
-- Gastón García
-- Hernán Federico Costarelli
+- Ayelén E. Martínez - UI / UX
+- Verónica Caro - Frontent
+- Hernán Federico Costarelli - Backend
