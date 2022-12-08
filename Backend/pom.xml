@@ -15,7 +15,7 @@
 	<artifactId>java_react</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>PhotoWeb</name>
+	<name>ViewFinder</name>
 	<description>Web para el proyecto de No Country del grupo C8-15-M-JavaReact</description>
 
 	<properties>
@@ -127,7 +127,55 @@
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies>
+		<!--SDK MERCADO PAGO-->
+
+		<dependency>
+			<groupId>com.mercadopago</groupId>
+			<artifactId>sdk-java</artifactId>
+			<version>2.1.3</version>
+		</dependency>
+
+		<!-- GROUP DOCS METADATA FOR JAVA API DEPENDENCY -->
+
+		<dependency>
+			<groupId>com.groupdocs</groupId>
+			<artifactId>groupdocs-metadata</artifactId>
+			<version>20.2</version>
+        </dependency>
+
+        <!--JUNIT-->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+
+        <!--JSON WEB TOKEN-->
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+    </dependencies>
+
+	<!-- GROUP DOCS METADATA FOR JAVA API DEPENDENCY -->
+
+	<repositories>
+		<repository>
+			<id>GroupDocsJavaAPI</id>
+			<name>GroupDocs Java API</name>
+			<url>https://releases.groupdocs.com/java/repo/</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>

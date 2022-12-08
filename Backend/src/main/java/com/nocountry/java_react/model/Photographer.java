@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Photographer")
+@Table(name = "photographer")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,7 +44,6 @@ public class Photographer extends User implements Serializable {
 
     @Column(name = "instagram_url")
     private String instagramUrl;
-
 
     // RELATION PHOTOGRAPHER --> PHOTO
     @OneToMany(mappedBy = "photographer", cascade = CascadeType.ALL)
