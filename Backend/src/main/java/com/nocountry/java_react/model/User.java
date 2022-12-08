@@ -1,5 +1,6 @@
 package com.nocountry.java_react.model;
 
+import com.nocountry.java_react.commons.enums.EUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -44,31 +47,32 @@ public class User implements Serializable {
     @Column(name = "surname")
     protected String surname;
 
-    @Column(name = "document", unique = true)
-    protected String document;
-
     @Column(name = "email", unique = true)
     protected String email;
-
-    @Column(name = "user_name", unique = true)
-    protected String userName;
 
     @Column(name = "password")
     protected String password;
 
     @Column(name = "role")
-    protected String role;
+    @Enumerated(EnumType.STRING)
+    protected EUserRole role;
+
+    @Column(name = "id_profile_picture")
+    private String idProfilePicture;
+
+    @Column(name = "profile_picture")
+    private String profilePicture;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "registration_date", nullable = false)
-    protected Date registrationDate = new Date();
+    @Column(name = "created", nullable = false)
+    protected final Date created = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = " last_modification", nullable = false)
-    protected Date modificationDate;
+    @Column(name = " updated")
+    protected Date updated = new Date();
 
-    @Column(name = "soft_delete")
-    protected boolean softDelete = Boolean.FALSE;
+    @Column(name = "deleted")
+    protected boolean deleted = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {

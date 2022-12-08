@@ -16,4 +16,13 @@ public enum EUserRole {
     public String toString() {
         return roleString;
     }
+
+    public static EUserRole typeOrValue(String value) {
+        for (EUserRole type : EUserRole.class.getEnumConstants()) {
+            if (type.toString().equals(value)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("EUserRole NOT FOUND");
+    }
 }

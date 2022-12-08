@@ -1,6 +1,5 @@
 package com.nocountry.java_react.model;
 
-import com.nocountry.java_react.commons.enums.EPhotoCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,25 +9,28 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Photo")
+@Table(name = "photo")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,7 +45,7 @@ public class Photo implements Serializable {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(unique = true)
-    protected String id;
+    private String id;
 
     @Basic
     @Column(name = "original_name")
@@ -57,14 +59,26 @@ public class Photo implements Serializable {
     private String path;
 
     @Column(name = "category")
-    @Enumerated(EnumType.STRING)
-    private EPhotoCategory category;
+    //@Enumerated(EnumType.STRING)
+    private String category;
 
     @Column(name = "author")
     private String author;
 
     @Column(name = "location")
     private String location;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "price")
+    private Double price;
+
+    @Column(name = "payment_link")
+    private String paymentLink;
+
+    @Column(name = "sales")
+    private int sales;
 
     // RELATION PHOTO --> PHOTOGRAPHER
     @ManyToOne(fetch = FetchType.LAZY)
@@ -73,21 +87,27 @@ public class Photo implements Serializable {
     private Photographer photographer;
 
     // RELATION PHOTO --> BUYER
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_buyer")
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.REFRESH}, fetch = FetchType.LAZY, targetEntity = Buyer.class)
+    @JoinTable(
+            name = "buyer_photo",
+            joinColumns = @JoinColumn(name = "id_photo"),
+            inverseJoinColumns = @JoinColumn(name = "id_buyer"))
     @ToString.Exclude
-    private Buyer buyer;
+    private List<Buyer> buyers = new ArrayList<>();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "registration_date", nullable = false)
-    private Date registrationDate = new Date();
+    @Column(name = "created", nullable = false)
+    private Date created = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = " last_modification", nullable = false)
-    private Date lastModification = new Date();
+    @Column(name = "updated")
+    private Date updated = new Date();
 
-    @Column(name = "soft_delete")
-    protected boolean softDelete = Boolean.FALSE;
+    @Column(name = "deleted")
+    private Boolean deleted = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {
